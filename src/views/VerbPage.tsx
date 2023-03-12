@@ -1,19 +1,7 @@
 import { defineComponent, reactive, ref } from 'vue';
-import s from './VerbPAge.module.scss';
+import s from './VerbPage.module.scss';
 
-type WordData = {
-  word: string;
-  verbDetail: {
-    verb_type: string;
-    masu: string;
-    te: string;
-    ta: string;
-    nai: string;
-    [key: string]: string;
-  };
-};
-
-export const VerbPAge = defineComponent({
+export const VerbPage = defineComponent({
   setup: (props, context) => {
     // 外面传的，不能改变
     const wordData: WordData = reactive({
@@ -26,8 +14,7 @@ export const VerbPAge = defineComponent({
         nai: '食べない',
       },
     });
-    const {verbDetail} = wordData;
-    const answer: Record<string, string> = reactive({
+    const answer: VerbDetail<string> = reactive({
       verb_type: '',
       masu: '',
       te: '',
@@ -35,7 +22,7 @@ export const VerbPAge = defineComponent({
       nai: '',
     });
     const isAnswerVisible = ref(false);
-    const errorList: Record<string, boolean> = reactive({
+    const errorList: VerbDetail<boolean> = reactive({
       verb_type: true,
       masu: true,
       te: true,
@@ -46,7 +33,7 @@ export const VerbPAge = defineComponent({
       e.preventDefault();
       isAnswerVisible.value = true;
       let errorCount = 0;
-      for (let key in wordData) {
+      for (let key in wordData.verbDetail) {
         if (wordData.verbDetail[key] !== answer[key]) {
           errorCount++;
           errorList[key] = false;
@@ -73,7 +60,7 @@ export const VerbPAge = defineComponent({
     ];
     return () => (
       <div class={s.wrapper}>
-        <h1>食べる</h1>
+        <h1>{wordData.word}</h1>
         <form action=''>
           <div class={s.radioList}>
             {verbTypeList.map(item => (
@@ -121,4 +108,4 @@ export const VerbPAge = defineComponent({
   },
 });
 
-export default VerbPAge;
+export default VerbPage;
