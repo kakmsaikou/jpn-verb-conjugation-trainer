@@ -45,35 +45,35 @@ export const VerbPAge = defineComponent({
               </label>
             ))}
             <span>
-              答案：<em v-show={isAnswerVisible.value}>一类动词</em>
+              答案：<em v-show={isAnswerVisible.value}>{verbDetail.verbType}</em>
             </span>
           </div>
           <div>
             <span>ます形：</span>
             <input type='text' v-model={answer.masu} />
             <span>
-              答案：<em v-show={isAnswerVisible.value}>食べます</em>
+              答案：<em v-show={isAnswerVisible.value}>{verbDetail.masu}</em>
             </span>
           </div>
           <div>
             <span>　て形：</span>
             <input type='text' v-model={answer.te} />
             <span>
-              答案：<em v-show={isAnswerVisible.value}>食べて</em>
+              答案：<em v-show={isAnswerVisible.value}>{verbDetail.te}</em>
             </span>
           </div>
           <div>
             <span>　た形：</span>
             <input type='text' v-model={answer.ta} />
             <span>
-              答案：<em v-show={isAnswerVisible.value}>食べた</em>
+              答案：<em v-show={isAnswerVisible.value}>{verbDetail.ta}</em>
             </span>
           </div>
           <div>
             <span>ない形：</span>
             <input type='text' v-model={answer.nai} />
             <span>
-              答案：<em v-show={isAnswerVisible.value}>食べない</em>
+              答案：<em v-show={isAnswerVisible.value}>{verbDetail.nai}</em>
             </span>
           </div>
           <button type='submit' onClick={onSubmit}>
