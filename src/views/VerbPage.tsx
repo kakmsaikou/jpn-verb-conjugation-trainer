@@ -23,56 +23,62 @@ export const VerbPAge = defineComponent({
       console.log(answer);
       isAnswerVisible.value = true;
     };
+    const verbTypeList = [
+      { label: '一类动词', value: '一类动词' },
+      { label: '二类动词', value: '二类动词' },
+      { label: '三类动词', value: '三类动词' },
+    ];
     return () => (
       <div class={s.wrapper}>
         <h1>食べる</h1>
         <form action=''>
           <div class={s.radioList}>
-            <label>
-              <input type='radio' value='一类动词' v-model={answer.verbType} name='verbType' />
-              <span>一类动词</span>
-            </label>
-            <label>
-              <input type='radio' value='二类动词' v-model={answer.verbType}  name='verbType' />
-              <span>二类动词</span>
-            </label>
-            <label>
-              <input type='radio' value='三类动词'  v-model={answer.verbType} name='verbType' />
-              <span>三类动词</span>
-            </label>
+            {verbTypeList.map(item => (
+              <label>
+                <input
+                  type='radio'
+                  value={item.value}
+                  v-model={answer.verbType}
+                  name='verbType'
+                />
+                <span>{item.label}</span>
+              </label>
+            ))}
             <span>
               答案：<em v-show={isAnswerVisible.value}>一类动词</em>
             </span>
           </div>
           <div>
             <span>ます形：</span>
-            <input type='text' v-model={answer.masu}/>
+            <input type='text' v-model={answer.masu} />
             <span>
               答案：<em v-show={isAnswerVisible.value}>食べます</em>
             </span>
           </div>
           <div>
             <span>　て形：</span>
-            <input type='text' v-model={answer.te}/>
+            <input type='text' v-model={answer.te} />
             <span>
               答案：<em v-show={isAnswerVisible.value}>食べて</em>
             </span>
           </div>
           <div>
             <span>　た形：</span>
-            <input type='text' v-model={answer.ta}/>
+            <input type='text' v-model={answer.ta} />
             <span>
               答案：<em v-show={isAnswerVisible.value}>食べた</em>
             </span>
           </div>
           <div>
             <span>ない形：</span>
-            <input type='text' v-model={answer.nai}/>
+            <input type='text' v-model={answer.nai} />
             <span>
               答案：<em v-show={isAnswerVisible.value}>食べない</em>
             </span>
           </div>
-          <button type='submit' onClick={onSubmit}>提交</button>
+          <button type='submit' onClick={onSubmit}>
+            提交
+          </button>
         </form>
       </div>
     );
