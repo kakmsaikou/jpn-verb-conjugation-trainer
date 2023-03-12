@@ -9,15 +9,15 @@ export const VerbPAge = defineComponent({
         <ul>
           <li class={s.radioList}>
                       <label>
-            <input type="radio" value='一类动词' name='wordType'/>
+            <input type="radio" value='一类动词' name='verbType'/>
             <span>一类动词</span>
           </label>
           <label>
-            <input type="radio" value='二类动词' name='wordType'/>
+            <input type="radio" value='二类动词' name='verbType'/>
             <span>二类动词</span>
           </label>
           <label>
-            <input type="radio" value='三类动词' name='wordType'/>
+            <input type="radio" value='三类动词' name='verbType'/>
             <span>三类动词</span>
           </label>
           </li>
