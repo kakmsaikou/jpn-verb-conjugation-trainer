@@ -10,8 +10,15 @@ export const Verb = defineComponent({
       kana: 'やる',
       type: 'v5',
     });
-    console.log(jconj(wordData));
-
+    const jconjResult = jconj(wordData)[0]['37,1,false,true'];
+    const regex = /(?<=【).+?(?=】)/;
+    const match = jconjResult.match(regex);
+    if (match) {
+      const outside = jconjResult.substring(0, match.index! -1);
+      const inside = match[0];
+      console.log('汉字：' + outside);
+      console.log('片假名：' + inside);
+    }
     const refCorrectAnswer = ref('やります');
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
@@ -21,8 +28,6 @@ export const Verb = defineComponent({
         console.log('wrong');
       }
     };
-
-    const toMasuFrom = (word: string) => {};
     return () => (
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
