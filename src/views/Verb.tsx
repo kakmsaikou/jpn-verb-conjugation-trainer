@@ -5,22 +5,33 @@ import { convertVerbForm } from '../utils/convertVerbForm';
 
 export const Verb = defineComponent({
   setup: (props, context) => {
-    const wordData1 = reactive<WordData>({
-      kanji: 'やる',
-      kana: 'やる',
-      type: 'v5',
-    });
-    const wordData2 = reactive<WordData>({
-      kanji: '食べる',
-      kana: 'たべる',
-      type: 'v1',
-    });
+    const wordDataList: WordData[] = [
+      {
+        kanji: 'やる',
+        kana: 'やる',
+        type: 'v5',
+        meaning: '做',
+      },
+      {
+        kanji: '食べる',
+        kana: 'たべる',
+        type: 'v1',
+        meaning: '吃',
+      },
+    ];
+
+    const selectedWordData = () => {
+      const randomIndex = Math.floor(Math.random() * wordDataList.length);
+      return wordDataList[randomIndex];
+    };
+
+    const wordData = reactive<WordData>(selectedWordData());
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     // 要用返回值来渲染页面的答案，不能写 handleInput里面
-    const convertResult = convertVerbForm(wordData1, 'ます形');
+    const convertResult = convertVerbForm(wordData, 'ます形');
 
     const handleInput = (e: KeyboardEvent) => {
       // 这里不断言 TS 会报错
@@ -50,8 +61,8 @@ export const Verb = defineComponent({
           </div>
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <h2 class={s.wordText}>やる</h2>
-              <p class={s.meaning}>做、给</p>
+              <h2 class={s.wordText}>{wordData.kanji}</h2>
+              <p class={s.meaning}>{wordData.meaning}</p>
             </div>
             <h3 class={s.questionContent}>ます形</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer}>

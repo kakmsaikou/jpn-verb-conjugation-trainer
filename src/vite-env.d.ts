@@ -4,4 +4,5 @@ interface WordData {
   kanji: string;
   kana: string;
   type: string;
+  meaning: string
 }
