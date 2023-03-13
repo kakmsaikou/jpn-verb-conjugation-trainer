@@ -5,13 +5,17 @@ import { convertVerbForm } from '../utils/convertVerbForm';
 
 export const Verb = defineComponent({
   setup: (props, context) => {
-    const wordData = reactive<WordData>({
+    const wordData1 = reactive<WordData>({
       kanji: 'やる',
       kana: 'やる',
       type: 'v5',
     });
-    const result = convertVerbForm(wordData, 'ます形');
-    console.log(result)
+    const wordData2 = reactive<WordData>({
+      kanji: '食べる',
+      kana: 'たべる',
+      type: 'v1',
+    });
+    const result = convertVerbForm(wordData1, 'ます形');
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
       if (answer === result.kanji || answer === result.kana) {
