@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive, Ref, ref } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
@@ -15,13 +15,20 @@ export const Verb = defineComponent({
       kana: 'たべる',
       type: 'v1',
     });
+    
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     const convertResult = convertVerbForm(wordData1, 'ます形');
-    const refResultMessage = ref();
-    const handleInput = (e: any) => {
-      const answer = e.srcElement.value;
+    
+    const refResultMessage: Ref<HTMLParagraphElement | undefined> = ref();
+    
+    const handleInput = (e: KeyboardEvent) => {
+      // 这里不断言 TS 会报错
+      const answer = (e.target as HTMLInputElement).value;
+
+      if(refResultMessage.value === undefined) return;
       const classList = refResultMessage.value.classList;
       classList.remove('right', 'wrong');
+      
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerRight = convertResult.includes(answer);
       classList.add(isAnswerRight ? 'right' : 'wrong');

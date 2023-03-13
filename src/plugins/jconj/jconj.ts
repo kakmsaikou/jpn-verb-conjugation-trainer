@@ -37,7 +37,7 @@ vs noun or participle which takes the aux. verb suru POS = 44 名词或动词分
 vs-i suru verb - irregular POS = 45 不规则动词
 vs-s suru verb - special class POS = 46 助动词-suru特殊类
 */
-export const jconj = (wordData: any, pos: number) => {
+export const jconj = (wordData: WordData, pos: number) => {
   const { kanji, kana, type } = wordData;
   // @ts-ignore
   const result = conjugatorInstance.conjugate(kanji, kana, pos, conjTables);
