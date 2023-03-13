@@ -1,9 +1,17 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
+import { jconj } from '../plugins/jconj/jconj';
 
 export const Verb = defineComponent({
   setup: (props, context) => {
+    const wordData = reactive({
+      kanji: 'やる',
+      kana: 'やる',
+      type: 'v5',
+    });
+    console.log(jconj(wordData));
+
     const refCorrectAnswer = ref('やります');
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
@@ -13,30 +21,6 @@ export const Verb = defineComponent({
         console.log('wrong');
       }
     };
-
-    // 五段    uVerb
-    // 一段    ruVerb
-    // サ変動詞 saVerb
-    // カ変動詞 kaVerb
-    const aColumn = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ', 'が', 'ざ', 'だ', 'ば', 'ぱ']
-    const rus = aColumn.map((a) => a + 'る')
-    const judgeWordType = (kana:string) => {
-      // 判断词性
-      if(kana.endsWith('する')){
-        return 'saVerb'
-      }else if(kana.endsWith('くる')){
-        return 'kaVerb'
-      }else if(!kana.endsWith('る')){
-        return 'uVerb'
-      }
-      const X =  kana.slice(2)
-      if(rus.includes(X)){
-        return 'uVerb'
-      }else{
-        return 'ruVerb'
-      }
-    };
-    console.log(judgeWordType('やるする'))
 
     const toMasuFrom = (word: string) => {};
     return () => (
