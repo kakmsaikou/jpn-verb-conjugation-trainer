@@ -33,17 +33,28 @@ export const Verb = defineComponent({
     // 要用返回值来渲染页面的答案，不能写 handleInput里面
     const convertResult = convertVerbForm(wordData, 'ます形');
 
-    const handleInput = (e: KeyboardEvent) => {
-      // 这里不断言 TS 会报错
-      const answer = (e.target as HTMLInputElement).value;
+    const isAnswerSubmitted = ref(false);
 
+    const refAnswer = ref('');
+
+    const handleSubmitAnswer = (e: KeyboardEvent) => {
+      // 这里不禁止冒泡事件的话，下面的keyup事件会被触发两次
+      e.stopPropagation();
       if (refCorrectAnswer.value === undefined) return;
       const classList = refCorrectAnswer.value.classList;
-      classList.remove('right', 'wrong');
 
       // 判断输入的答案是否是汉字或是对应的平假名
-      const isAnswerRight = convertResult.includes(answer);
+      const isAnswerRight = convertResult.includes(refAnswer.value);
       classList.add(isAnswerRight ? 'right' : 'wrong');
+
+      isAnswerSubmitted.value = true;
+      refAnswer.value = '';
+      document.addEventListener('keyup', e => {
+        if (e.key === 'Enter') {
+          classList.remove('right', 'wrong');
+          isAnswerSubmitted.value = false;
+        }
+      });
     };
     return () => (
       <div class={s.wrapper}>
@@ -72,15 +83,21 @@ export const Verb = defineComponent({
           <input
             type='text'
             class={s.answer}
+            v-model={refAnswer.value}
             {...withEventModifiers(
               {
-                onKeyup: handleInput,
+                onKeyup: handleSubmitAnswer,
               },
               ['enter']
             )}
+            disabled={isAnswerSubmitted.value}
           />
           <div class={s.settingWrapper}>
-            <span class={s.continue}>单击 Enter 继续</span>
+            <span class={s.continue}>
+              {isAnswerSubmitted.value
+                ? '单击 Enter 下一题'
+                : '单击 Enter 提交'}
+            </span>
           </div>
         </div>
       </div>
