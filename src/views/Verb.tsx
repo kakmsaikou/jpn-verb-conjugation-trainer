@@ -1,24 +1,16 @@
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
-import { jconj } from '../plugins/jconj/jconj';
+import { convertVerbForm } from '../utils/convertVerbForm';
 
 export const Verb = defineComponent({
   setup: (props, context) => {
-    const wordData = reactive({
+    const wordData = reactive<WordData>({
       kanji: 'やる',
       kana: 'やる',
       type: 'v5',
     });
-    const jconjResult = jconj(wordData)[0]['37,1,false,true'];
-    // jconj 的返回结果格式为 やります【やります】
-    const regex = /(?<=【).+?(?=】)/;
-    const match = jconjResult.match(regex);
-    const result: Record<string, string> = {kanji:'', kana:''}
-    if (match) {
-      result.kanji = jconjResult.substring(0, match.index! -1);
-      result.kana = match[0];
-    }
+    const result = convertVerbForm(wordData, 'ます形');
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
       if (answer === result.kanji || answer === result.kana) {
