@@ -11,18 +11,17 @@ export const Verb = defineComponent({
       type: 'v5',
     });
     const jconjResult = jconj(wordData)[0]['37,1,false,true'];
+    // jconj 的返回结果格式为 やります【やります】
     const regex = /(?<=【).+?(?=】)/;
     const match = jconjResult.match(regex);
+    const result: Record<string, string> = {kanji:'', kana:''}
     if (match) {
-      const outside = jconjResult.substring(0, match.index! -1);
-      const inside = match[0];
-      console.log('汉字：' + outside);
-      console.log('片假名：' + inside);
+      result.kanji = jconjResult.substring(0, match.index! -1);
+      result.kana = match[0];
     }
-    const refCorrectAnswer = ref('やります');
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
-      if (answer === refCorrectAnswer.value) {
+      if (answer === result.kanji || answer === result.kana) {
         console.log('correct');
       } else {
         console.log('wrong');
