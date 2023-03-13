@@ -11,6 +11,7 @@ export const Verb = defineComponent({
       type: 'v5',
     });
     const result = convertVerbForm(wordData, 'ます形');
+    console.log(result)
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
       if (answer === result.kanji || answer === result.kana) {
