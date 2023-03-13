@@ -14,6 +14,19 @@ export const VerbPage = defineComponent({
         nai: '食べない',
       },
     });
+
+    // 数据初始化
+    const verbTypeList = [
+      { label: '一类动词', value: '一类动词' },
+      { label: '二类动词', value: '二类动词' },
+      { label: '三类动词', value: '三类动词' },
+    ];
+    const conjugatedVerbList = [
+      { conjugation: 'ます形', value: 'masu' },
+      { conjugation: '　て形', value: 'te' },
+      { conjugation: '　た形', value: 'ta' },
+      { conjugation: 'ない形', value: 'nai' },
+    ];
     const answer: VerbDetail<string> = reactive({
       verb_type: '',
       masu: '',
@@ -29,7 +42,8 @@ export const VerbPage = defineComponent({
       ta: true,
       nai: true,
     });
-    const onSubmit = (e: Event) => {
+
+    const handleOnSubmit = (e: Event) => {
       e.preventDefault();
       isAnswerVisible.value = true;
       let errorCount = 0;
@@ -47,17 +61,6 @@ export const VerbPage = defineComponent({
         alert('有错误');
       }
     };
-    const verbTypeList = [
-      { label: '一类动词', value: '一类动词' },
-      { label: '二类动词', value: '二类动词' },
-      { label: '三类动词', value: '三类动词' },
-    ];
-    const conjugatedVerbList = [
-      { conjugation: 'ます形', value: 'masu' },
-      { conjugation: 'て形', value: 'te' },
-      { conjugation: 'た形', value: 'ta' },
-      { conjugation: 'ない形', value: 'nai' },
-    ];
     return () => (
       <div class={s.wrapper}>
         <h1>{wordData.word}</h1>
@@ -84,6 +87,7 @@ export const VerbPage = defineComponent({
               </em>
             </span>
           </div>
+
           {conjugatedVerbList.map(item => (
             <div>
               <span>{item.conjugation}：</span>
@@ -99,7 +103,7 @@ export const VerbPage = defineComponent({
               </span>
             </div>
           ))}
-          <button type='submit' onClick={onSubmit}>
+          <button type='submit' onClick={handleOnSubmit}>
             提交
           </button>
         </form>
