@@ -71,11 +71,14 @@
 }
 
 // 不要写里面，写里面 CSS 优先级不够
-.resultMessage {
+.correctAnswer {
   opacity: 0;
   font-size: 24px;
   width: 12em;
   background-color: #008000;
   border-radius: 0.8em;
-  line-height: 3.1em;
+  height: 3.1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

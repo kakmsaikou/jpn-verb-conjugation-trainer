@@ -15,19 +15,19 @@ export const Verb = defineComponent({
       kana: 'たべる',
       type: 'v1',
     });
-    
-    const refResultMessage: Ref<HTMLParagraphElement | undefined> = ref();
+
+    const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     // 要用返回值来渲染页面的答案，不能写 handleInput里面
     const convertResult = convertVerbForm(wordData1, 'ます形');
-    
+
     const handleInput = (e: KeyboardEvent) => {
       // 这里不断言 TS 会报错
       const answer = (e.target as HTMLInputElement).value;
 
-      if(refResultMessage.value === undefined) return;
-      const classList = refResultMessage.value.classList;
+      if (refCorrectAnswer.value === undefined) return;
+      const classList = refCorrectAnswer.value.classList;
       classList.remove('right', 'wrong');
 
       // 判断输入的答案是否是汉字或是对应的平假名
@@ -54,7 +54,7 @@ export const Verb = defineComponent({
               <p class={s.meaning}>做、给</p>
             </div>
             <h3 class={s.questionContent}>ます形</h3>
-            <p ref={refResultMessage} class={s.resultMessage}>
+            <p ref={refCorrectAnswer} class={s.correctAnswer}>
               {convertResult[0]}
             </p>
           </div>
