@@ -16,7 +16,8 @@ const formKeyMap: Record<string, string> = {
 };
 
 export const convertVerbForm = (wordData: WordData, form: string) => {
-  // jconj 函数用于获得单词的所有变形的对象集
+  // jconj 函数用于获得单词的所有变形的对象集,
+  // pos 代表着单词的具体类型，如「五段动词 -mu结尾」「五段动词 -gu结尾」，相当于是更为具体的查询参数
   const pos = getPos(wordData);
   const jconjResult = jconj(wordData, pos)[0][pos + formKeyMap[form]];
 
