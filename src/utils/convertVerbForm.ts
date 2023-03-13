@@ -17,7 +17,7 @@ const formKeyMap: Record<string, string> = {
 
 export const convertVerbForm = (wordData: WordData, form: string) => {
   // jconj 函数用于获得单词的所有变形的对象集
-  const pos = getPos(wordData.kana, wordData.type);
+  const pos = getPos(wordData);
   const jconjResult = jconj(wordData, pos)[0][pos + formKeyMap[form]];
 
   // jconj 的返回结果格式为 やります【やります】，把它转化为对象
