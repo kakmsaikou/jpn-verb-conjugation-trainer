@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
@@ -15,14 +15,16 @@ export const Verb = defineComponent({
       kana: 'たべる',
       type: 'v1',
     });
-    const result = convertVerbForm(wordData1, 'ます形');
+    // convertResult 的返回值格式是 ['食べます', 'たべます']
+    const convertResult = convertVerbForm(wordData1, 'ます形');
+    const refResultMessage = ref();
     const handleInput = (e: any) => {
       const answer = e.srcElement.value;
-      if (answer === result.kanji || answer === result.kana) {
-        console.log('correct');
-      } else {
-        console.log('wrong');
-      }
+      const classList = refResultMessage.value.classList;
+      classList.remove('right', 'wrong');
+      // 判断输入的答案是否是汉字或是对应的平假名
+      const isAnswerRight = convertResult.includes(answer);
+      classList.add(isAnswerRight ? 'right' : 'wrong');
     };
     return () => (
       <div class={s.wrapper}>
@@ -44,7 +46,9 @@ export const Verb = defineComponent({
               <p class={s.meaning}>做、给</p>
             </div>
             <h3 class={s.questionContent}>ます形</h3>
-            <p class={s.resultMessage}>やります</p>
+            <p ref={refResultMessage} class={s.resultMessage}>
+              やります
+            </p>
           </div>
           <input
             type='text'

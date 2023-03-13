@@ -11,3 +11,13 @@ body {
   color: #e8e8e8;
   background-color: #22221f;
 }
+
+// 这两个样式是用来控制答案的对错样式的
+// 写在外 module.scss 外面是为了方便 remove 时候的操作
+p.right {
+  opacity: 100%;
+}
+p.wrong {
+  opacity: 100%;
+  background-color: #da0505;
+}
