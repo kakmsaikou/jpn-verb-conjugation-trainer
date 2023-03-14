@@ -28,6 +28,12 @@ export const Verb = defineComponent({
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
 
+    // 写这句话单纯只是为了消除报错
+    // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
+    if(refAnswer.value){
+      refAnswer.value.value = '';
+    }
+
     let dailyCorrectCount = 0;
     let dailyAnswerCount = 0;
 
@@ -76,6 +82,7 @@ export const Verb = defineComponent({
         document.addEventListener('keyup', handleGlobalEnter);
         refAnswer.value.value = '';
       } else {
+        // debugger  
         classList.add('wrong');
         refCorrectAnswer.value.innerText =
           convertResult[0] === convertResult[1]
@@ -83,7 +90,7 @@ export const Verb = defineComponent({
             : convertResult[0] + '\n' + convertResult[1];
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
-        }, 0);
+        }, 400);
       }
     };
 
@@ -104,9 +111,7 @@ export const Verb = defineComponent({
               <p class={s.meaning}>{wordData.meaning}</p>
             </div>
             <h3 class={s.questionContent}>ます形</h3>
-            <p ref={refCorrectAnswer} class={s.correctAnswer}>
-              {/* {correctAnswer.value} */}
-            </p>
+            <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input
             type='text'
