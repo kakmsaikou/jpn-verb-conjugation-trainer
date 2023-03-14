@@ -82,7 +82,6 @@ export const Verb = defineComponent({
         document.addEventListener('keyup', handleGlobalEnter);
         refAnswer.value.value = '';
       } else {
-        // debugger  
         classList.add('wrong');
         refCorrectAnswer.value.innerText =
           convertResult[0] === convertResult[1]
