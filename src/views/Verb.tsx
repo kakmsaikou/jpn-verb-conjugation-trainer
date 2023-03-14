@@ -5,6 +5,7 @@ import { convertVerbForm } from '../utils/convertVerbForm';
 import { wordDataList } from '../assets/wordDataList';
 import { DailyRecord } from '../components/DailyRecord';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
+import { useFormStore } from '../stores/useFormStore';
 
 let lastWord = '';
 
@@ -19,22 +20,16 @@ const getRandomWordData = () => {
   return wordDataList[randomIndex];
 };
 
-const wordFormList = ['ます形', 'て形', 'た形'];
-const excludeWordFormList = []
-
-const getRandomWordForm = () => {
-  const randomIndex = Math.floor(Math.random() * wordFormList.length);
-  return wordFormList[randomIndex];
-};
-
 export const Verb = defineComponent({
   setup: () => {
+    const formStore = useFormStore();
+
     const wordData = reactive<WordData>(getRandomWordData());
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
 
-    const refQuestionWordForm = ref(getRandomWordForm());
+    const refQuestionWordForm = ref(formStore.form);
 
     // 写这句话单纯只是为了消除报错
     // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
@@ -65,7 +60,7 @@ export const Verb = defineComponent({
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
-          refQuestionWordForm.value = getRandomWordForm();
+          refQuestionWordForm.value = formStore.form;
           Object.assign(wordData, getRandomWordData());
           Object.assign(convertResult, convertVerbForm(wordData, refQuestionWordForm.value));
           document.removeEventListener('keyup', handleGlobalEnter);
