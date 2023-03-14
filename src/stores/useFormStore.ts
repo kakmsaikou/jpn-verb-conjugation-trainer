@@ -9,12 +9,12 @@ type Getters = {
   form: () => Form;
 };
 type Actions = {
-  excludeForm: (form: Form) => void;
-  includeForm: (form: Form) => void;
+  removeForm: (form: Form) => void;
+  returnForm: (form: Form) => void;
   refreshForm: () => void;
 };
 
-const WORD_FORM_LIST = ['ます形', 'て形', 'た形'] as const;
+const WORD_FORM_LIST: Form[] = ['ます形', 'て形', 'た形']
 
 export const useFormStore = defineStore<string, State, Getters, Actions>('formStore', {
   state: () => ({
@@ -35,10 +35,10 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     },
   },
   actions: {
-    excludeForm(form: Form) {
+    removeForm(form: Form) {
       this.excludeWordFormList.add(form);
     },
-    includeForm(form: Form) {
+    returnForm(form: Form) {
       if (this.excludeWordFormList.has(form)) {
         this.excludeWordFormList.delete(form);
       }
