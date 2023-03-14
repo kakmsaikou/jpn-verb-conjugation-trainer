@@ -6,16 +6,16 @@ import { wordDataList } from '../assets/wordDataList';
 import { DailyRecord } from '../components/DailyRecord';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
+const getRandomWordData = () => {
+  // 当数组可能会在引用过程中篡改数组内容，暂时原因未知
+  const randomIndex = getArrayRandomIndex(wordDataList, 3);
+  // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
+  return wordDataList[randomIndex];
+};
+
 export const Verb = defineComponent({
   setup: () => {
-    const selectedWordData = () => {
-      // 当数组过段时可能会在引用过程中篡改数组内容，暂时原因未知
-      const randomIndex = getArrayRandomIndex(wordDataList.length, 3);
-      // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
-      return wordDataList[randomIndex];
-    };
-
-    const wordData = reactive<WordData>(selectedWordData());
+    const wordData = reactive<WordData>(getRandomWordData());
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswerTag: Ref<HTMLInputElement | undefined> = ref();
@@ -41,14 +41,14 @@ export const Verb = defineComponent({
 
       isAnswerSubmitted.value = true;
       refAnswer.value = '';
-
-      const handleEnterKey = (e: KeyboardEvent) => {
+      
+      const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
-          Object.assign(wordData, selectedWordData());
+          Object.assign(wordData, getRandomWordData());
           Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
-          document.removeEventListener('keyup', handleEnterKey);
+          document.removeEventListener('keyup', handleGlobalEnter);
           nextTick(() => {
             // 这句不放在 nextTick 里 vue 会把它和 isAnswerSubmitted.value = false 一起执行
             refAnswerTag.value?.focus();
@@ -56,7 +56,7 @@ export const Verb = defineComponent({
         }
       };
 
-      document.addEventListener('keyup', handleEnterKey);
+      document.addEventListener('keyup', handleGlobalEnter);
     };
 
     return () => (
