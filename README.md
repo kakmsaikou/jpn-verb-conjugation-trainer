@@ -1,18 +1,28 @@
-# Vue 3 + TypeScript + Vite
+## jconj 接口对照表
+jconj 根据更细的单词类型来进行不同的转换，比如「一段动词」「五段动词 -nu结尾」「五段动词 -ru结尾」等。
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+它根据不同的 pos 值来进行不同的转换，pos 值的对照表如下：
 
-## Recommended IDE Setup
+| POS值 | 接口   | 说明                               |
+|-------|--------|------------------------------------|
+| *28   | v1     | 一段动词                           |
+| 29    | ？？ | 一段动词 くれる特殊类            |
+| 30    | ？？   | 五段动词 -aru特殊类                   |
+| *31   | v5     | 五段动词 -bu结尾                  |
+| *32   | v5     | 五段动词 -gu结尾                  |
+| *33   | v5     | 五段动词 -ku结尾                  |
+| 34    | ？？   | 五段动词 -iku/yuku特殊类           |
+| *35   | v5     | 五段动词 -mu结尾                  |
+| *36   | v5     | 五段动词 -nu结尾                  |
+| *37   | v5     | 五段动词 -ru结尾                  |
+| 38   | ？？   | 五段动词 -ru结尾（不规则动词） |
+| *39   | v5     | 五段动词 -su结尾                  |
+| *40   | v5     | 五段动词 -tsu结尾                |
+| *41   | v5     | 五段动词 -u结尾                   |
+| 42    | v5     | 五段动词 -u结尾（特殊类）       |
+| *45   | kuru   | カ変动词，くる                    |
+| *47   | suru   | サ変动词、する                    |
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+*号表示已经实现的接口类型
 
-## Type Support For `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+更详细的参考：https://cobysy.github.io/jconj/
