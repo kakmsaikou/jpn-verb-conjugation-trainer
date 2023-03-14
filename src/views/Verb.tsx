@@ -2,34 +2,17 @@ import { defineComponent, nextTick, reactive, Ref, ref } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
-import { wordDataList } from '../assets/wordDataList';
 import { DailyRecord } from '../components/DailyRecord';
-import { getArrayRandomIndex } from '../utils/getRandomIndex';
 import { useFormStore } from '../stores/useFormStore';
-
-let lastWord = '';
-
-const getRandomWordData = () => {
-  const randomIndex = getArrayRandomIndex(wordDataList, 3);
-  // 下面这段你可能会觉得我在脱裤子放屁。但如果不这么写的话，会出现内存内数组被篡改导致连续两次出现同一个单词的情况
-  if (lastWord === wordDataList[randomIndex].kanji) {
-    return randomIndex > 1 ? wordDataList[randomIndex - 1] : wordDataList[randomIndex + 1];
-  }
-  lastWord = wordDataList[randomIndex].kanji;
-  // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
-  return wordDataList[randomIndex];
-};
+import { useWordDataStore } from '../stores/useWordData';
 
 export const Verb = defineComponent({
   setup: () => {
     const formStore = useFormStore();
-
-    const wordData = reactive<WordData>(getRandomWordData());
+    const wordDataStore = useWordDataStore()
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
-
-    const refQuestionWordForm = ref(formStore.form);
 
     // 写这句话单纯只是为了消除报错
     // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
@@ -41,7 +24,7 @@ export const Verb = defineComponent({
     let dailyAnswerCount = 0;
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
-    const convertResult = reactive<string[]>(convertVerbForm(wordData, refQuestionWordForm.value));
+    const convertResult = reactive<string[]>(convertVerbForm(wordDataStore.wordData, formStore.form));
 
     const isAnswerSubmitted = ref(false);
 
@@ -60,9 +43,9 @@ export const Verb = defineComponent({
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
-          refQuestionWordForm.value = formStore.form;
-          Object.assign(wordData, getRandomWordData());
-          Object.assign(convertResult, convertVerbForm(wordData, refQuestionWordForm.value));
+          formStore.refreshForm();
+          wordDataStore.refreshWordData();
+          Object.assign(convertResult, convertVerbForm(wordDataStore.wordData, formStore.form));
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerRight === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -104,11 +87,11 @@ export const Verb = defineComponent({
           <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <p class={s.kana}>{wordData.kanji === wordData.kana ? '　' : wordData.kana}</p>
-              <h2 class={s.wordText}>{wordData.kanji}</h2>
-              <p class={s.meaning}>{wordData.meaning}</p>
+              <p class={s.kana}>{wordDataStore.kanji === wordDataStore.kana ? '　' : wordDataStore.kana}</p>
+              <h2 class={s.wordText}>{wordDataStore.kanji}</h2>
+              <p class={s.meaning}>{wordDataStore.meaning}</p>
             </div>
-            <h3 class={s.questionContent}>{refQuestionWordForm.value}</h3>
+            <h3 class={s.questionContent}>{formStore.form}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 type State = {
   excludeWordFormList: Set<Form>;
+  currentForm: Form | null;
 };
 type Getters = {
   filteredFormList: () => Form[];
@@ -10,6 +11,7 @@ type Getters = {
 type Actions = {
   excludeForm: (form: Form) => void;
   includeForm: (form: Form) => void;
+  refreshForm: () => void;
 };
 
 const WORD_FORM_LIST = ['ます形', 'て形', 'た形'] as const;
@@ -17,6 +19,7 @@ const WORD_FORM_LIST = ['ます形', 'て形', 'た形'] as const;
 export const useFormStore = defineStore<string, State, Getters, Actions>('formStore', {
   state: () => ({
     excludeWordFormList: new Set(),
+    currentForm: null,
   }),
   getters: {
     filteredFormList() {
@@ -24,8 +27,11 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       return WORD_FORM_LIST.filter(item => !excludeList.includes(item as Form)) as Form[];
     },
     form() {
-      const index = Math.floor(Math.random() * this.filteredFormList.length);
-      return this.filteredFormList[index];
+      if (this.currentForm === null) {
+        const index = Math.floor(Math.random() * this.filteredFormList.length);
+        this.currentForm = this.filteredFormList[index];
+      }
+      return this.currentForm;
     },
   },
   actions: {
@@ -36,6 +42,10 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       if (this.excludeWordFormList.has(form)) {
         this.excludeWordFormList.delete(form);
       }
+    },
+    refreshForm() {
+      const index = Math.floor(Math.random() * this.filteredFormList.length);
+      this.currentForm = this.filteredFormList[index];
     },
   },
 });
