@@ -1,11 +1,6 @@
 import { jconj } from '../plugins/jconj/jconj';
 import { getPos } from './getPos';
 
-interface ConvertResult {
-  kanji: string;
-  kana: string;
-}
-
 const regex = /(?<=【).+?(?=】)/;
 const formKeyMap: Record<string, string> = {
   ます形: ',1,false,true',
@@ -23,7 +18,7 @@ export const convertVerbForm = (wordData: WordData, form: string) => {
 
   // jconj 的返回结果格式为 やります【やります】，把它转化为数组
   // 转化为数组是为了方便后续 include 操作
-  const convertResult: string[]= []
+  const convertResult: string[] = [];
   const match = jconjResult.match(regex);
   if (match) {
     convertResult[0] = jconjResult.substring(0, match.index! - 1);
