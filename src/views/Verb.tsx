@@ -32,7 +32,7 @@ export const Verb = defineComponent({
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     // 要用返回值来渲染页面的答案，不能写 handleInput里面
-    const convertResult = convertVerbForm(wordData, 'ます形');
+    const convertResult = reactive<string[]>(convertVerbForm(wordData, 'ます形'));
 
     const isAnswerSubmitted = ref(false);
 
@@ -56,6 +56,7 @@ export const Verb = defineComponent({
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
           Object.assign(wordData, selectedWordData());
+          Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
           document.removeEventListener('keyup', handleEnterKey);
           nextTick(()=>{
             // 这句不放在 nextTick 里 vue 会把它和 isAnswerSubmitted.value = false 一起执行
