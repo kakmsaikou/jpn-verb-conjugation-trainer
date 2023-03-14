@@ -42,23 +42,9 @@ export const Verb = defineComponent({
 
       isAnswerSubmitted.value = true;
       dailyAnswerCount++;
+
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerRight = convertResult.includes(refAnswer.value);
-      if (isAnswerRight) {
-        dailyCorrectCount++;
-        classList.add('right');
-        correctAnswer.value = refAnswer.value;
-      } else {
-        classList.add('wrong');
-        if(convertResult[0] === convertResult[1]) {
-          correctAnswer.value = convertResult[0];
-        } else {
-          correctAnswer.value = convertResult[0] + '\n' + convertResult[1];
-        }
-      }
-
-      refAnswer.value = '';
-
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
@@ -66,14 +52,32 @@ export const Verb = defineComponent({
           Object.assign(wordData, getRandomWordData());
           Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
           document.removeEventListener('keyup', handleGlobalEnter);
+          if(isAnswerRight === false) {
+            refAnswer.value = '';
+          }
           nextTick(() => {
             // 这句不放在 nextTick 里 vue 会把它和 isAnswerSubmitted.value = false 一起执行
             refAnswerTag.value?.focus();
           });
         }
       };
-
-      document.addEventListener('keyup', handleGlobalEnter);
+      if (isAnswerRight) {
+        dailyCorrectCount++;
+        classList.add('right');
+        correctAnswer.value = refAnswer.value;
+        document.addEventListener('keyup', handleGlobalEnter);
+        refAnswer.value = '';
+      } else {
+        classList.add('wrong');
+        if (convertResult[0] === convertResult[1]) {
+          correctAnswer.value = convertResult[0];
+        } else {
+          correctAnswer.value = convertResult[0] + '\n' + convertResult[1];
+        }
+        setTimeout(() => {
+          document.addEventListener('keyup', handleGlobalEnter);
+        }, 400);
+      }
     };
 
     return () => (
@@ -86,9 +90,9 @@ export const Verb = defineComponent({
           />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <p class={s.kana}>{
-              wordData.kanji === wordData.kana ? '　' : wordData.kana
-              }</p>
+              <p class={s.kana}>
+                {wordData.kanji === wordData.kana ? '　' : wordData.kana}
+              </p>
               <h2 class={s.wordText}>{wordData.kanji}</h2>
               <p class={s.meaning}>{wordData.meaning}</p>
             </div>
