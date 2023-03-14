@@ -14,6 +14,7 @@ export const convertVerbForm = (wordData: WordData, form: string) => {
   // jconj 函数用于获得单词的所有变形的对象集,
   // pos 代表着单词的具体类型，如「五段动词 -mu结尾」「五段动词 -gu结尾」，相当于是更为具体的查询参数
   const pos = getPos(wordData);
+  if(pos === 0) return ['你看到这行字，说明这个单词的 type 属性不正确', ''];
   const jconjResult = jconj(wordData, pos)[0][pos + formKeyMap[form]];
 
   // jconj 的返回结果格式为 やります【やります】，把它转化为数组
