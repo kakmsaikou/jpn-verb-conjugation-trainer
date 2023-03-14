@@ -3,7 +3,6 @@ import { wordDataList } from '../assets/wordDataList';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
 type State = {
-  lastWordKanji: string;
   currentWordData: WordData | null;
 };
 type Getters = {
@@ -20,7 +19,6 @@ const MAX_RANDOM_WORDS_COUNT = 3;
 
 export const useWordDataStore = defineStore<string, State, Getters, Actions>('wordData', {
   state: () => ({
-    lastWordKanji: '',
     currentWordData: null,
   }),
   getters: {
@@ -43,14 +41,8 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   },
   actions: {
     refreshWordData() {
-      const randomIndex = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
-      // 下面这段你可能会觉得我在脱裤子放屁。但如果不这么写的话，会出现内存内数组被篡改导致连续两次出现同一个单词的情况
-      if (this.lastWordKanji === wordDataList[randomIndex].kanji) {
-        return randomIndex > 1 ? wordDataList[randomIndex - 1] : wordDataList[randomIndex + 1];
-      }
-      this.lastWordKanji = wordDataList[randomIndex].kanji;
-      // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
-      this.currentWordData = wordDataList[randomIndex];
+      const index = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
+      this.currentWordData = wordDataList[index];
     },
   },
 });
