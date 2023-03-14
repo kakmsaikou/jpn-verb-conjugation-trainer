@@ -6,9 +6,17 @@ import { wordDataList } from '../assets/wordDataList';
 import { DailyRecord } from '../components/DailyRecord';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
+let lastWord = '';
+
 const getRandomWordData = () => {
-  // 当数组可能会在引用过程中篡改数组内容，暂时原因未知
   const randomIndex = getArrayRandomIndex(wordDataList, 3);
+  // 下面这段你可能会觉得我在脱裤子放屁。但如果不这么写的话，会出现内存内数组被篡改导致连续两次出现同一个单词的情况
+  if (lastWord === wordDataList[randomIndex].kanji) {
+    return randomIndex > 1
+      ? wordDataList[randomIndex - 1]
+      : wordDataList[randomIndex + 1];
+  }
+  lastWord = wordDataList[randomIndex].kanji;
   // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
   return wordDataList[randomIndex];
 };
@@ -75,7 +83,7 @@ export const Verb = defineComponent({
             : convertResult[0] + '\n' + convertResult[1];
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
-        }, 400);
+        }, 0);
       }
     };
 
