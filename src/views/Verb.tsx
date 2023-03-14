@@ -20,7 +20,7 @@ export const Verb = defineComponent({
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswerTag: Ref<HTMLInputElement | undefined> = ref();
 
-    let dailyCorrectCount = 0
+    let dailyCorrectCount = 0;
     let dailyAnswerCount = 0;
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
@@ -78,6 +78,9 @@ export const Verb = defineComponent({
           />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
+              <p class={s.kana}>{
+              wordData.kanji === wordData.kana ? '　' : wordData.kana
+              }</p>
               <h2 class={s.wordText}>{wordData.kanji}</h2>
               <p class={s.meaning}>{wordData.meaning}</p>
             </div>

@@ -28,6 +28,10 @@
         flex-direction: column;
         padding-bottom: 3em;
 
+        .kana {
+          letter-spacing: 0.5em;
+        }
+
         .wordText {
           font-size: 46px;
         }
