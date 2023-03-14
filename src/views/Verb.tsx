@@ -4,21 +4,14 @@ import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
 import { wordDataList } from '../assets/wordDataList';
 import { DailyRecord } from '../components/DailyRecord';
+import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
 export const Verb = defineComponent({
-  setup: (props, context) => {
-    const usedIndexes: number[] = [];
+  setup: () => {
     const selectedWordData = () => {
-      let randomIndex = Math.floor(Math.random() * wordDataList.length);
-      // TODO 有点小 BUG，以后再修
-      // 保证最近3个单词不重复
-      if (usedIndexes.length >= 3) {
-        usedIndexes.shift();
-      }
-      while (usedIndexes.includes(randomIndex)) {
-        randomIndex = Math.floor(Math.random() * wordDataList.length);
-      }
-      usedIndexes.push(randomIndex);
+      // 当数组过段时可能会在引用过程中篡改数组内容，暂时原因未知
+      const randomIndex = getArrayRandomIndex(wordDataList.length, 3);
+      // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
       return wordDataList[randomIndex];
     };
 
@@ -28,7 +21,6 @@ export const Verb = defineComponent({
     const refAnswerTag: Ref<HTMLInputElement | undefined> = ref();
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
-    // 要用返回值来渲染页面的答案，不能写 handleInput里面
     const convertResult = reactive<string[]>(
       convertVerbForm(wordData, 'ます形')
     );
@@ -38,7 +30,7 @@ export const Verb = defineComponent({
     const refAnswer = ref('');
 
     const handleSubmitAnswer = (e: KeyboardEvent) => {
-      // 这里不禁止冒泡事件的话，下面的keyup事件会被触发两次
+      // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
       if (refCorrectAnswer.value === undefined) return;
       const classList = refCorrectAnswer.value.classList;
