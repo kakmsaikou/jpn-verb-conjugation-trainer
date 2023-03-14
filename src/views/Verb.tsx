@@ -18,7 +18,7 @@ export const Verb = defineComponent({
     const wordData = reactive<WordData>(getRandomWordData());
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
-    const refAnswerTag: Ref<HTMLInputElement | undefined> = ref();
+    const refAnswer: Ref<HTMLInputElement | undefined> = ref();
 
     let dailyCorrectCount = 0;
     let dailyAnswerCount = 0;
@@ -30,19 +30,21 @@ export const Verb = defineComponent({
 
     const isAnswerSubmitted = ref(false);
 
-    const refAnswer = ref('');
-
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
-      if (refCorrectAnswer.value === undefined) return;
+      if (
+        refCorrectAnswer.value === undefined ||
+        refAnswer.value === undefined
+      )
+        return;
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
       dailyAnswerCount++;
 
       // 判断输入的答案是否是汉字或是对应的平假名
-      const isAnswerRight = convertResult.includes(refAnswer.value);
+      const isAnswerRight = convertResult.includes(refAnswer.value.value);
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
@@ -50,21 +52,21 @@ export const Verb = defineComponent({
           Object.assign(wordData, getRandomWordData());
           Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
           document.removeEventListener('keyup', handleGlobalEnter);
-          if (isAnswerRight === false) {
-            refAnswer.value = '';
+          if (isAnswerRight === false && refAnswer.value !== undefined) {
+            refAnswer.value.value = '';
           }
           nextTick(() => {
             // 这句不放在 nextTick 里 vue 会把它和 isAnswerSubmitted.value = false 一起执行
-            refAnswerTag.value?.focus();
+            refAnswer.value?.focus();
           });
         }
       };
       if (isAnswerRight) {
         dailyCorrectCount++;
         classList.add('right');
-        refCorrectAnswer.value.innerText = refAnswer.value;
+        refCorrectAnswer.value.innerText = refAnswer.value.value;
         document.addEventListener('keyup', handleGlobalEnter);
-        refAnswer.value = '';
+        refAnswer.value.value = '';
       } else {
         classList.add('wrong');
         refCorrectAnswer.value.innerText =
@@ -101,8 +103,7 @@ export const Verb = defineComponent({
           <input
             type='text'
             class={s.answer}
-            v-model={refAnswer.value}
-            ref={refAnswerTag}
+            ref={refAnswer}
             {...withEventModifiers(
               {
                 onKeyup: handleSubmitAnswer,
