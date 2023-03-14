@@ -12,9 +12,7 @@ const getRandomWordData = () => {
   const randomIndex = getArrayRandomIndex(wordDataList, 3);
   // 下面这段你可能会觉得我在脱裤子放屁。但如果不这么写的话，会出现内存内数组被篡改导致连续两次出现同一个单词的情况
   if (lastWord === wordDataList[randomIndex].kanji) {
-    return randomIndex > 1
-      ? wordDataList[randomIndex - 1]
-      : wordDataList[randomIndex + 1];
+    return randomIndex > 1 ? wordDataList[randomIndex - 1] : wordDataList[randomIndex + 1];
   }
   lastWord = wordDataList[randomIndex].kanji;
   // console.log(`wordDataList[${randomIndex}]:` + wordDataList[randomIndex].kanji);
@@ -30,7 +28,7 @@ export const Verb = defineComponent({
 
     // 写这句话单纯只是为了消除报错
     // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
-    if(refAnswer.value){
+    if (refAnswer.value) {
       refAnswer.value.value = '';
     }
 
@@ -38,20 +36,14 @@ export const Verb = defineComponent({
     let dailyAnswerCount = 0;
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
-    const convertResult = reactive<string[]>(
-      convertVerbForm(wordData, 'ます形')
-    );
+    const convertResult = reactive<string[]>(convertVerbForm(wordData, 'ます形'));
 
     const isAnswerSubmitted = ref(false);
 
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
-      if (
-        refCorrectAnswer.value === undefined ||
-        refAnswer.value === undefined
-      )
-        return;
+      if (refCorrectAnswer.value === undefined || refAnswer.value === undefined) return;
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
@@ -84,9 +76,7 @@ export const Verb = defineComponent({
       } else {
         classList.add('wrong');
         refCorrectAnswer.value.innerText =
-          convertResult[0] === convertResult[1]
-            ? convertResult[0]
-            : convertResult[0] + '\n' + convertResult[1];
+          convertResult[0] === convertResult[1] ? convertResult[0] : convertResult[0] + '\n' + convertResult[1];
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
@@ -97,15 +87,10 @@ export const Verb = defineComponent({
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
         <div class={s.practiceWrapper}>
-          <DailyRecord
-            dailyCorrectCount={dailyCorrectCount}
-            dailyAnswerCount={dailyAnswerCount}
-          />
+          <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <p class={s.kana}>
-                {wordData.kanji === wordData.kana ? '　' : wordData.kana}
-              </p>
+              <p class={s.kana}>{wordData.kanji === wordData.kana ? '　' : wordData.kana}</p>
               <h2 class={s.wordText}>{wordData.kanji}</h2>
               <p class={s.meaning}>{wordData.meaning}</p>
             </div>
@@ -125,11 +110,7 @@ export const Verb = defineComponent({
             disabled={isAnswerSubmitted.value}
           />
           <div class={s.settingWrapper}>
-            <span class={s.continue}>
-              {isAnswerSubmitted.value
-                ? '单击 Enter 下一题'
-                : '单击 Enter 提交'}
-            </span>
+            <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
           </div>
         </div>
       </div>

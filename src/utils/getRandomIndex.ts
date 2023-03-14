@@ -11,4 +11,4 @@ export const getArrayRandomIndex = (arr: WordData[], uniqueCount: number): numbe
   }
   usedIndexes.push(randomIndex);
   return randomIndex;
-}
+};

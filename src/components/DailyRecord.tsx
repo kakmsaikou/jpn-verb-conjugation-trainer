@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent } from 'vue';
 import s from './DailyRecord.module.scss';
 
 export const DailyRecord = defineComponent({
