@@ -1,4 +1,4 @@
-import { defineComponent, reactive, Ref, ref } from 'vue';
+import { defineComponent, nextTick, reactive, Ref, ref, watch } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
@@ -28,6 +28,7 @@ export const Verb = defineComponent({
     const wordData = reactive<WordData>(selectedWordData());
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
+    const refAnswerTag: Ref<HTMLInputElement | undefined> = ref();
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     // 要用返回值来渲染页面的答案，不能写 handleInput里面
@@ -49,13 +50,25 @@ export const Verb = defineComponent({
 
       isAnswerSubmitted.value = true;
       refAnswer.value = '';
-      document.addEventListener('keyup', e => {
+
+      const handleEnterKey = (e:KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
+          Object.assign(wordData, selectedWordData());
+          document.removeEventListener('keyup', handleEnterKey);
         }
-      });
+      };
+
+      document.addEventListener('keyup', handleEnterKey);
     };
+
+    // watch(isAnswerSubmitted, (newValue, oldValue) => {
+    //   if (newValue === false && oldValue === true) {
+    //     console.log('焦点改变');
+    //     refAnswerTag.value?.blur();
+    //   }
+    // });
     return () => (
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
@@ -84,6 +97,7 @@ export const Verb = defineComponent({
             type='text'
             class={s.answer}
             v-model={refAnswer.value}
+            ref={refAnswerTag}
             {...withEventModifiers(
               {
                 onKeyup: handleSubmitAnswer,
