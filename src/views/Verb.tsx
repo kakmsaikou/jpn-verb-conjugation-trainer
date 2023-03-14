@@ -19,13 +19,21 @@ const getRandomWordData = () => {
   return wordDataList[randomIndex];
 };
 
+const questionTypeList = ['ます形', 'て行'];
+
+const getRandomQuestionType = () => {
+  const randomIndex = Math.floor(Math.random() * questionTypeList.length);
+  return questionTypeList[randomIndex];
+};
+
 export const Verb = defineComponent({
   setup: () => {
     const wordData = reactive<WordData>(getRandomWordData());
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
-
+    
+    console.log(getRandomQuestionType())
     const questionType = ref('て形');
 
     // 写这句话单纯只是为了消除报错
@@ -85,10 +93,18 @@ export const Verb = defineComponent({
       }
     };
 
+    const isOptionsVisible = ref(false);
     return () => (
       <div class={s.wrapper}>
+        <button
+          onClick={() => {
+            isOptionsVisible.value = !isOptionsVisible.value;
+          }}
+        >
+          options
+        </button>
         <h1>日语词汇变形练习</h1>
-        <div class={s.practiceWrapper}>
+        <div class={s.practiceWrapper} v-show={!isOptionsVisible.value}>
           <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
@@ -114,6 +130,22 @@ export const Verb = defineComponent({
           <div class={s.settingWrapper}>
             <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
           </div>
+        </div>
+        <div class={s.optionsWrapper} v-show={isOptionsVisible.value}>
+          <h2>设置</h2>
+          <form class={s.optionsForm}>
+            <h3>动词</h3>
+            <ul>
+              <li>
+                <input type='checkbox' />
+                <span>ます形</span>
+              </li>
+              <li>
+                <input type='checkbox' />
+                <span>て形</span>
+              </li>
+            </ul>
+          </form>
         </div>
       </div>
     );
