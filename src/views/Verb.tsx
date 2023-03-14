@@ -1,27 +1,23 @@
-import { defineComponent, nextTick, reactive, Ref, ref, watch } from 'vue';
+import { defineComponent, nextTick, reactive, Ref, ref } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
+import { wordDataList } from '../assets/wordDataList';
 
 export const Verb = defineComponent({
   setup: (props, context) => {
-    const wordDataList: WordData[] = [
-      {
-        kanji: 'やる',
-        kana: 'やる',
-        type: 'v5',
-        meaning: '做',
-      },
-      {
-        kanji: '食べる',
-        kana: 'たべる',
-        type: 'v1',
-        meaning: '吃',
-      },
-    ];
-
+    const usedIndexes: number[]= []
     const selectedWordData = () => {
-      const randomIndex = Math.floor(Math.random() * wordDataList.length);
+      let randomIndex = Math.floor(Math.random() * wordDataList.length);
+      // TODO 有点小 BUG，以后再修
+      // 保证最近3个单词不重复
+      if (usedIndexes.length >= 3) {
+        usedIndexes.shift()
+      }
+      while (usedIndexes.includes(randomIndex)) {
+        randomIndex = Math.floor(Math.random() * wordDataList.length);
+      }
+      usedIndexes.push(randomIndex);
       return wordDataList[randomIndex];
     };
 
@@ -32,7 +28,9 @@ export const Verb = defineComponent({
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     // 要用返回值来渲染页面的答案，不能写 handleInput里面
-    const convertResult = reactive<string[]>(convertVerbForm(wordData, 'ます形'));
+    const convertResult = reactive<string[]>(
+      convertVerbForm(wordData, 'ます形')
+    );
 
     const isAnswerSubmitted = ref(false);
 
@@ -51,17 +49,17 @@ export const Verb = defineComponent({
       isAnswerSubmitted.value = true;
       refAnswer.value = '';
 
-      const handleEnterKey = (e:KeyboardEvent) => {
+      const handleEnterKey = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
           Object.assign(wordData, selectedWordData());
           Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
           document.removeEventListener('keyup', handleEnterKey);
-          nextTick(()=>{
+          nextTick(() => {
             // 这句不放在 nextTick 里 vue 会把它和 isAnswerSubmitted.value = false 一起执行
             refAnswerTag.value?.focus();
-          })
+          });
         }
       };
 
