@@ -57,18 +57,16 @@ export const Verb = defineComponent({
           isAnswerSubmitted.value = false;
           Object.assign(wordData, selectedWordData());
           document.removeEventListener('keyup', handleEnterKey);
+          nextTick(()=>{
+            // 这句不放在 nextTick 里 vue 会把它和 isAnswerSubmitted.value = false 一起执行
+            refAnswerTag.value?.focus();
+          })
         }
       };
 
       document.addEventListener('keyup', handleEnterKey);
     };
 
-    // watch(isAnswerSubmitted, (newValue, oldValue) => {
-    //   if (newValue === false && oldValue === true) {
-    //     console.log('焦点改变');
-    //     refAnswerTag.value?.blur();
-    //   }
-    // });
     return () => (
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
