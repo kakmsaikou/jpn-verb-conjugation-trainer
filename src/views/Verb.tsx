@@ -19,11 +19,11 @@ const getRandomWordData = () => {
   return wordDataList[randomIndex];
 };
 
-const questionTypeList = ['ます形', 'て行'];
+const wordFormList = ['ます形', 'て形'];
 
-const getRandomQuestionType = () => {
-  const randomIndex = Math.floor(Math.random() * questionTypeList.length);
-  return questionTypeList[randomIndex];
+const getRandomWordForm = () => {
+  const randomIndex = Math.floor(Math.random() * wordFormList.length);
+  return wordFormList[randomIndex];
 };
 
 export const Verb = defineComponent({
@@ -32,9 +32,8 @@ export const Verb = defineComponent({
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
-    
-    console.log(getRandomQuestionType())
-    const questionType = ref('て形');
+
+    const refQuestionWordForm = ref(getRandomWordForm());
 
     // 写这句话单纯只是为了消除报错
     // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
@@ -46,7 +45,7 @@ export const Verb = defineComponent({
     let dailyAnswerCount = 0;
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
-    const convertResult = reactive<string[]>(convertVerbForm(wordData, questionType.value));
+    const convertResult = reactive<string[]>(convertVerbForm(wordData, refQuestionWordForm.value));
 
     const isAnswerSubmitted = ref(false);
 
@@ -65,8 +64,9 @@ export const Verb = defineComponent({
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
+          refQuestionWordForm.value = getRandomWordForm();
           Object.assign(wordData, getRandomWordData());
-          Object.assign(convertResult, convertVerbForm(wordData, questionType.value));
+          Object.assign(convertResult, convertVerbForm(wordData, refQuestionWordForm.value));
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerRight === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -112,7 +112,7 @@ export const Verb = defineComponent({
               <h2 class={s.wordText}>{wordData.kanji}</h2>
               <p class={s.meaning}>{wordData.meaning}</p>
             </div>
-            <h3 class={s.questionContent}>{questionType.value}</h3>
+            <h3 class={s.questionContent}>{refQuestionWordForm.value}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input
