@@ -38,8 +38,8 @@ export const Verb = defineComponent({
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
       if (refCorrectAnswer.value === undefined) return;
-      const classList = refCorrectAnswer.value.classList;
 
+      const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
       dailyAnswerCount++;
 
@@ -52,7 +52,7 @@ export const Verb = defineComponent({
           Object.assign(wordData, getRandomWordData());
           Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
           document.removeEventListener('keyup', handleGlobalEnter);
-          if(isAnswerRight === false) {
+          if (isAnswerRight === false) {
             refAnswer.value = '';
           }
           nextTick(() => {
@@ -69,11 +69,10 @@ export const Verb = defineComponent({
         refAnswer.value = '';
       } else {
         classList.add('wrong');
-        if (convertResult[0] === convertResult[1]) {
-          correctAnswer.value = convertResult[0];
-        } else {
-          correctAnswer.value = convertResult[0] + '\n' + convertResult[1];
-        }
+        correctAnswer.value =
+          convertResult[0] === convertResult[1]
+            ? convertResult[0]
+            : convertResult[0] + '\n' + convertResult[1];
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
