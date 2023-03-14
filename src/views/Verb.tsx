@@ -26,6 +26,8 @@ export const Verb = defineComponent({
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
 
+    const questionType = ref('て形');
+
     // 写这句话单纯只是为了消除报错
     // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
     if (refAnswer.value) {
@@ -36,7 +38,7 @@ export const Verb = defineComponent({
     let dailyAnswerCount = 0;
 
     // convertResult 的返回值格式是 ['食べます', 'たべます']
-    const convertResult = reactive<string[]>(convertVerbForm(wordData, 'ます形'));
+    const convertResult = reactive<string[]>(convertVerbForm(wordData, questionType.value));
 
     const isAnswerSubmitted = ref(false);
 
@@ -56,7 +58,7 @@ export const Verb = defineComponent({
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
           Object.assign(wordData, getRandomWordData());
-          Object.assign(convertResult, convertVerbForm(wordData, 'ます形'));
+          Object.assign(convertResult, convertVerbForm(wordData, questionType.value));
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerRight === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -94,7 +96,7 @@ export const Verb = defineComponent({
               <h2 class={s.wordText}>{wordData.kanji}</h2>
               <p class={s.meaning}>{wordData.meaning}</p>
             </div>
-            <h3 class={s.questionContent}>ます形</h3>
+            <h3 class={s.questionContent}>{questionType.value}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input
