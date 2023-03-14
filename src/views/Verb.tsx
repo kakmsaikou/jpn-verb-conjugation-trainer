@@ -19,7 +19,8 @@ const getRandomWordData = () => {
   return wordDataList[randomIndex];
 };
 
-const wordFormList = ['ます形', 'て形'];
+const wordFormList = ['ます形', 'て形', 'た形'];
+const excludeWordFormList = []
 
 const getRandomWordForm = () => {
   const randomIndex = Math.floor(Math.random() * wordFormList.length);
@@ -143,6 +144,10 @@ export const Verb = defineComponent({
               <li>
                 <input type='checkbox' />
                 <span>て形</span>
+              </li>
+              <li>
+                <input type='checkbox' />
+                <span>た形</span>
               </li>
             </ul>
           </form>
