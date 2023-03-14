@@ -32,6 +32,8 @@ export const Verb = defineComponent({
 
     const refAnswer = ref('');
 
+    const correctAnswer = ref('');
+
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
@@ -45,8 +47,14 @@ export const Verb = defineComponent({
       if (isAnswerRight) {
         dailyCorrectCount++;
         classList.add('right');
+        correctAnswer.value = refAnswer.value;
       } else {
         classList.add('wrong');
+        if(convertResult[0] === convertResult[1]) {
+          correctAnswer.value = convertResult[0];
+        } else {
+          correctAnswer.value = convertResult[0] + '\n' + convertResult[1];
+        }
       }
 
       refAnswer.value = '';
@@ -86,7 +94,7 @@ export const Verb = defineComponent({
             </div>
             <h3 class={s.questionContent}>ます形</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer}>
-              {convertResult[0]}
+              {correctAnswer.value}
             </p>
           </div>
           <input
