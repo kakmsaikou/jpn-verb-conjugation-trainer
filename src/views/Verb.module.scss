@@ -16,19 +16,6 @@
     flex-direction: column;
     align-items: center;
 
-    .record {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      * {
-        text-align: center;
-        padding-bottom: 0.3em;
-        :first-child {
-          font-size: 16px;
-        }
-      }
-    }
-
     .questionWrapper {
       padding-bottom: 1.5em;
 

@@ -3,16 +3,17 @@ import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { convertVerbForm } from '../utils/convertVerbForm';
 import { wordDataList } from '../assets/wordDataList';
+import { DailyRecord } from '../components/DailyRecord';
 
 export const Verb = defineComponent({
   setup: (props, context) => {
-    const usedIndexes: number[]= []
+    const usedIndexes: number[] = [];
     const selectedWordData = () => {
       let randomIndex = Math.floor(Math.random() * wordDataList.length);
       // TODO 有点小 BUG，以后再修
       // 保证最近3个单词不重复
       if (usedIndexes.length >= 3) {
-        usedIndexes.shift()
+        usedIndexes.shift();
       }
       while (usedIndexes.includes(randomIndex)) {
         randomIndex = Math.floor(Math.random() * wordDataList.length);
@@ -70,16 +71,7 @@ export const Verb = defineComponent({
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
         <div class={s.practiceWrapper}>
-          <div class={s.record}>
-            <div class={s.correctCount}>
-              <p>今日正确</p>
-              <p>80</p>
-            </div>
-            <div class={s.practiceCount}>
-              <p>今日练习</p>
-              <p>100</p>
-            </div>
-          </div>
+          <DailyRecord />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
               <h2 class={s.wordText}>{wordData.kanji}</h2>
