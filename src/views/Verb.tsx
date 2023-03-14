@@ -20,6 +20,9 @@ export const Verb = defineComponent({
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswerTag: Ref<HTMLInputElement | undefined> = ref();
 
+    let dailyCorrectCount = 0
+    let dailyAnswerCount = 0;
+
     // convertResult 的返回值格式是 ['食べます', 'たべます']
     const convertResult = reactive<string[]>(
       convertVerbForm(wordData, 'ます形')
@@ -35,13 +38,19 @@ export const Verb = defineComponent({
       if (refCorrectAnswer.value === undefined) return;
       const classList = refCorrectAnswer.value.classList;
 
+      isAnswerSubmitted.value = true;
+      dailyAnswerCount++;
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerRight = convertResult.includes(refAnswer.value);
-      classList.add(isAnswerRight ? 'right' : 'wrong');
+      if (isAnswerRight) {
+        dailyCorrectCount++;
+        classList.add('right');
+      } else {
+        classList.add('wrong');
+      }
 
-      isAnswerSubmitted.value = true;
       refAnswer.value = '';
-      
+
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
@@ -63,7 +72,10 @@ export const Verb = defineComponent({
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
         <div class={s.practiceWrapper}>
-          <DailyRecord />
+          <DailyRecord
+            dailyCorrectCount={dailyCorrectCount}
+            dailyAnswerCount={dailyAnswerCount}
+          />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
               <h2 class={s.wordText}>{wordData.kanji}</h2>
