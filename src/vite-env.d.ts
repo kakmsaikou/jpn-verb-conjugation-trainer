@@ -7,12 +7,12 @@ interface WordData {
   meaning: string;
 }
 
-type Form = 'ます形' | 'て形' | 'た形';
+type Form = 'masu' | 'te' | 'ta';
 
-interface Config{
+interface Config {
   verb: {
     masu: boolean;
     te: boolean;
     ta: boolean;
-  }
+  };
 }

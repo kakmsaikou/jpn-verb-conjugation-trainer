@@ -91,7 +91,7 @@ export const Verb = defineComponent({
               <h2 class={s.wordText}>{wordDataStore.kanji}</h2>
               <p class={s.meaning}>{wordDataStore.meaning}</p>
             </div>
-            <h3 class={s.questionContent}>{formStore.form}</h3>
+            <h3 class={s.questionContent}>{formStore.formKanji}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input

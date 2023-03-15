@@ -13,9 +13,9 @@ type Actions = {
 
 const INIT_CONFIG: Config = {
   verb: {
-    masu: true,
-    te: true,
-    ta: true,
+    'masu': true,
+    'te': true,
+    "ta": true,
   },
 };
 
