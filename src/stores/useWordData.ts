@@ -6,7 +6,7 @@ type State = {
   currentWordData: WordData | null;
 };
 type Getters = {
-  wordData: () => WordData;
+  wordData: (state: State) => WordData;
   kanji: () => string;
   kana: () => string;
   meaning: () => string;
@@ -22,20 +22,20 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
     currentWordData: null,
   }),
   getters: {
-    wordData() {
-      if (this.currentWordData === null) {
+    wordData: state => {
+      if (state.currentWordData === null) {
         const randomIndex = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
-        this.currentWordData = wordDataList[randomIndex];
+        state.currentWordData = wordDataList[randomIndex];
       }
-      return this.currentWordData;
+      return state.currentWordData;
     },
-    kanji(){
+    kanji() {
       return this.wordData.kanji;
     },
-    kana(){
+    kana() {
       return this.wordData.kana;
     },
-    meaning(){
+    meaning() {
       return this.wordData.meaning;
     },
   },

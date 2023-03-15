@@ -5,7 +5,7 @@ type State = {
   currentForm: Form | null;
 };
 type Getters = {
-  filteredFormList: () => Form[];
+  filteredFormList: (state: State) => Form[];
   form: () => Form;
 };
 type Actions = {
@@ -14,7 +14,7 @@ type Actions = {
   refreshForm: () => void;
 };
 
-const WORD_FORM_LIST: Form[] = ['ます形', 'て形', 'た形']
+const WORD_FORM_LIST: Form[] = ['ます形', 'て形', 'た形'];
 
 export const useFormStore = defineStore<string, State, Getters, Actions>('formStore', {
   state: () => ({
@@ -22,8 +22,8 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     currentForm: null,
   }),
   getters: {
-    filteredFormList() {
-      const excludeList = Array.from(this.excludeWordFormList);
+    filteredFormList: state => {
+      const excludeList = Array.from(state.excludeWordFormList);
       return WORD_FORM_LIST.filter(item => !excludeList.includes(item as Form)) as Form[];
     },
     form() {

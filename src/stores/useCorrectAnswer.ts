@@ -7,14 +7,14 @@ type State = {
   currentCorrectAnswer: string[] | null;
 };
 type Getter = {
-  correctAnswer: () => string[];
+  correctAnswer: (state: State) => string[];
   isKanjiKanaEqual: () => boolean;
   kanji: () => string;
   kana: () => string;
 };
 type Actions = {
   isAnswerCorrect: (answer: string) => boolean;
-  refreshCorrectAnswer: () => void;
+  refreshCorrectAnswer: (state: State) => void;
 };
 
 const wordDataStore = useWordDataStore();
@@ -25,11 +25,11 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
     currentCorrectAnswer: null,
   }),
   getters: {
-    correctAnswer() {
-      if (this.currentCorrectAnswer === null) {
-        this.currentCorrectAnswer = convertVerbForm(wordDataStore.wordData, formStore.form);
+    correctAnswer: state => {
+      if (state.currentCorrectAnswer === null) {
+        state.currentCorrectAnswer = convertVerbForm(wordDataStore.wordData, formStore.form);
       }
-      return this.currentCorrectAnswer;
+      return state.currentCorrectAnswer;
     },
     kanji() {
       return this.correctAnswer[0];
@@ -45,7 +45,7 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
     isAnswerCorrect(answer: string) {
       return this.correctAnswer.includes(answer);
     },
-    refreshCorrectAnswer() {
+    refreshCorrectAnswer(){
       wordDataStore.refreshWordData();
       formStore.refreshForm();
       this.currentCorrectAnswer = convertVerbForm(wordDataStore.wordData, formStore.form);
