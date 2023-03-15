@@ -4,6 +4,7 @@ import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import Button from './Button';
 import s from './Options.module.scss';
+import { FORM_KANJI_MAP, FORM_LIST } from '../const';
 
 export const Options = defineComponent({
   emits: ['close'],
@@ -37,18 +38,12 @@ export const Options = defineComponent({
           <h3>动词</h3>
           <h4 v-show={!refVerbValid.value}>*你至少需要选择一个类别</h4>
           <ul>
-            <li>
-              <input type='checkbox' v-model={verb.masu} />
-              <span>ます形</span>
-            </li>
-            <li>
-              <input type='checkbox' v-model={verb.te} />
-              <span>て形</span>
-            </li>
-            <li>
-              <input type='checkbox' v-model={verb.ta} />
-              <span>た形</span>
-            </li>
+            {FORM_LIST.map(form => (
+              <li>
+                <input type='checkbox' v-model={verb[form]} />
+                <span>{FORM_KANJI_MAP[form]}</span>
+              </li>
+            ))}
           </ul>
           <Button onClick={onClick} disabled={refVerbValid.value}>
             戻る ↩
