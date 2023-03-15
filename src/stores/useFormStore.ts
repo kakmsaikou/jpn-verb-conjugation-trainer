@@ -7,6 +7,7 @@ type State = {
 type Getters = {
   filteredFormList: (state: State) => Form[];
   form: () => Form;
+  posFormKey: () => (pos: number) => string;
 };
 type Actions = {
   removeForm: (form: Form) => void;
@@ -14,7 +15,14 @@ type Actions = {
   refreshForm: () => void;
 };
 
-const WORD_FORM_LIST: Form[] = ['ます形', 'て形', 'た形'];
+const FORM_LIST: Form[] = ['ます形', 'て形', 'た形'];
+const FORM_KEY_MAP: Record<Form, string> = {
+  ます形: ',1,false,true',
+  て形: ',3,false,false',
+  た形: ',2,false,false',
+  // ない形: ',1,true,false',
+  // ば形: ',13,false,false',
+};
 
 export const useFormStore = defineStore<string, State, Getters, Actions>('formStore', {
   state: () => ({
@@ -24,7 +32,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
   getters: {
     filteredFormList: state => {
       const excludeList = Array.from(state.excludeWordFormList);
-      return WORD_FORM_LIST.filter(item => !excludeList.includes(item as Form)) as Form[];
+      return FORM_LIST.filter(item => !excludeList.includes(item as Form)) as Form[];
     },
     form() {
       if (this.currentForm === null) {
@@ -32,6 +40,9 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
         this.currentForm = this.filteredFormList[index];
       }
       return this.currentForm;
+    },
+    posFormKey() {
+      return (pos: number) => pos + FORM_KEY_MAP[this.form];
     },
   },
   actions: {
