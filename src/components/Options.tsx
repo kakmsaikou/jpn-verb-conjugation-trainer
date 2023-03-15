@@ -32,7 +32,7 @@ export const Options = defineComponent({
 
     const onSubmit = (e: MouseEvent) => {
       e.preventDefault();
-      console.log('提交 config 了');
+      configStore.setConfig(tempConfig);
     };
     return () => (
       <div class={s.wrapper} v-show={props.isOptionsVisible}>

@@ -6,8 +6,9 @@ type State = {
 type Getters = {
   config: (state: State) => Config;
 };
-
-type Actions = {};
+type Actions = {
+  setConfig: (config: Config) => void;
+};
 
 export const useConfigStore = defineStore<string, State, Getters, Actions>('userConfig', {
   state: () => ({
@@ -32,5 +33,10 @@ export const useConfigStore = defineStore<string, State, Getters, Actions>('user
       return state._config as Config;
     },
   },
-  actions: {},
+  actions: {
+    setConfig(config: Config) {
+      this._config = config;
+      localStorage.setItem('_config', JSON.stringify(config));
+    },
+  },
 });
