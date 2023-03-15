@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 type State = {
   excludeWordFormList: Set<Form>;
-  currentForm: Form | null;
+  _form: Form | null;
 };
 type Getters = {
   filteredFormList: (state: State) => Form[];
@@ -27,7 +27,7 @@ const FORM_KEY_MAP: Record<Form, string> = {
 export const useFormStore = defineStore<string, State, Getters, Actions>('formStore', {
   state: () => ({
     excludeWordFormList: new Set(),
-    currentForm: null,
+    _form: null,
   }),
   getters: {
     filteredFormList: state => {
@@ -35,11 +35,11 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       return FORM_LIST.filter(item => !excludeList.includes(item as Form)) as Form[];
     },
     form() {
-      if (this.currentForm === null) {
+      if (this._form === null) {
         const index = Math.floor(Math.random() * this.filteredFormList.length);
-        this.currentForm = this.filteredFormList[index];
+        this._form = this.filteredFormList[index];
       }
-      return this.currentForm;
+      return this._form;
     },
     posFormKey() {
       return (pos: number) => pos + FORM_KEY_MAP[this.form];
@@ -56,7 +56,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     },
     refreshForm() {
       const index = Math.floor(Math.random() * this.filteredFormList.length);
-      this.currentForm = this.filteredFormList[index];
+      this._form = this.filteredFormList[index];
     },
   },
 });
