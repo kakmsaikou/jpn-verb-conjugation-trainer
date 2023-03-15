@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { INIT_CONFIG } from '../const';
 
 type State = {
   _config: Config | null;
@@ -9,14 +10,6 @@ type Getters = {
 };
 type Actions = {
   setConfig: (config: Config) => void;
-};
-
-const INIT_CONFIG: Config = {
-  verb: {
-    'masu': true,
-    'te': true,
-    "ta": true,
-  },
 };
 
 export const useConfigStore = defineStore<string, State, Getters, Actions>('userConfig', {

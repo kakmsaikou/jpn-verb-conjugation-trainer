@@ -1,5 +1,6 @@
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
+import { FORM_KANJI_MAP, FORM_KEY_MAP, FORM_LIST } from '../const';
 
 type State = {
   _form: Form | null;
@@ -12,22 +13,6 @@ type Getters = {
 };
 type Actions = {
   refreshForm: () => void;
-};
-
-const FORM_LIST: Form[] = ['masu', 'te', 'ta'];
-const FORM_KEY_MAP: Record<Form, string> = {
-  masu: ',1,false,true',
-  te: ',3,false,false',
-  ta: ',2,false,false',
-  // ない形: ',1,true,false',
-  // ば形: ',13,false,false',
-};
-const FORM_KANJI_MAP: Record<Form, string> = {
-  masu: 'ます形',
-  te: 'て形',
-  ta: 'た形',
-  // ない形: 'ない',
-  // ば形: 'ば',
 };
 
 const configStore = useConfigStore();

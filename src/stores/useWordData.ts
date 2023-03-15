@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { wordDataList } from '../assets/wordDataList';
+import { MAX_RANDOM_WORDS_COUNT } from '../const';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
 type State = {
@@ -14,8 +15,6 @@ type Getters = {
 type Actions = {
   refreshWordData: () => void;
 };
-
-const MAX_RANDOM_WORDS_COUNT = 3;
 
 export const useWordDataStore = defineStore<string, State, Getters, Actions>('wordData', {
   state: () => ({
