@@ -11,10 +11,10 @@ type Getter = {
   isKanjiKanaEqual: () => boolean;
   kanji: () => string;
   kana: () => string;
+  isAnswerCorrect: () => (answer: string) => boolean;
 };
 type Actions = {
-  isAnswerCorrect: (answer: string) => boolean;
-  refreshCorrectAnswer: (state: State) => void;
+  refreshCorrectAnswer: () => void;
 };
 
 const wordDataStore = useWordDataStore();
@@ -40,12 +40,12 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
     isKanjiKanaEqual() {
       return this.correctAnswer[0] === this.correctAnswer[1];
     },
+    isAnswerCorrect() {
+      return (answer: string) => this.correctAnswer.includes(answer);
+    },
   },
   actions: {
-    isAnswerCorrect(answer: string) {
-      return this.correctAnswer.includes(answer);
-    },
-    refreshCorrectAnswer(){
+    refreshCorrectAnswer() {
       wordDataStore.refreshWordData();
       formStore.refreshForm();
       this.currentCorrectAnswer = convertVerbForm(wordDataStore.wordData, formStore.form);
