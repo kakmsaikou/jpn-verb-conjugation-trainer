@@ -6,6 +6,7 @@ import { useFormStore } from '../stores/useFormStore';
 import { useWordDataStore } from '../stores/useWordData';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { Options } from '../components/Options';
+import Button from '../components/Button';
 
 export const Verb = defineComponent({
   setup: () => {
@@ -76,6 +77,9 @@ export const Verb = defineComponent({
     const turnOptions = (status: boolean) => {
       isOptionsVisible.value = status;
     };
+    const onClick = (e: MouseEvent) => {
+      turnOptions(true);
+    };
     return () => (
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
@@ -103,16 +107,9 @@ export const Verb = defineComponent({
             disabled={isAnswerSubmitted.value}
           />
           <div class={s.settingWrapper}>
-            <button style='visibility: hidden'>options</button>
+            <Button style='visibility: hidden'>設定 ⚙️</Button>
             <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
-            <button
-              class={s.optionsButton}
-              onClick={() => {
-                turnOptions(true);
-              }}
-            >
-              options
-            </button>
+            <Button onClick={onClick}>設定 ⚙️</Button>
           </div>
         </div>
         <Options v-show={isOptionsVisible.value} onClose={turnOptions} />

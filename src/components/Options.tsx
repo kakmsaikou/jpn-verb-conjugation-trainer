@@ -24,10 +24,9 @@ export const Options = defineComponent({
       }
     });
 
-    const onSubmit = (e: MouseEvent) => {
+    const onClick = (e: MouseEvent) => {
       e.preventDefault();
       configStore.setConfig(tempConfig);
-      // 防止上次残留的题目对 setConfig 后题目显示造成的影响，要刷新题目
       correctAnswer.refreshCorrectAnswer();
       context.emit('close', false);
     };
@@ -51,7 +50,7 @@ export const Options = defineComponent({
               <span>た形</span>
             </li>
           </ul>
-          <Button onClick={onSubmit} disabled={refVerbValid.value}>
+          <Button onClick={onClick} disabled={refVerbValid.value}>
             戻る ↩
           </Button>
         </form>

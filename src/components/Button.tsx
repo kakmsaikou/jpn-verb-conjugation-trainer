@@ -2,13 +2,19 @@ import { defineComponent, PropType } from 'vue';
 import s from './Button.module.scss';
 
 export const Button = defineComponent({
+  emits: ['click'],
   props: {
-    onClick: Function as PropType<(e: MouseEvent) => void>,
-    disabled: Boolean,
+    disabled: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
+    onClick: {
+      type: Function as PropType<(e: MouseEvent) => void>,
+    },
   },
   setup: (props, context) => {
     const onClick = (e: MouseEvent) => {
-      props.onClick?.(e);
+      context.emit('click', e);
     };
     return () => (
       <button class={s.backBtn} onClick={onClick} disabled={!props.disabled}>
