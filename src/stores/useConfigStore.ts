@@ -5,9 +5,18 @@ type State = {
 };
 type Getters = {
   config: (state: State) => Config;
+  unselectedFormOptions: () => Form[];
 };
 type Actions = {
   setConfig: (config: Config) => void;
+};
+
+const INIT_CONFIG: Config = {
+  verb: {
+    masu: true,
+    te: true,
+    ta: true,
+  },
 };
 
 export const useConfigStore = defineStore<string, State, Getters, Actions>('userConfig', {
@@ -16,21 +25,20 @@ export const useConfigStore = defineStore<string, State, Getters, Actions>('user
   }),
   getters: {
     config: state => {
-      if (state._config === null) {
-        const userConfig = localStorage.getItem('_config');
-        if (userConfig) {
-          state._config = JSON.parse(userConfig);
-        } else {
-          state._config = {
-            verb: {
-              masu: true,
-              te: true,
-              ta: true,
-            },
-          };
+      const config = state._config || JSON.parse(localStorage.getItem('_config') || 'null') || INIT_CONFIG;
+      state._config = config;
+      return state._config as Config;
+    },
+    unselectedFormOptions() {
+      const {verb} = this.config;
+      const unselectedFormOptions: Form[] = [];
+      for (const key in verb) {
+        const value = verb[key as keyof typeof verb];
+        if (value === false) {
+          unselectedFormOptions.push(key as Form);
         }
       }
-      return state._config as Config;
+      return unselectedFormOptions;
     },
   },
   actions: {

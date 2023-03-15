@@ -1,7 +1,8 @@
+import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
 
 type State = {
-  excludeWordFormList: Set<Form>;
+  _excludeWordFormList: Set<Form>;
   _form: Form | null;
 };
 type Getters = {
@@ -24,14 +25,16 @@ const FORM_KEY_MAP: Record<Form, string> = {
   // ば形: ',13,false,false',
 };
 
+const configStore = useConfigStore()
+
 export const useFormStore = defineStore<string, State, Getters, Actions>('formStore', {
   state: () => ({
-    excludeWordFormList: new Set(),
+    _excludeWordFormList: new Set(),
     _form: null,
   }),
   getters: {
     filteredFormList: state => {
-      const excludeList = Array.from(state.excludeWordFormList);
+      const excludeList = Array.from(state._excludeWordFormList);
       return FORM_LIST.filter(item => !excludeList.includes(item as Form)) as Form[];
     },
     form() {
@@ -47,11 +50,11 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
   },
   actions: {
     removeForm(form: Form) {
-      this.excludeWordFormList.add(form);
+      this._excludeWordFormList.add(form);
     },
     returnForm(form: Form) {
-      if (this.excludeWordFormList.has(form)) {
-        this.excludeWordFormList.delete(form);
+      if (this._excludeWordFormList.has(form)) {
+        this._excludeWordFormList.delete(form);
       }
     },
     refreshForm() {
