@@ -7,12 +7,9 @@ interface WordData {
   meaning: string;
 }
 
-type Form = 'masu' | 'te' | 'ta';
+type Form = 'masu' | 'te' | 'ta' | 'nai' | 'ba';
 
 interface Config {
-  verb: {
-    masu: boolean;
-    te: boolean;
-    ta: boolean;
-  };
+  verb: Record<Form, boolean>
 }
+
