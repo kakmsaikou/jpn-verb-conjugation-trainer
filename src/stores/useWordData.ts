@@ -3,7 +3,7 @@ import { wordDataList } from '../assets/wordDataList';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
 type State = {
-  currentWordData: WordData | null;
+  _wordData: WordData | null;
 };
 type Getters = {
   wordData: (state: State) => WordData;
@@ -19,15 +19,15 @@ const MAX_RANDOM_WORDS_COUNT = 3;
 
 export const useWordDataStore = defineStore<string, State, Getters, Actions>('wordData', {
   state: () => ({
-    currentWordData: null,
+    _wordData: null,
   }),
   getters: {
     wordData: state => {
-      if (state.currentWordData === null) {
+      if (state._wordData === null) {
         const randomIndex = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
-        state.currentWordData = wordDataList[randomIndex];
+        state._wordData = wordDataList[randomIndex];
       }
-      return state.currentWordData;
+      return state._wordData;
     },
     kanji() {
       return this.wordData.kanji;
@@ -42,7 +42,7 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   actions: {
     refreshWordData() {
       const index = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
-      this.currentWordData = wordDataList[index];
+      this._wordData = wordDataList[index];
     },
   },
 });
