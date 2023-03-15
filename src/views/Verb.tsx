@@ -110,7 +110,7 @@ export const Verb = defineComponent({
             <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
           </div>
         </div>
-        <Options isOptionsVisible={isOptionsVisible.value}/>
+        <Options v-show={isOptionsVisible.value}/>
       </div>
     );
   },

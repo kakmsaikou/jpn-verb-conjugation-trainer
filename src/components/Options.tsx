@@ -4,12 +4,6 @@ import { deepClone } from '../utils/deepClone';
 import s from './Options.module.scss';
 
 export const Options = defineComponent({
-  props: {
-    isOptionsVisible: {
-      type: Boolean,
-      required: true,
-    },
-  },
   setup: (props, context) => {
     const configStore = useConfigStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
@@ -35,7 +29,7 @@ export const Options = defineComponent({
       configStore.setConfig(tempConfig);
     };
     return () => (
-      <div class={s.wrapper} v-show={props.isOptionsVisible}>
+      <div class={s.wrapper}>
         <h2>设置</h2>
         <form class={s.optionsForm}>
           <h3>动词</h3>
