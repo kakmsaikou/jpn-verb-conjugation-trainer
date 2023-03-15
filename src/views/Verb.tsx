@@ -1,16 +1,19 @@
-import { defineComponent, nextTick, reactive, Ref, ref } from 'vue';
+import { defineComponent, nextTick, Ref, ref } from 'vue';
 import s from './Verb.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
-import { convertVerbForm } from '../utils/convertVerbForm';
 import { DailyRecord } from '../components/DailyRecord';
 import { useFormStore } from '../stores/useFormStore';
 import { useWordDataStore } from '../stores/useWordData';
+import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 
 export const Verb = defineComponent({
   setup: () => {
     const formStore = useFormStore();
     const wordDataStore = useWordDataStore()
+    const correctAnswerStore = useCorrectAnswerStore()
 
+    // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
+    // refAnswer 要用于 focus()
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
 
@@ -22,9 +25,6 @@ export const Verb = defineComponent({
 
     let dailyCorrectCount = 0;
     let dailyAnswerCount = 0;
-
-    // convertResult 的返回值格式是 ['食べます', 'たべます']
-    const convertResult = reactive<string[]>(convertVerbForm(wordDataStore.wordData, formStore.form));
 
     const isAnswerSubmitted = ref(false);
 
@@ -38,14 +38,12 @@ export const Verb = defineComponent({
       dailyAnswerCount++;
 
       // 判断输入的答案是否是汉字或是对应的平假名
-      const isAnswerRight = convertResult.includes(refAnswer.value.value);
+      const isAnswerRight = correctAnswerStore.isAnswerCorrect(refAnswer.value.value);
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
-          formStore.refreshForm();
-          wordDataStore.refreshWordData();
-          Object.assign(convertResult, convertVerbForm(wordDataStore.wordData, formStore.form));
+          correctAnswerStore.refreshCorrectAnswer()
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerRight === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -65,7 +63,7 @@ export const Verb = defineComponent({
       } else {
         classList.add('wrong');
         refCorrectAnswer.value.innerText =
-          convertResult[0] === convertResult[1] ? convertResult[0] : convertResult[0] + '\n' + convertResult[1];
+          correctAnswerStore.isKanjiKanaEqual ? correctAnswerStore.kana : correctAnswerStore.kana + '\n' + correctAnswerStore.kanji;
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
