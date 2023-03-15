@@ -1,11 +1,14 @@
 import { defineComponent, reactive, ref, watch } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
+import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import s from './Options.module.scss';
 
 export const Options = defineComponent({
+  emits: ['close'],
   setup: (props, context) => {
     const configStore = useConfigStore();
+    const correctAnswer = useCorrectAnswerStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { verb } = tempConfig;
     const isSubmitDisabled = ref(false);
@@ -27,6 +30,9 @@ export const Options = defineComponent({
     const onSubmit = (e: MouseEvent) => {
       e.preventDefault();
       configStore.setConfig(tempConfig);
+      // 防止上次残留的题目对 setConfig 后题目显示造成的影响，要刷新题目
+      correctAnswer.refreshCorrectAnswer();
+      context.emit('close', false);
     };
     return () => (
       <div class={s.wrapper}>
@@ -39,11 +45,11 @@ export const Options = defineComponent({
               <span>ます形</span>
             </li>
             <li>
-              <input type='checkbox' v-model={verb.ta} />
+              <input type='checkbox' v-model={verb.te} />
               <span>て形</span>
             </li>
             <li>
-              <input type='checkbox' v-model={verb.te} />
+              <input type='checkbox' v-model={verb.ta} />
               <span>た形</span>
             </li>
           </ul>

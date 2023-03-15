@@ -55,6 +55,9 @@
 
     .settingWrapper {
       padding-top: 0.5em;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
 
       > * {
         font-size: 14px;

@@ -73,15 +73,11 @@ export const Verb = defineComponent({
     };
 
     const isOptionsVisible = ref(false);
+    const turnOptions = (status: boolean) => {
+      isOptionsVisible.value = status;
+    };
     return () => (
       <div class={s.wrapper}>
-        <button
-          onClick={() => {
-            isOptionsVisible.value = !isOptionsVisible.value;
-          }}
-        >
-          options
-        </button>
         <h1>日语词汇变形练习</h1>
         <div class={s.practiceWrapper} v-show={!isOptionsVisible.value}>
           <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
@@ -107,10 +103,19 @@ export const Verb = defineComponent({
             disabled={isAnswerSubmitted.value}
           />
           <div class={s.settingWrapper}>
+            <button style='visibility: hidden'>options</button>
             <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
+            <button
+              class={s.optionsButton}
+              onClick={() => {
+                turnOptions(true);
+              }}
+            >
+              options
+            </button>
           </div>
         </div>
-        <Options v-show={isOptionsVisible.value}/>
+        <Options v-show={isOptionsVisible.value} onClose={turnOptions} />
       </div>
     );
   },
