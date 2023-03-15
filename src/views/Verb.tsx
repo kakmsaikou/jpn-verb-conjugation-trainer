@@ -5,12 +5,13 @@ import { DailyRecord } from '../components/DailyRecord';
 import { useFormStore } from '../stores/useFormStore';
 import { useWordDataStore } from '../stores/useWordData';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
+import { Options } from '../components/Options';
 
 export const Verb = defineComponent({
   setup: () => {
     const formStore = useFormStore();
-    const wordDataStore = useWordDataStore()
-    const correctAnswerStore = useCorrectAnswerStore()
+    const wordDataStore = useWordDataStore();
+    const correctAnswerStore = useCorrectAnswerStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
     // refAnswer 要用于 focus()
@@ -43,7 +44,7 @@ export const Verb = defineComponent({
         if (e.key === 'Enter') {
           classList.remove('right', 'wrong');
           isAnswerSubmitted.value = false;
-          correctAnswerStore.refreshCorrectAnswer()
+          correctAnswerStore.refreshCorrectAnswer();
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerRight === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -62,8 +63,9 @@ export const Verb = defineComponent({
         refAnswer.value.value = '';
       } else {
         classList.add('wrong');
-        refCorrectAnswer.value.innerText =
-          correctAnswerStore.isKanjiKanaEqual ? correctAnswerStore.kana : correctAnswerStore.kana + '\n' + correctAnswerStore.kanji;
+        refCorrectAnswer.value.innerText = correctAnswerStore.isKanjiKanaEqual
+          ? correctAnswerStore.kana
+          : correctAnswerStore.kana + '\n' + correctAnswerStore.kanji;
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
@@ -108,26 +110,7 @@ export const Verb = defineComponent({
             <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
           </div>
         </div>
-        <div class={s.optionsWrapper} v-show={isOptionsVisible.value}>
-          <h2>设置</h2>
-          <form class={s.optionsForm}>
-            <h3>动词</h3>
-            <ul>
-              <li>
-                <input type='checkbox' />
-                <span>ます形</span>
-              </li>
-              <li>
-                <input type='checkbox' />
-                <span>て形</span>
-              </li>
-              <li>
-                <input type='checkbox' />
-                <span>た形</span>
-              </li>
-            </ul>
-          </form>
-        </div>
+        <Options isOptionsVisible={isOptionsVisible.value}/>
       </div>
     );
   },

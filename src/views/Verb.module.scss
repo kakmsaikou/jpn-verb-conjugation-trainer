@@ -7,8 +7,7 @@
     padding: 0.5em 0;
   }
 
-  .practiceWrapper,
-  .optionsWrapper {
+  .practiceWrapper {
     width: 31em;
     background-color: #2c2b29;
     padding: 1em 1.5em;
@@ -76,21 +75,4 @@
   flex-direction: column;
   justify-content: center;
   white-space: pre-line;
-}
-
-.optionsForm {
-  width: 100%;
-
-  ul{
-    padding-top: 1em;
-    padding-left: 2em;
-    
-    li{
-      padding-bottom: 0.3em;
-
-      span {
-        padding-left: 0.3em;
-      }
-    }
-  }
 }
