@@ -40,14 +40,14 @@ export const Verb = defineComponent({
       dailyAnswerCount++;
 
       // 判断输入的答案是否是汉字或是对应的平假名
-      const isAnswerRight = correctAnswerStore.isAnswerCorrect(refAnswer.value.value);
+      const isAnswerCorrect = correctAnswerStore.isAnswerCorrect(refAnswer.value.value);
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
-          classList.remove('right', 'wrong');
+          classList.remove('correct', 'wrong');
           isAnswerSubmitted.value = false;
           correctAnswerStore.refreshCorrectAnswer();
           document.removeEventListener('keyup', handleGlobalEnter);
-          if (isAnswerRight === false && refAnswer.value !== undefined) {
+          if (isAnswerCorrect === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
           }
           nextTick(() => {
@@ -56,9 +56,9 @@ export const Verb = defineComponent({
           });
         }
       };
-      if (isAnswerRight) {
+      if (isAnswerCorrect) {
         dailyCorrectCount++;
-        classList.add('right');
+        classList.add('correct');
         refCorrectAnswer.value.innerText = refAnswer.value.value;
         document.addEventListener('keyup', handleGlobalEnter);
         refAnswer.value.value = '';
