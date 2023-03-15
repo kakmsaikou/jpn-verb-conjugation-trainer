@@ -51,6 +51,9 @@
       width: 100%;
       border-radius: 1em;
       padding: 0 0.5em;
+      &:not([disabled]):hover {
+        background: #e0e0e0;
+      }
     }
 
     .settingWrapper {
