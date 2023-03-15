@@ -8,3 +8,11 @@ interface WordData {
 }
 
 type Form = 'ます形' | 'て形' | 'た形';
+
+interface Config{
+  verb: {
+    masu: boolean;
+    te: boolean;
+    ta: boolean;
+  }
+}
