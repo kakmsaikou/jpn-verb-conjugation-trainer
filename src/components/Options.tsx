@@ -2,6 +2,7 @@ import { defineComponent, reactive, ref, watch } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
+import Button from './Button';
 import s from './Options.module.scss';
 
 export const Options = defineComponent({
@@ -11,19 +12,15 @@ export const Options = defineComponent({
     const correctAnswer = useCorrectAnswerStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { verb } = tempConfig;
-    const isSubmitDisabled = ref(false);
+    const refVerbValid = ref(true);
 
     watch(tempConfig, () => {
-      let isVerbValid = false;
+      refVerbValid.value = false;
       for (let key of Object.keys(verb)) {
         const value = verb[key as keyof typeof verb];
         if (value === true) {
-          isVerbValid = true;
+          refVerbValid.value = true;
         }
-      }
-      isSubmitDisabled.value = false;
-      if (!isVerbValid) {
-        isSubmitDisabled.value = true;
       }
     });
 
@@ -39,6 +36,7 @@ export const Options = defineComponent({
         <h2>设置</h2>
         <form class={s.optionsForm}>
           <h3>动词</h3>
+          <h4 v-show={!refVerbValid.value}>*你至少需要选择一个类别</h4>
           <ul>
             <li>
               <input type='checkbox' v-model={verb.masu} />
@@ -53,9 +51,9 @@ export const Options = defineComponent({
               <span>た形</span>
             </li>
           </ul>
-          <button onClick={onSubmit} disabled={isSubmitDisabled.value}>
-            返回
-          </button>
+          <Button onClick={onSubmit} disabled={refVerbValid.value}>
+            戻る ↩
+          </Button>
         </form>
       </div>
     );

@@ -1,0 +1,14 @@
+.backBtn {
+  border: none;
+  background-color: #3f3f3f;
+  border-radius: 0.6em;
+  padding: 0.2em 0.8em;
+  font-size: 13px;
+  color: #ddd;
+  float: right;
+  box-shadow: 3px 3px 7px 1px #232323;
+
+  &:hover {
+    background: rgb(70, 70, 70);
+  }
+}
