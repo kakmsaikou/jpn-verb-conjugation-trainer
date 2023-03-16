@@ -46,7 +46,9 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
   },
   actions: {
     refreshCorrectAnswer() {
-      formStore.refreshForm();
+      // 必须要先刷新 form 在刷新 wordData，否则会出现 form 和 wordData 不匹配的情况
+      // TODO 可以考虑吧 formStore.refreshForm() 直接放在 wordDataStore.refreshWordData() 里面
+       formStore.refreshForm();
       wordDataStore.refreshWordData();
       this._correctAnswer = convertWordForm(wordDataStore.wordData, formStore.form);
     },

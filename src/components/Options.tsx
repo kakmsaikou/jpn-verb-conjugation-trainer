@@ -2,7 +2,7 @@ import { defineComponent, reactive, ref, watch } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
-import Button from './Button';
+import { Button } from './Button';
 import s from './Options.module.scss';
 import { ADJ_FORM_LIST, FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
 
