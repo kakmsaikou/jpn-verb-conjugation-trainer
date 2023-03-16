@@ -6,7 +6,7 @@ type State = {
 };
 type Getters = {
   config: (state: State) => Config;
-  unselectedFormOptions: () => WordForm[];
+  usedFormOptions: () => WordForm[];
 };
 type Actions = {
   setConfig: (config: Config) => void;
@@ -22,10 +22,10 @@ export const useConfigStore = defineStore<string, State, Getters, Actions>('user
       state._config = config;
       return state._config as Config;
     },
-    unselectedFormOptions() {
+    usedFormOptions() {
       const { verb, adj } = this.config;
       const unselectedFormOptions = Object.keys({ ...verb, ...adj }).filter(
-        key => !verb[key as keyof typeof verb] && !adj[key as keyof typeof adj]
+        key => verb[key as keyof typeof verb] || adj[key as keyof typeof adj]
       );
       return unselectedFormOptions;
     },

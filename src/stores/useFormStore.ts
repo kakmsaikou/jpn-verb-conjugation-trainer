@@ -1,12 +1,11 @@
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
-import { FORM_KANJI_MAP, FORM_KEY_MAP, WORD_FORM_LIST } from '../const';
+import { FORM_KANJI_MAP, FORM_KEY_MAP } from '../const';
 
 type State = {
   _form: VerbForm | null;
 };
 type Getters = {
-  filteredFormList: () => VerbForm[];
   form: () => VerbForm;
   posFormKey: () => (pos: number) => string;
   formKanji: () => string;
@@ -22,14 +21,10 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     _form: null,
   }),
   getters: {
-    filteredFormList: () => {
-      const filteredFormList = WORD_FORM_LIST.filter(item => !configStore.unselectedFormOptions.includes(item));
-      return filteredFormList;
-    },
     form() {
       if (this._form === null) {
-        const index = Math.floor(Math.random() * this.filteredFormList.length);
-        this._form = this.filteredFormList[index];
+        const index = Math.floor(Math.random() * configStore.usedFormOptions.length);
+        this._form = configStore.usedFormOptions[index];
       }
       return this._form;
     },
@@ -42,8 +37,8 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
   },
   actions: {
     refreshForm() {
-      const index = Math.floor(Math.random() * this.filteredFormList.length);
-      this._form = this.filteredFormList[index];
+      const index = Math.floor(Math.random() * configStore.usedFormOptions.length);
+      this._form = configStore.usedFormOptions[index];
     },
   },
 });
