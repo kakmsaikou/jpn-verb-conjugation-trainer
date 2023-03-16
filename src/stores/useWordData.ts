@@ -28,7 +28,7 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   }),
   getters: {
     filteredWordList: () => {
-      if(ADJ_FORM_LIST.includes(formStore.form)) {
+      if(ADJ_FORM_LIST.includes(formStore.form as AdjForm)) {
         return adjList
       }
       return verbList

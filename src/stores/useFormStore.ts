@@ -3,10 +3,10 @@ import { defineStore } from 'pinia';
 import { FORM_KANJI_MAP, FORM_KEY_MAP } from '../const';
 
 type State = {
-  _form: VerbForm | null;
+  _form: WordForm | null;
 };
 type Getters = {
-  form: () => VerbForm;
+  form: () => WordForm;
   posFormKey: () => (pos: number) => string;
   formKanji: () => string;
 };
