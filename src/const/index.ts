@@ -1,4 +1,4 @@
-export const FORM_LIST: Form[] = ['masu', 'te', 'ta', 'nai', 'ba'];
+export const FORM_LIST: Form[] = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'];
 
 export const FORM_KEY_MAP: Record<Form, string> = {
   masu: ',1,false,true',
@@ -6,6 +6,7 @@ export const FORM_KEY_MAP: Record<Form, string> = {
   ta: ',2,false,false',
   nai: ',1,true,false',
   ba: ',4,false,false',
+  masu_neg: ',1,true,true',
 };
 
 export const FORM_KANJI_MAP: Record<Form, string> = {
@@ -14,6 +15,7 @@ export const FORM_KANJI_MAP: Record<Form, string> = {
   ta: 'た形',
   nai: 'ない形',
   ba: 'ば形',
+  masu_neg: 'ます的否定形',
 };
 
 // 最大几次内单词不会重复
@@ -26,5 +28,6 @@ export const INIT_CONFIG: Config = {
     ta: true,
     nai: true,
     ba: true,
+    masu_neg: true,
   },
 };
