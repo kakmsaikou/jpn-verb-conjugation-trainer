@@ -1,6 +1,6 @@
-export const FORM_LIST: Form[] = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'];
+export const VERB_FORM_LIST: VerbForm[] = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'];
 
-export const FORM_KEY_MAP: Record<Form, string> = {
+export const FORM_KEY_MAP: Record<VerbForm, string> = {
   masu: ',1,false,true',
   te: ',3,false,false',
   ta: ',2,false,false',
@@ -9,7 +9,7 @@ export const FORM_KEY_MAP: Record<Form, string> = {
   masu_neg: ',1,true,true',
 };
 
-export const FORM_KANJI_MAP: Record<Form, string> = {
+export const FORM_KANJI_MAP: Record<VerbForm, string> = {
   masu: 'ます形',
   te: 'て形',
   ta: 'た形',

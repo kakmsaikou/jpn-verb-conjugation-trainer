@@ -1,13 +1,13 @@
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
-import { FORM_KANJI_MAP, FORM_KEY_MAP, FORM_LIST } from '../const';
+import { FORM_KANJI_MAP, FORM_KEY_MAP, VERB_FORM_LIST } from '../const';
 
 type State = {
-  _form: Form | null;
+  _form: VerbForm | null;
 };
 type Getters = {
-  filteredFormList: () => Form[];
-  form: () => Form;
+  filteredFormList: () => VerbForm[];
+  form: () => VerbForm;
   posFormKey: () => (pos: number) => string;
   formKanji: () => string;
 };
@@ -23,7 +23,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
   }),
   getters: {
     filteredFormList: () => {
-      const filteredFormList = FORM_LIST.filter(item => !configStore.unselectedFormOptions.includes(item));
+      const filteredFormList = VERB_FORM_LIST.filter(item => !configStore.unselectedFormOptions.includes(item));
       return filteredFormList;
     },
     form() {
