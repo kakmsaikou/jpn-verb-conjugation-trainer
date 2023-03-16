@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { wordDataList } from '../assets/wordDataList';
+import { wordDataList } from '../assets/wordData/wordDataList';
 import { MAX_RANDOM_WORDS_COUNT } from '../const';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 

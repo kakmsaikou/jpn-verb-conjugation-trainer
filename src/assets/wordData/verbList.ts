@@ -1,6 +1,4 @@
-// 不要格式化！！！！！
-// 每次添加都用倒序排序然后核对重复项
-export const wordDataList: WordData[] = [
+export const verbList: VerbData[] = [
   { kanji: '出す', kana: 'だす', type: 'v5', meaning: '发送' },
   { kanji: '待つ', kana: 'まつ', type: 'v5', meaning: '等待' },
   { kanji: '読む', kana: 'よむ', type: 'v5', meaning: '读' },
