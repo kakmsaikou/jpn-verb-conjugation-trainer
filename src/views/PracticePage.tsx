@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, Ref, ref } from 'vue';
-import s from './Verb.module.scss';
+import s from './PracticePage.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/DailyRecord';
 import { useFormStore } from '../stores/useFormStore';
@@ -8,7 +8,7 @@ import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
 
-export const Verb = defineComponent({
+export const PracticePage = defineComponent({
   setup: () => {
     const formStore = useFormStore();
     const wordDataStore = useWordDataStore();
@@ -118,4 +118,4 @@ export const Verb = defineComponent({
   },
 });
 
-export default Verb;
+export default PracticePage;

@@ -1,7 +1,7 @@
 import { useFormStore } from './useFormStore';
 import { useWordDataStore } from './useWordData';
 import { defineStore } from 'pinia';
-import { convertVerbForm } from '../utils/convertVerbForm';
+import { convertWordForm } from '../utils/convertWordForm';
 
 type State = {
   _correctAnswer: string[] | null;
@@ -27,7 +27,7 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
   getters: {
     correctAnswer: state => {
       if (state._correctAnswer === null) {
-        state._correctAnswer = convertVerbForm(wordDataStore.wordData, formStore.form);
+        state._correctAnswer = convertWordForm(wordDataStore.wordData, formStore.form);
       }
       return state._correctAnswer;
     },
@@ -46,9 +46,9 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
   },
   actions: {
     refreshCorrectAnswer() {
-      wordDataStore.refreshWordData();
       formStore.refreshForm();
-      this._correctAnswer = convertVerbForm(wordDataStore.wordData, formStore.form);
+      wordDataStore.refreshWordData();
+      this._correctAnswer = convertWordForm(wordDataStore.wordData, formStore.form);
     },
   },
 });

@@ -5,7 +5,7 @@ import {
 } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', component: () => import('./../views/Verb') },
+  { path: '/', component: () => import('../views/PracticePage') },
 ];
 
 export const router = createRouter({
