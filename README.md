@@ -24,5 +24,43 @@ jconj 根据更细的单词类型来进行不同的转换，比如「一段动�
 | *47   | suru   | サ変动词、する                    |
 
 *号表示已经实现的接口类型
+## jconj 返回值
+|pos | conj | neg | fml
+|-------|--------|-------|--------|
+|37 | 6 | true | true|
+
+pos: Part-of-speech number
+
+conj: The conjugation number (an id field value from conj.id)
+
+neg: A bool, false for affirmative conjugation, true for negative.
+
+fml: A bool, false for plain, true for formal (-masu) form.
+
+
+## 动词时态查询表
+| 时态 | 接口   | 
+|-------|--------|
+| 基本形 | ,1,false,false |
+| ます形 | ,1,false,true |
+| ます形 + 过去 | ,2,false,true |
+| ます形 + 过去 + 否定 | ,2,true,true |
+| ます形 + 敬语意志 | ,9,false,true |
+| ない形 | ,1,true,false |
+| ない形 + 过去 + 否定 | ,2,true,false |
+| ます形 + 否定 | ,1,true,true |
+| 命令形 | ,10,false,false |
+| ます形 + 命令 | ,10,false,true |
+| 禁止形 | ,10,true,false |
+| た形 + 假定 | ,11,false,false |
+| た形 | ,2,false,false |
+| て形 | ,3,false,false |
+| ば形 | ,4,false,false |
+| ば形 + 否定 + 假定 | ,4,true,false |
+| 可能形 | ,5,false,false |
+| 被动形 | ,6,false,false |
+| 使役形 | ,7,false,false |
+| 使役被动 | ,8,false,false |
+| 意志形 | ,9,false,false |
 
 更详细的参考：https://cobysy.github.io/jconj/
