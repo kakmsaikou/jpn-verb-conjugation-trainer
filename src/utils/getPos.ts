@@ -13,6 +13,7 @@ const v5Endings: Record<string, number> = {
 // 根据平假名获得对应的 pos 值，pos 值是 jconj 转换动词参数
 export const getPos = (wordData: WordData): number => {
   const { kana, type } = wordData;
+  if(type === 'adj_i') return 1;
   if (type === 'v1') return 28;
   if (type === 'v5') {
     const kanaEndsWith = kana.charAt(kana.length - 1);

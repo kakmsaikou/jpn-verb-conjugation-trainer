@@ -1,5 +1,8 @@
+import { verbList } from './../assets/wordData/verbList';
+import { adjList } from './../assets/wordData/adjList';
+import { ADJ_FORM_LIST } from './../const/index';
+import { useFormStore } from './useFormStore';
 import { defineStore } from 'pinia';
-import { wordDataList } from '../assets/wordData/wordDataList';
 import { MAX_RANDOM_WORDS_COUNT } from '../const';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 
@@ -7,6 +10,7 @@ type State = {
   _wordData: WordData | null;
 };
 type Getters = {
+  filteredWordList: () => WordData[];
   wordData: (state: State) => WordData;
   kanji: () => string;
   kana: () => string;
@@ -16,17 +20,25 @@ type Actions = {
   refreshWordData: () => void;
 };
 
+const formStore = useFormStore();
+
 export const useWordDataStore = defineStore<string, State, Getters, Actions>('wordData', {
   state: () => ({
     _wordData: null,
   }),
   getters: {
-    wordData: state => {
-      if (state._wordData === null) {
-        const randomIndex = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
-        state._wordData = wordDataList[randomIndex];
+    filteredWordList: () => {
+      if(ADJ_FORM_LIST.includes(formStore.form)) {
+        return adjList
       }
-      return state._wordData;
+      return verbList
+    },
+    wordData()  {
+      if (this._wordData === null) {
+        const randomIndex = getArrayRandomIndex(this.filteredWordList, MAX_RANDOM_WORDS_COUNT);
+        this._wordData = this.filteredWordList[randomIndex];
+      }
+      return this._wordData;
     },
     kanji() {
       return this.wordData.kanji;
@@ -40,8 +52,8 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   },
   actions: {
     refreshWordData() {
-      const index = getArrayRandomIndex(wordDataList, MAX_RANDOM_WORDS_COUNT);
-      this._wordData = wordDataList[index];
+      const index = getArrayRandomIndex(this.filteredWordList, MAX_RANDOM_WORDS_COUNT);
+      this._wordData = this.filteredWordList[index];
     },
   },
 });

@@ -1,5 +1,9 @@
 export const VERB_FORM_LIST = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'] as const;
 export const ADJ_FORM_LIST = ['adj_pain', 'adj_formal'] as const;
+export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
+
+export const VERB_TYPE_LIST = ['v1', 'v5', 'suru', 'kuru'] as const;
+export const ADJ_TYPE_LIST = ['adj_i'] as const;
 
 export const FORM_KEY_MAP: Record<WordForm, string> = {
   masu: ',1,false,true',
