@@ -2,7 +2,7 @@
 
 // 动词配置相关
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
-type VerbForm = typeof VERB_FORM_LIST[number];
+type VerbForm = 'masu' | 'te' | 'ta' | 'nai' | 'ba' | 'masu_neg';
 interface VerbData extends BaseWordData {
   type: VerbType;
 }
@@ -15,9 +15,11 @@ interface AdjData extends BaseWordData {
 }
 
 // 通用配置相关
+type pos = 'verb' | 'adj';
 interface Config {
   verb: Record<VerbForm, boolean>;
   adj: Record<AdjForm, boolean>;
+  pos: Record<pos, boolean>;
 }
 type WordType = VerbType | AdjType;
 type WordForm = VerbForm | AdjForm;
