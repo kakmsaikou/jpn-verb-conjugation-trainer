@@ -4,7 +4,7 @@ import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import Button from './Button';
 import s from './Options.module.scss';
-import { FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
+import { ADJ_FORM_LIST, FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
 
 export const Options = defineComponent({
   emits: ['close'],
@@ -12,7 +12,7 @@ export const Options = defineComponent({
     const configStore = useConfigStore();
     const correctAnswer = useCorrectAnswerStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
-    const { verb } = tempConfig;
+    const { verb, adj } = tempConfig;
     const refVerbValid = ref(true);
 
     watch(tempConfig, () => {
@@ -46,6 +46,14 @@ export const Options = defineComponent({
             ))}
           </ul>
           <h3>形容词</h3>
+          <ul>
+            {ADJ_FORM_LIST.map(form => (
+              <li>
+                <input type='checkbox' v-model={adj[form]} />
+                <span>{FORM_KANJI_MAP[form]}</span>
+              </li>
+            ))}
+          </ul>
           <Button onClick={onClick} disabled={refVerbValid.value}>
             戻る ↩
           </Button>
