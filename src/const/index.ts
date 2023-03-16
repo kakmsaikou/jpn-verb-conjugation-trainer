@@ -1,5 +1,5 @@
-export const VERB_FORM_LIST: VerbForm[] = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'];
-export const ADJ_FORM_LIST: AdjForm[] = ['adj_pain', 'adj_formal'];
+export const VERB_FORM_LIST = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'] as const;
+export const ADJ_FORM_LIST = ['adj_pain', 'adj_formal'] as const;
 
 export const FORM_KEY_MAP: Record<WordForm, string> = {
   masu: ',1,false,true',
@@ -10,7 +10,7 @@ export const FORM_KEY_MAP: Record<WordForm, string> = {
   masu_neg: ',1,true,true',
   adj_pain: ',1,false,false',
   adj_formal: ',1,false,true',
-};
+} as const;
 
 export const FORM_KANJI_MAP: Record<WordForm, string> = {
   masu: 'ます形',
@@ -21,10 +21,10 @@ export const FORM_KANJI_MAP: Record<WordForm, string> = {
   masu_neg: 'ます的否定形',
   adj_pain: '简体',
   adj_formal: '敬体',
-};
+} as const;
 
 // 最大几次内单词不会重复
-export const MAX_RANDOM_WORDS_COUNT = 3;
+export const MAX_RANDOM_WORDS_COUNT = 3 as const;
 
 export const INIT_CONFIG: Config = {
   verb: {
@@ -38,5 +38,5 @@ export const INIT_CONFIG: Config = {
   adj: {
     adj_pain: true,
     adj_formal: true,
-  }
-};
+  },
+} as const;
