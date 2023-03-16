@@ -23,11 +23,17 @@ export const useConfigStore = defineStore<string, State, Getters, Actions>('user
       return state._config as Config;
     },
     usedFormOptions() {
-      const { verb, adj } = this.config;
-      const unselectedFormOptions = Object.keys({ ...verb, ...adj }).filter(
+      const { verb, adj, pos } = this.config;
+      let tempUsedFormOptions = Object.keys({ ...verb, ...adj }).filter(
         key => verb[key as keyof typeof verb] || adj[key as keyof typeof adj]
-      );
-      return unselectedFormOptions;
+      ) as WordForm[];
+      if (pos.adj === false) {
+        tempUsedFormOptions = tempUsedFormOptions.filter(key => verb[key as keyof typeof verb]);
+      }
+      if (pos.verb === false) {
+        tempUsedFormOptions = tempUsedFormOptions.filter(key => adj[key as keyof typeof adj]);
+      }
+      return tempUsedFormOptions;
     },
   },
   actions: {
