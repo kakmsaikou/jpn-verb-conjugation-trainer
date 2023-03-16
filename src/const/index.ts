@@ -43,4 +43,8 @@ export const INIT_CONFIG: Config = {
     adj_pain: true,
     adj_formal: true,
   },
+  pos: {
+    verb: true,
+    adj: true,
+  }
 } as const;
