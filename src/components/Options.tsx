@@ -67,21 +67,40 @@ export const Options = defineComponent({
               <input type='checkbox' v-model={pos.adj} />
               形容词
             </h3>
-            {pos.adj ? (
-              <div class={s.ulWrapper}>
-                <h4 v-show={!refAdjValid.value}>*你至少需要选择一个类别</h4>
-                <ul v-show={pos.adj}>
-                  {ADJ_FORM_LIST.map(form => (
-                    <li>
-                      <input type='checkbox' v-model={adj[form]} />
-                      <span>{FORM_KANJI_MAP[form]}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+            <div class={s.ulWrapper}>
+              <ul>
+                <li>
+                  <input type='checkbox' v-model={adj.sow.plain} />
+                  <span>简体</span>
+                </li>
+                <li>
+                  <input type='checkbox' v-model={adj.sow.polite} />
+                  <span>敬体</span>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <input type='checkbox' v-model={adj.tense.present} />
+                  <span>现在</span>
+                </li>
+                <li>
+                  <input type='checkbox' v-model={adj.tense.past} />
+                  <span>过去</span>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <input type='checkbox' v-model={adj.polarity.affirmative} />
+                  <span>肯定</span>
+                </li>
+                <li>
+                  <input type='checkbox' v-model={adj.polarity.negative} />
+                  <span>否定</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <Button onClick={onClick} disabled={formValid.value}>
+          <Button onClick={onClick} disabled={true}>
             戻る ↩
           </Button>
         </form>
