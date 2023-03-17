@@ -46,18 +46,16 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       if (this._pos === null) {
         return (this._pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb');
       }
+      console.log(this._pos);
       return this._pos;
     },
     // 获得形态
     form() {
-      if (this._form === null) {
-        if (this.posStr === 'verb') {
-          return (this._form = getKey(configStore.tempConfig.verb!));
-        } else {
-          return (this._form = 'adj');
-        }
+      if (this.posStr === 'verb') {
+        return (this._form = getKey(configStore.tempConfig.verb!));
+      } else {
+        return (this._form = 'adj');
       }
-      return this._form;
     },
     // 获得语态
     voices() {
@@ -101,13 +99,18 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       this._pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb';
     },
     refreshVoices() {
-      if (this.posStr === 'verb') {
-        this._form = getKey(configStore.tempConfig.verb!);
-      } else {
-        this._form = 'adj';
+      if (this._form === null) {
+        if (this.posStr === 'verb') {
+          this._form = getKey(configStore.tempConfig.verb!);
+        } else {
+          this._form = 'adj';
+        }
       }
+      return this._form;
     },
     refreshForm() {
+      this.refreshPos();
+      this.refreshVoices();
       if (this._voices === null) {
         this._voices = INIT_VOICES;
       }
