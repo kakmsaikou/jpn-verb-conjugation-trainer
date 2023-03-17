@@ -9,17 +9,17 @@ interface VerbData extends BaseWordData {
 
 // 形容词配置相关
 type AdjType = 'adj_i';
-type AdjForm = 'adj_pain' | 'adj_formal';
+type AdjForm = 'adj_plain' | 'adj_formal';
 interface AdjData extends BaseWordData {
   type: AdjType;
 }
 
 // 通用配置相关
-type pos = 'verb' | 'adj';
+type Pos = 'verb' | 'adj';
 interface Config {
   verb: Record<VerbForm, boolean>;
   adj: Record<AdjForm, boolean>;
-  pos: Record<pos, boolean>;
+  pos: Record<Pos, boolean>;
 }
 type WordType = VerbType | AdjType;
 type WordForm = VerbForm | AdjForm;

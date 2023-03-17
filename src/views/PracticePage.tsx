@@ -7,7 +7,8 @@ import { useWordDataStore } from '../stores/useWordData';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
-import { test } from '../utils/myJconj';
+import { test } from '../utils/createForm';
+
 
 test()
 

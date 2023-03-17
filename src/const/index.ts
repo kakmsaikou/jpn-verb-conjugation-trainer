@@ -1,5 +1,5 @@
 export const VERB_FORM_LIST = ['masu', 'te', 'ta', 'nai', 'ba', 'masu_neg'] as const;
-export const ADJ_FORM_LIST = ['adj_pain', 'adj_formal'] as const;
+export const ADJ_FORM_LIST = ['adj_plain', 'adj_formal'] as const;
 export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
 
 export const VERB_TYPE_LIST = ['v1', 'v5', 'suru', 'kuru'] as const;
@@ -12,7 +12,7 @@ export const FORM_KEY_MAP: Record<WordForm, string> = {
   nai: ',1,true,false',
   ba: ',4,false,false',
   masu_neg: ',1,true,true',
-  adj_pain: ',1,false,false',
+  adj_plain: ',1,false,false',
   adj_formal: ',1,false,true',
 } as const;
 
@@ -23,7 +23,7 @@ export const FORM_KANJI_MAP: Record<WordForm, string> = {
   nai: 'ない形',
   ba: 'ば形',
   masu_neg: 'ます的否定形',
-  adj_pain: '简体',
+  adj_plain: '简体',
   adj_formal: '敬体',
 } as const;
 
@@ -40,7 +40,7 @@ export const INIT_CONFIG: Config = {
     masu_neg: true,
   },
   adj: {
-    adj_pain: true,
+    adj_plain: true,
     adj_formal: true,
   },
   pos: {

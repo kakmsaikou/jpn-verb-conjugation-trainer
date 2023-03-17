@@ -15,7 +15,7 @@ export const myJconj = (
   wordData: WordData,
   present: boolean = true,
   negative: boolean = false,
-  formal: boolean = false
+  polite: boolean = false
 ) => {
   const pos = getPos(wordData);
   const transwrdList = jconj(wordData, pos)[0];
@@ -46,7 +46,7 @@ export const myJconj = (
   } else if (ADJ_TYPE_LIST.includes(type as AdjType)) {
     conj = present ? 1 : 2;
   }
-  const key = [pos, conj, negative, formal].join(',');
+  const key = [pos, conj, negative, polite].join(',');
   const transwrd = transwrdList[key];
   const match = transwrd.match(/(?<=【).+?(?=】)/);
   return match
@@ -54,7 +54,7 @@ export const myJconj = (
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 };
 
-export const test = () => {
-  const result = myJconj({ kanji: '行く', kana: 'いく', meaning: '去', type: 'v5' }, true, false, false);
-  console.log(result);
-};
+// export const test = () => {
+//   const result = myJconj({ kanji: '行く', kana: 'いく', meaning: '去', type: 'v5' }, true, false, false);
+//   console.log(result);
+// };
