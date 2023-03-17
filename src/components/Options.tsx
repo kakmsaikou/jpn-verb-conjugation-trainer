@@ -1,11 +1,10 @@
-import { computed, defineComponent, reactive, ref, watch } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import { Button } from './Button';
 import s from './Options.module.scss';
-import { ADJ_FORM_LIST, FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
-import { isWordFormValid } from '../utils/isWordFormValid';
+import { FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
 
 export const Options = defineComponent({
   emits: ['close'],
@@ -15,9 +14,13 @@ export const Options = defineComponent({
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { verb, adj, pos } = tempConfig;
 
-    const refPosValid = ref(true);
-    const refVerbValid = ref(true);
-    // const refAdjValid = ref(true);
+    const posValid = computed(() => {
+      return pos.verb || pos.adj;
+    });
+
+    const verbValid = computed(() => {
+      return verb.masu || verb.te || verb.ta || verb.nai;
+    });
 
     const sowValid = computed(() => {
       return adj.sow.plain || adj.sow.polite;
@@ -33,14 +36,9 @@ export const Options = defineComponent({
       return sowValid.value && tenseValid.value && polarityValid.value;
     });
 
-    watch(tempConfig, () => {
-      refPosValid.value = isWordFormValid(pos);
-      refVerbValid.value = isWordFormValid(verb);
-    });
-
     const formValid = computed(() => {
-      if (refPosValid.value === false) return false;
-      if (pos.verb === true && refVerbValid.value === false) return false;
+      if (posValid.value === false) return false;
+      if (pos.verb === true && verbValid.value === false) return false;
       if (pos.adj === true && adjValid.value === false) return false;
       return true;
     });
@@ -55,7 +53,7 @@ export const Options = defineComponent({
       <div class={s.wrapper}>
         <h2>设置</h2>
         <form class={s.optionsForm}>
-          <h4 v-show={!refPosValid.value}>*你至少需要选择一个类别</h4>
+          <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
           <div>
             <h3>
               <input type='checkbox' v-model={pos.verb} />
@@ -63,7 +61,7 @@ export const Options = defineComponent({
             </h3>
             {pos.verb ? (
               <div class={s.ulWrapper}>
-                <h4 v-show={!refVerbValid.value}>*你至少需要选择一个类别</h4>
+                <h4 v-show={!verbValid.value}>*你至少需要选择一个类别</h4>
                 <ul v-show={pos.verb}>
                   {VERB_FORM_LIST.map(form => (
                     <li>
@@ -124,7 +122,7 @@ export const Options = defineComponent({
               </div>
             ) : null}
           </div>
-          <Button onClick={onClick} disabled={true}>
+          <Button onClick={onClick} disabled={formValid.value}>
             戻る ↩
           </Button>
         </form>
