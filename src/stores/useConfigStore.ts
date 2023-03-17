@@ -25,6 +25,7 @@ export const useConfigStore = defineStore<string, State, Getters, Actions>('user
       return state._config as Config;
     },
     tempConfig() {
+      // cloneTrueKeys 用于过滤掉 config 中值为 false 的键，得到一个保留了所有值为 true 的键的对象
       const tempConfig = cloneTrueKeys(this.config) as Partial<Config>;
       return tempConfig ;
     },
