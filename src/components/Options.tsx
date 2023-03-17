@@ -17,18 +17,31 @@ export const Options = defineComponent({
 
     const refPosValid = ref(true);
     const refVerbValid = ref(true);
-    const refAdjValid = ref(true);
+    // const refAdjValid = ref(true);
+
+    const sowValid = computed(() => {
+      return adj.sow.plain || adj.sow.polite;
+    });
+    const tenseValid = computed(() => {
+      return adj.tense.present || adj.tense.past;
+    });
+    const polarityValid = computed(() => {
+      return adj.polarity.affirmative || adj.polarity.negative;
+    });
+
+    const adjValid = computed(() => {
+      return sowValid.value && tenseValid.value && polarityValid.value;
+    });
 
     watch(tempConfig, () => {
       refPosValid.value = isWordFormValid(pos);
       refVerbValid.value = isWordFormValid(verb);
-      refAdjValid.value = isWordFormValid(adj);
     });
 
     const formValid = computed(() => {
       if (refPosValid.value === false) return false;
       if (pos.verb === true && refVerbValid.value === false) return false;
-      if (pos.adj === true && refAdjValid.value === false) return false;
+      if (pos.adj === true && adjValid.value === false) return false;
       return true;
     });
 
@@ -67,38 +80,49 @@ export const Options = defineComponent({
               <input type='checkbox' v-model={pos.adj} />
               形容词
             </h3>
-            <div class={s.ulWrapper}>
-              <ul>
-                <li>
-                  <input type='checkbox' v-model={adj.sow.plain} />
-                  <span>简体</span>
-                </li>
-                <li>
-                  <input type='checkbox' v-model={adj.sow.polite} />
-                  <span>敬体</span>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <input type='checkbox' v-model={adj.tense.present} />
-                  <span>现在</span>
-                </li>
-                <li>
-                  <input type='checkbox' v-model={adj.tense.past} />
-                  <span>过去</span>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <input type='checkbox' v-model={adj.polarity.affirmative} />
-                  <span>肯定</span>
-                </li>
-                <li>
-                  <input type='checkbox' v-model={adj.polarity.negative} />
-                  <span>否定</span>
-                </li>
-              </ul>
-            </div>
+            {pos.adj ? (
+              <div>
+                <div class={s.ulWrapper}>
+                  <h4 v-show={!sowValid.value}>*你至少需要选择一个类别</h4>
+                  <ul>
+                    <li>
+                      <input type='checkbox' v-model={adj.sow.plain} />
+                      <span>简体</span>
+                    </li>
+                    <li>
+                      <input type='checkbox' v-model={adj.sow.polite} />
+                      <span>敬体</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class={s.ulWrapper}>
+                  <h4 v-show={!tenseValid.value}>*你至少需要选择一个类别</h4>
+                  <ul>
+                    <li>
+                      <input type='checkbox' v-model={adj.tense.present} />
+                      <span>现在</span>
+                    </li>
+                    <li>
+                      <input type='checkbox' v-model={adj.tense.past} />
+                      <span>过去</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class={s.ulWrapper}>
+                  <h4 v-show={!polarityValid.value}>*你至少需要选择一个类别</h4>
+                  <ul>
+                    <li>
+                      <input type='checkbox' v-model={adj.polarity.affirmative} />
+                      <span>肯定</span>
+                    </li>
+                    <li>
+                      <input type='checkbox' v-model={adj.polarity.negative} />
+                      <span>否定</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ) : null}
           </div>
           <Button onClick={onClick} disabled={true}>
             戻る ↩
