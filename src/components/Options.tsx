@@ -4,7 +4,7 @@ import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import { Button } from './Button';
 import s from './Options.module.scss';
-import { FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
+import { BILINGUAL_LIST, FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
 
 export const Options = defineComponent({
   emits: ['close'],
@@ -43,6 +43,24 @@ export const Options = defineComponent({
       return true;
     });
 
+    const adjFormList = [
+      {
+        isValid: sowValid,
+        options: adj.sow,
+        key: ['plain', 'polite'],
+      },
+      {
+        isValid: tenseValid,
+        options: adj.tense,
+        key: ['present', 'past'],
+      },
+      {
+        isValid: polarityValid,
+        options: adj.polarity,
+        key: ['affirmative', 'negative'],
+      },
+    ];
+
     const onClick = (e: MouseEvent) => {
       e.preventDefault();
       configStore.setConfig(tempConfig);
@@ -80,45 +98,21 @@ export const Options = defineComponent({
             </h3>
             {pos.adj ? (
               <div>
-                <div class={s.ulWrapper}>
-                  <h4 v-show={!sowValid.value}>*你至少需要选择一个类别</h4>
-                  <ul>
-                    <li>
-                      <input type='checkbox' v-model={adj.sow.plain} />
-                      <span>简体</span>
-                    </li>
-                    <li>
-                      <input type='checkbox' v-model={adj.sow.polite} />
-                      <span>敬体</span>
-                    </li>
-                  </ul>
-                </div>
-                <div class={s.ulWrapper}>
-                  <h4 v-show={!tenseValid.value}>*你至少需要选择一个类别</h4>
-                  <ul>
-                    <li>
-                      <input type='checkbox' v-model={adj.tense.present} />
-                      <span>现在</span>
-                    </li>
-                    <li>
-                      <input type='checkbox' v-model={adj.tense.past} />
-                      <span>过去</span>
-                    </li>
-                  </ul>
-                </div>
-                <div class={s.ulWrapper}>
-                  <h4 v-show={!polarityValid.value}>*你至少需要选择一个类别</h4>
-                  <ul>
-                    <li>
-                      <input type='checkbox' v-model={adj.polarity.affirmative} />
-                      <span>肯定</span>
-                    </li>
-                    <li>
-                      <input type='checkbox' v-model={adj.polarity.negative} />
-                      <span>否定</span>
-                    </li>
-                  </ul>
-                </div>
+                {
+                  adjFormList.map(({ isValid, options, key }) => (
+                    <div class={s.ulWrapper}>
+                      <h4 v-show={!isValid.value}>*你至少需要选择一个类别</h4>
+                      <ul>
+                        {key.map(k => (
+                          <li>
+                            <input type='checkbox' v-model={options[k as keyof typeof options]} />
+                            <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+                }
               </div>
             ) : null}
           </div>

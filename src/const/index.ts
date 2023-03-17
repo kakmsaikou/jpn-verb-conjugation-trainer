@@ -13,6 +13,17 @@ export const FORM_KANJI_MAP: Record<WordForm, string> = {
   adj: '形容词',
 } as const;
 
+export const BILINGUAL_LIST = {
+  verb: '动词',
+  adj: '形容词',
+  plain: '简体',
+  polite: '敬体',
+  affirmative: '肯定',
+  negative: '否定',
+  present: '现在',
+  past: '过去',
+};
+
 // 最大几次内单词不会重复
 export const MAX_RANDOM_WORDS_COUNT = 3 as const;
 
