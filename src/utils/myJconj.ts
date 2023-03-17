@@ -1,6 +1,6 @@
 import { useFormStore } from './../stores/useFormStore';
 import { VERB_TYPE_LIST, ADJ_TYPE_LIST } from './../const/index';
-import { getPos } from './getPos';
+import { getPosNum } from './getPosNum';
 import { jconj } from '../plugins/jconj/jconj';
 
 /*
@@ -17,7 +17,7 @@ export const myJconj = (
   negative: boolean = false,
   polite: boolean = false
 ) => {
-  const pos = getPos(wordData);
+  const pos = getPosNum(wordData);
   const transwrdList = jconj(wordData, pos)[0];
 
   // 根据 formal、past、negative 构造查询参数
