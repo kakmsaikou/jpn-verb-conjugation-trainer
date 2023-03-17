@@ -65,11 +65,3 @@ export const getKey = (obj: Record<any, boolean>) => {
   const key = keyList[Math.floor(Math.random() * keyList.length)] as keyof typeof obj;
   return key;
 };
-
-// export const test = () => {
-//   for (let i = 0; i < 15; i++) {
-//     console.log(createForm(config));
-//   }
-  // const tempConfig: Partial<Config> = cloneTrueKeys(config);
-  // console.log(tempConfig);
-// };

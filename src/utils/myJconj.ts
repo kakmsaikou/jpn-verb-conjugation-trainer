@@ -2,9 +2,10 @@ import { useFormStore } from './../stores/useFormStore';
 import { VERB_TYPE_LIST, ADJ_TYPE_LIST } from './../const/index';
 import { getPos } from './getPos';
 import { jconj } from '../plugins/jconj/jconj';
+
 /*
-输入 wordData、present、formal、negative 会返回对应字符串
-其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
+* 输入 wordData、present、formal、negative 会返回对应字符串
+* 其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
 */
 
 const formStore = useFormStore();
@@ -48,8 +49,3 @@ export const myJconj = (
     ? [transwrd.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 };
-
-// export const test = () => {
-//   const result = myJconj({ kanji: '行く', kana: 'いく', meaning: '去', type: 'v5' }, true, false, false);
-//   console.log(result);
-// };
