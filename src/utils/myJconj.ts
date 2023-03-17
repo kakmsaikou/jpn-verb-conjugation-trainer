@@ -7,8 +7,7 @@ import { jconj } from '../plugins/jconj/jconj';
 其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
 */
 
-// const formStore = useFormStore();
-const formStore = { form: 'masu' };
+const formStore = useFormStore();
 
 // formal 和 negative 都是可以直接拼接的，只有 present 需要特殊处理
 export const myJconj = (
@@ -25,13 +24,9 @@ export const myJconj = (
   const { type } = wordData;
   if (VERB_TYPE_LIST.includes(type as VerbType)) {
     switch (formStore.form) {
-      case 'v_plain':
-        // 简体过去形、简体否定形
-        conj = present ? 1 : 2;
-        break;
       case 'masu':
         // 敬体、敬体过去形、敬体否定形、敬体否定过去形
-        conj = present ? 1 : 2;
+        conj = 1;
         break;
       case 'te':
         conj = 3;

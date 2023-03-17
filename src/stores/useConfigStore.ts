@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
 import { INIT_CONFIG } from '../const';
+import { cloneTrueKeys } from '../utils/createForm';
 
 type State = {
   _config: Config | null;
 };
 type Getters = {
   config: (state: State) => Config;
-  usedFormOptions: () => WordForm[];
+  tempConfig: () => Partial<Config>;
 };
 type Actions = {
   setConfig: (config: Config) => void;
@@ -22,18 +23,9 @@ export const useConfigStore = defineStore<string, State, Getters, Actions>('user
       state._config = config;
       return state._config as Config;
     },
-    usedFormOptions() {
-      const { verb, adj, pos } = this.config;
-      let tempUsedFormOptions = Object.keys({ ...verb, ...adj }).filter(
-        key => verb[key as keyof typeof verb] || adj[key as keyof typeof adj]
-      ) as WordForm[];
-      if (pos.adj === false) {
-        tempUsedFormOptions = tempUsedFormOptions.filter(key => verb[key as keyof typeof verb]);
-      }
-      if (pos.verb === false) {
-        tempUsedFormOptions = tempUsedFormOptions.filter(key => adj[key as keyof typeof adj]);
-      }
-      return tempUsedFormOptions;
+    tempConfig() {
+      const tempConfig = cloneTrueKeys(this.config) as Partial<Config>;
+      return tempConfig ;
     },
   },
   actions: {

@@ -1,7 +1,7 @@
+import { myJconj } from './../utils/myJconj';
 import { useFormStore } from './useFormStore';
 import { useWordDataStore } from './useWordData';
 import { defineStore } from 'pinia';
-import { convertWordForm } from '../utils/convertWordForm';
 
 type State = {
   _correctAnswer: string[] | null;
@@ -27,7 +27,8 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
   getters: {
     correctAnswer: state => {
       if (state._correctAnswer === null) {
-        state._correctAnswer = convertWordForm(wordDataStore.wordData, formStore.form);
+        const { present, negative, polite } = formStore.voices;
+        state._correctAnswer = myJconj(wordDataStore.wordData, present, negative, polite);
       }
       return state._correctAnswer;
     },
@@ -46,11 +47,9 @@ export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>
   },
   actions: {
     refreshCorrectAnswer() {
-      // 必须要先刷新 form 在刷新 wordData，否则会出现 form 和 wordData 不匹配的情况
-      // TODO 可以考虑吧 formStore.refreshForm() 直接放在 wordDataStore.refreshWordData() 里面
-       formStore.refreshForm();
       wordDataStore.refreshWordData();
-      this._correctAnswer = convertWordForm(wordDataStore.wordData, formStore.form);
+      const { present, negative, polite } = formStore.voices;
+      this._correctAnswer = myJconj(wordDataStore.wordData, present, negative, polite);
     },
   },
 });

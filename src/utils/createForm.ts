@@ -1,53 +1,27 @@
-// 根据输入的 config 返回一个 form 对象
-type Sow = 'plain' | 'polite';
-type Polarity = 'affirmative' | 'negative';
-type Tense = 'present' | 'past';
-type VerbForm = 'masu' | 'te' | 'ta' | 'nai';
-
-type Config = {
-  pos: {
-    verb: boolean;
-    adj: boolean;
-  };
-  verb: Record<VerbForm, boolean>;
-  adj: {
-    // Style of Writing 文体
-    sow: Record<Sow, boolean>;
-    polarity: Record<Polarity, boolean>;
-    tense: Record<Tense, boolean>;
-  };
+type RecursiveObject = {
+  [key: string]: boolean | RecursiveObject;
 };
 
-const config: Config = {
-  pos: {
-    verb: true,
-    adj: false,
-  },
-  verb: {
-    masu: true,
-    te: true,
-    ta: true,
-    nai: true,
-  },
-  adj: {
-    sow: {
-      plain: true,
-      polite: true,
-    },
-    polarity: {
-      affirmative: true,
-      negative: false,
-    },
-    tense: {
-      present: true,
-      past: true,
-    },
-  },
+export const cloneTrueKeys = (obj: RecursiveObject): RecursiveObject => {
+  const newObj: RecursiveObject = {};
+  const traverse = (source: RecursiveObject, clone: RecursiveObject) => {
+    for (const key in source) {
+      if (typeof source[key] === 'object' && source[key] !== null) {
+        clone[key] = {};
+        traverse(source[key] as RecursiveObject, clone[key] as RecursiveObject);
+      } else if (source[key] === true) {
+        clone[key] = true;
+      }
+    }
+  };
+  traverse(obj, newObj);
+  return newObj;
 };
 
-export const createForm = (config: Config) => {
+export const createForm = (tempConfig: any) => {
+  if (!tempConfig.pos || !tempConfig.verb || !tempConfig.adj) return;
   // 获得词性 pos
-  const selectedPos: Pos = getKey(config.pos);
+  const selectedPos: Pos = getKey(tempConfig.pos);
   // voice 语态
   const voice = {
     present: true,
@@ -56,7 +30,7 @@ export const createForm = (config: Config) => {
   };
   // 根据词性获得敬体、时态、否定形
   if (selectedPos === 'verb') {
-    const _form: VerbForm = getKey(config.verb);
+    const _form: VerbForm = getKey(tempConfig.verb);
     voice.present = false;
     switch (_form) {
       case 'masu':
@@ -77,7 +51,7 @@ export const createForm = (config: Config) => {
         break;
     }
   } else if (selectedPos === 'adj') {
-    const { sow, polarity, tense } = config.adj;
+    const { sow, polarity, tense } = tempConfig.adj;
     voice.polite = getKey(sow) === 'polite';
     voice.negative = getKey(polarity) === 'negative';
     voice.present = getKey(tense) === 'present';
@@ -85,14 +59,17 @@ export const createForm = (config: Config) => {
   return voice;
 };
 
-const getKey = (obj: Record<any, boolean>) => {
-  const keyList = Object.keys(obj).filter(key => obj[key as keyof typeof obj]);
+export const getKey = (obj: Record<any, boolean>) => {
+  // debugger
+  const keyList = Object.keys(obj);
   const key = keyList[Math.floor(Math.random() * keyList.length)] as keyof typeof obj;
   return key;
 };
 
-export const test = () => {
-  for (let i = 0; i < 15; i++) {
-    console.log(createForm(config))
-  }
-};
+// export const test = () => {
+//   for (let i = 0; i < 15; i++) {
+//     console.log(createForm(config));
+//   }
+  // const tempConfig: Partial<Config> = cloneTrueKeys(config);
+  // console.log(tempConfig);
+// };

@@ -1,6 +1,6 @@
 import { verbList } from './../assets/wordData/verbList';
 import { adjList } from './../assets/wordData/adjList';
-import { ADJ_FORM_LIST } from './../const/index';
+import { ADJ_FORM_LIST, VERB_FORM_LIST } from './../const/index';
 import { useFormStore } from './useFormStore';
 import { defineStore } from 'pinia';
 import { MAX_RANDOM_WORDS_COUNT } from '../const';
@@ -28,12 +28,12 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   }),
   getters: {
     filteredWordList: () => {
-      if(ADJ_FORM_LIST.includes(formStore.form as AdjForm)) {
-        return adjList
+      if (VERB_FORM_LIST.includes(formStore.form as VerbForm)) {
+        return verbList;
       }
-      return verbList
+      return adjList;
     },
-    wordData()  {
+    wordData() {
       if (this._wordData === null) {
         const randomIndex = getArrayRandomIndex(this.filteredWordList, MAX_RANDOM_WORDS_COUNT);
         this._wordData = this.filteredWordList[randomIndex];
@@ -52,6 +52,8 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   },
   actions: {
     refreshWordData() {
+      // 刷新 wordData 前必须要先刷新 form，否则会出现 form 和 wordData 不匹配的情况
+      formStore.refreshForm();
       const index = getArrayRandomIndex(this.filteredWordList, MAX_RANDOM_WORDS_COUNT);
       this._wordData = this.filteredWordList[index];
     },
