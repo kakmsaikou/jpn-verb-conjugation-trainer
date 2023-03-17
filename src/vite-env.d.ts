@@ -2,7 +2,7 @@
 
 // 动词配置相关
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
-type VerbForm = 'masu' | 'te' | 'ta' | 'nai' | 'ba' | 'masu_neg';
+type VerbForm = 'v_plain' | 'masu' | 'te' | 'ta' | 'nai' | 'ba' | 'masu_neg';
 interface VerbData extends BaseWordData {
   type: VerbType;
 }

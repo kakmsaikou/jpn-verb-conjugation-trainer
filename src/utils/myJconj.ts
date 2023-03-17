@@ -1,15 +1,16 @@
+import { useFormStore } from './../stores/useFormStore';
 import { VERB_TYPE_LIST, ADJ_TYPE_LIST } from './../const/index';
 import { getPos } from './getPos';
+import { jconj } from '../plugins/jconj/jconj';
 /*
-输入 wordData、formal、past、negative 会返回对应字符串
+输入 wordData、present、formal、negative 会返回对应字符串
 其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
 */
 
-import { jconj } from '../plugins/jconj/jconj';
+// const formStore = useFormStore();
+const formStore = { form: 'masu' };
 
-const form = 'masu';
-
-// formal 和 negative 都是可以直接拼接的，只有 past 需要特殊处理
+// formal 和 negative 都是可以直接拼接的，只有 present 需要特殊处理
 export const myJconj = (
   wordData: WordData,
   present: boolean = true,
@@ -18,25 +19,42 @@ export const myJconj = (
 ) => {
   const pos = getPos(wordData);
   const transwrdList = jconj(wordData, pos)[0];
+
   // 根据 formal、past、negative 构造查询参数
   let conj: number = 0;
   const { type } = wordData;
   if (VERB_TYPE_LIST.includes(type as VerbType)) {
-    // 说明这是个动词
-    if (form === 'masu') {
-      // conj = past ===
+    switch (formStore.form) {
+      case 'v_plain':
+        // 简体过去形、简体否定形
+        conj = present ? 1 : 2;
+        break;
+      case 'masu':
+        // 敬体、敬体过去形、敬体否定形、敬体否定过去形
+        conj = present ? 1 : 2;
+        break;
+      case 'te':
+        conj = 3;
+        break;
+      case 'ta':
+        conj = 2;
+        break;
+      case 'nai':
+        conj = 1;
+        break;
     }
   } else if (ADJ_TYPE_LIST.includes(type as AdjType)) {
-    // 说明这是个形容词
     conj = present ? 1 : 2;
   }
   const key = [pos, conj, negative, formal].join(',');
   const transwrd = transwrdList[key];
-  return transwrd;
+  const match = transwrd.match(/(?<=【).+?(?=】)/);
+  return match
+    ? [transwrd.substring(0, match.index! - 1), match[0]]
+    : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 };
 
 export const test = () => {
-  const wordData: WordData = { kanji: '新しい', kana: 'あたらしい', type: 'adj_i', meaning: '新' };
-  const result = myJconj(wordData, true, false, false);
+  const result = myJconj({ kanji: '行く', kana: 'いく', meaning: '去', type: 'v5' }, true, false, false);
   console.log(result);
 };
