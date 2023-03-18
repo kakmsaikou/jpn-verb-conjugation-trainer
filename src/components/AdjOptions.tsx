@@ -2,27 +2,30 @@ import { computed, defineComponent, PropType, Ref, watch } from 'vue';
 import { BILINGUAL_LIST } from '../const';
 import s from './AdjOptions.module.scss';
 
+type AdjConfig = {
+  sow: Record<Sow, boolean>;
+  polarity: Record<Polarity, boolean>;
+  tense: Record<Tense, boolean>;
+};
+
 export const AdjOptions = defineComponent({
   emits: ['updateAdj'],
   props: {
-    tempConfig: {
-      type: Object as PropType<Config>,
+    adjConfig: {
+      type: Object as PropType<AdjConfig>,
       required: true,
-    },
-    refAdjValid: {
-      type: Object as PropType<Ref<boolean | null>>,
     },
   },
   setup: (props, context) => {
-    const { adj } = props.tempConfig;
+    const { sow, tense, polarity } = props.adjConfig;
     const sowValid = computed(() => {
-      return adj.sow.plain || adj.sow.polite;
+      return sow.plain || sow.polite;
     });
     const tenseValid = computed(() => {
-      return adj.tense.present || adj.tense.past;
+      return tense.present || tense.past;
     });
     const polarityValid = computed(() => {
-      return adj.polarity.affirmative || adj.polarity.negative;
+      return polarity.affirmative || polarity.negative;
     });
     const adjValid = computed(() => {
       return sowValid.value && tenseValid.value && polarityValid.value;
@@ -34,17 +37,17 @@ export const AdjOptions = defineComponent({
     const adjFormList = [
       {
         isValid: sowValid,
-        options: adj.sow,
+        options: sow,
         key: ['plain', 'polite'],
       },
       {
         isValid: tenseValid,
-        options: adj.tense,
+        options: tense,
         key: ['present', 'past'],
       },
       {
         isValid: polarityValid,
-        options: adj.polarity,
+        options: polarity,
         key: ['affirmative', 'negative'],
       },
     ];
