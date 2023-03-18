@@ -1,10 +1,11 @@
-import { computed, defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
 import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import { Button } from './Button';
 import s from './Options.module.scss';
 import { BILINGUAL_LIST, FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
+import { AdjOptions } from './AdjOptions';
 
 export const Options = defineComponent({
   emits: ['close'],
@@ -12,7 +13,7 @@ export const Options = defineComponent({
     const configStore = useConfigStore();
     const correctAnswer = useCorrectAnswerStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
-    const { verb, adj, pos } = tempConfig;
+    const { verb, pos } = tempConfig;
 
     const posValid = computed(() => {
       return pos.verb || pos.adj;
@@ -22,19 +23,11 @@ export const Options = defineComponent({
       return verb.masu || verb.te || verb.ta || verb.nai;
     });
 
-    const sowValid = computed(() => {
-      return adj.sow.plain || adj.sow.polite;
-    });
-    const tenseValid = computed(() => {
-      return adj.tense.present || adj.tense.past;
-    });
-    const polarityValid = computed(() => {
-      return adj.polarity.affirmative || adj.polarity.negative;
-    });
+    const adjValid = ref<boolean | null>(null);
 
-    const adjValid = computed(() => {
-      return sowValid.value && tenseValid.value && polarityValid.value;
-    });
+    const onUpdateAdj = (val: boolean) => {
+      adjValid.value = val;
+    };
 
     const formValid = computed(() => {
       if (posValid.value === false) return false;
@@ -42,24 +35,6 @@ export const Options = defineComponent({
       if (pos.adj === true && adjValid.value === false) return false;
       return true;
     });
-
-    const adjFormList = [
-      {
-        isValid: sowValid,
-        options: adj.sow,
-        key: ['plain', 'polite'],
-      },
-      {
-        isValid: tenseValid,
-        options: adj.tense,
-        key: ['present', 'past'],
-      },
-      {
-        isValid: polarityValid,
-        options: adj.polarity,
-        key: ['affirmative', 'negative'],
-      },
-    ];
 
     const onClick = (e: MouseEvent) => {
       e.preventDefault();
@@ -96,25 +71,7 @@ export const Options = defineComponent({
               <input type='checkbox' v-model={pos.adj} />
               形容词
             </h3>
-            {pos.adj ? (
-              <div>
-                {
-                  adjFormList.map(({ isValid, options, key }) => (
-                    <div class={s.ulWrapper}>
-                      <h4 v-show={!isValid.value}>*你至少需要选择一个类别</h4>
-                      <ul>
-                        {key.map(k => (
-                          <li>
-                            <input type='checkbox' v-model={options[k as keyof typeof options]} />
-                            <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))
-                }
-              </div>
-            ) : null}
+            {pos.adj ? <AdjOptions tempConfig={tempConfig} onUpdateAdj={onUpdateAdj} /> : null}
           </div>
           <Button onClick={onClick} disabled={formValid.value}>
             戻る ↩
