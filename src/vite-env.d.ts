@@ -20,6 +20,7 @@ type Sow = 'plain' | 'polite'; // Style of Writing 文体
 type Polarity = 'affirmative' | 'negative';
 type Tense = 'present' | 'past';
 type VerbForm = 'masu' | 'te' | 'ta' | 'nai';
+
 type Config = {
   pos: Record<Pos, boolean>;
   verb: Record<VerbForm, boolean>;
@@ -30,6 +31,7 @@ type Config = {
   };
 };
 type Voice = 'present' | 'negative' | 'polite';
+type Voices = Record<Voice, boolean>;
 type WordType = VerbType | AdjType;
 type WordForm = VerbForm | AdjForm;
 interface BaseWordData {

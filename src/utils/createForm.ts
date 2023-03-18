@@ -1,3 +1,5 @@
+import { getKey } from "./getKey";
+
 export const createForm = (tempConfig: any) => {
   if (!tempConfig.pos || !tempConfig.verb || !tempConfig.adj) return;
   // 获得词性 pos
@@ -39,9 +41,3 @@ export const createForm = (tempConfig: any) => {
   return voice;
 };
 
-export const getKey = (obj: Record<any, boolean>) => {
-  // debugger
-  const keyList = Object.keys(obj);
-  const key = keyList[Math.floor(Math.random() * keyList.length)] as keyof typeof obj;
-  return key;
-};

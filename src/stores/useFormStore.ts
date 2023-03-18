@@ -1,9 +1,8 @@
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
 import { FORM_KANJI_MAP } from '../const';
-import { getKey } from '../utils/createForm';
-
-type Voices = Record<Voice, boolean>;
+import { getVoices } from '../utils/getVoices';
+import { getKey } from '../utils/getKey';
 
 type State = {
   _pos: Pos | null;
@@ -59,29 +58,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     },
     // 获得语态
     voices() {
-      if (this.posStr === 'verb') {
-        this._voices.present = false;
-        switch (this.form) {
-          case 'masu':
-            this._voices.polite = true;
-            this._voices.negative = false;
-            break;
-          case 'te':
-            this._voices.polite = false;
-            this._voices.negative = false;
-            break;
-          case 'ta':
-            this._voices.polite = false;
-            this._voices.negative = false;
-            break;
-          case 'nai':
-            this._voices.polite = false;
-            this._voices.negative = true;
-            break;
-        }
-      } else if (this.posStr === 'adj') {
-        getVoices(this._voices);
-      }
+      getVoices(this.posStr, this.form, this._voices);
       return this._voices;
     },
     formKanji() {
@@ -102,29 +79,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     refreshVoices() {
       // 每次获得 voices 前，都要刷新 pos
       this.refreshPos();
-      if (this.posStr === 'verb') {
-        this._voices.present = false;
-        switch (this.form) {
-          case 'masu':
-            this._voices.polite = true;
-            this._voices.negative = false;
-            break;
-          case 'te':
-            this._voices.polite = false;
-            this._voices.negative = false;
-            break;
-          case 'ta':
-            this._voices.polite = false;
-            this._voices.negative = false;
-            break;
-          case 'nai':
-            this._voices.polite = false;
-            this._voices.negative = true;
-            break;
-        }
-      } else if (this.posStr === 'adj') {
-        getVoices(this._voices);
-      }
+      getVoices(this.posStr, this.form, this._voices);
     },
     refreshForm() {
       // 每次获得 form 前，都要刷新 voices
@@ -139,21 +94,3 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     },
   },
 });
-
-const getVoices = (voices: Voices) => {
-  const { sow, polarity, tense } = configStore.tempConfig.adj!;
-
-  const avoidPurePlain = (voices: Voices) => {
-    voices.polite = getKey(sow) === 'polite';
-    voices.negative = getKey(polarity) === 'negative';
-    voices.present = getKey(tense) === 'present';
-
-    // 防止出现「简体 + 肯定 + 现在」的结果
-    if (!voices.polite) {
-      if (!voices.negative && voices.present) {
-        avoidPurePlain(voices);
-      }
-    }
-  };
-  avoidPurePlain(voices);
-};
