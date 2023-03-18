@@ -16,24 +16,6 @@ interface AdjData extends BaseWordData {
 
 // 通用配置相关
 type Pos = 'verb' | 'adj';
-type Sow = 'plain' | 'polite'; // Style of Writing 文体
-type Polarity = 'affirmative' | 'negative';
-type Tense = 'present' | 'past';
-type VerbForm = 'masu' | 'te' | 'ta' | 'nai';
-
-type Config = {
-  pos: Record<Pos, boolean>;
-  verb: Record<VerbForm, boolean>;
-  adj: {
-    sow: Record<Sow, boolean>;
-    polarity: Record<Polarity, boolean>;
-    tense: Record<Tense, boolean>;
-  };
-};
-type Voice = 'present' | 'negative' | 'polite';
-type Voices = Record<Voice, boolean>;
-type WordType = VerbType | AdjType;
-type WordForm = VerbForm | AdjForm;
 interface BaseWordData {
   kanji: string;
   kana: string;
@@ -42,3 +24,23 @@ interface BaseWordData {
 interface WordData extends BaseWordData {
   type: VerbType | AdjType;
 }
+type WordType = VerbType | AdjType;
+type WordForm = VerbForm | AdjForm;
+// 语态相关
+type Sow = 'plain' | 'polite'; // Style of Writing 文体
+type Polarity = 'affirmative' | 'negative';
+type Tense = 'present' | 'past';
+type VoicesConfig = {
+  sow: Record<Sow, boolean>;
+  polarity: Record<Polarity, boolean>;
+  tense: Record<Tense, boolean>;
+};
+// myJconj 参数相关
+type Voice = 'present' | 'negative' | 'polite';
+type Voices = Record<Voice, boolean>;
+// userConfig 参数相关
+type Config = {
+  pos: Record<Pos, boolean>;
+  verb: Record<VerbForm, boolean> & {voices: VoicesConfig};
+  adj: VoicesConfig;
+};

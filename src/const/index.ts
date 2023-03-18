@@ -24,11 +24,29 @@ export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm, str
 export const MAX_RANDOM_WORDS_COUNT = 3 as const;
 
 export const INIT_CONFIG: Config = {
+  pos: {
+    verb: true,
+    adj: true,
+  },
   verb: {
     masu: true,
     te: true,
     ta: true,
     nai: true,
+    voices: {
+      sow: {
+        plain: true,
+        polite: true,
+      },
+      polarity: {
+        affirmative: true,
+        negative: true,
+      },
+      tense: {
+        present: true,
+        past: true,
+      },
+    },
   },
   adj: {
     sow: {
@@ -44,8 +62,4 @@ export const INIT_CONFIG: Config = {
       past: true,
     },
   },
-  pos: {
-    verb: true,
-    adj: true,
-  },
-} as const;
+};
