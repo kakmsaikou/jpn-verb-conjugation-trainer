@@ -4,7 +4,7 @@ import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/DailyRecord';
 import { useFormStore } from '../stores/useFormStore';
 import { useWordDataStore } from '../stores/useWordData';
-import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
+import { useInquiryStore } from '../stores/useInquiryStore';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
 
@@ -16,7 +16,7 @@ export const PracticePage = defineComponent({
   setup: () => {
     const formStore = useFormStore();
     const wordDataStore = useWordDataStore();
-    const correctAnswerStore = useCorrectAnswerStore();
+    const correctAnswerStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
     // refAnswer 要用于 focus()

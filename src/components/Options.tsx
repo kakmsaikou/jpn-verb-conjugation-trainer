@@ -1,6 +1,6 @@
 import { computed, defineComponent, reactive, ref } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
-import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
+import { useInquiryStore } from '../stores/useInquiryStore';
 import { deepClone } from '../utils/deepClone';
 import { Button } from './Button';
 import s from './Options.module.scss';
@@ -11,7 +11,7 @@ export const Options = defineComponent({
   emits: ['close'],
   setup: (props, context) => {
     const configStore = useConfigStore();
-    const correctAnswer = useCorrectAnswerStore();
+    const correctAnswer = useInquiryStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { pos } = tempConfig;
 

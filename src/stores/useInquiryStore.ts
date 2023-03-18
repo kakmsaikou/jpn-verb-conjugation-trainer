@@ -1,4 +1,4 @@
-import { myJconj } from './../utils/myJconj';
+import { myJconj } from '../utils/myJconj';
 import { useFormStore } from './useFormStore';
 import { useWordDataStore } from './useWordData';
 import { defineStore } from 'pinia';
@@ -20,7 +20,7 @@ type Actions = {
 const wordDataStore = useWordDataStore();
 const formStore = useFormStore();
 
-export const useCorrectAnswerStore = defineStore<string, State, Getter, Actions>('correctAnswer', {
+export const useInquiryStore = defineStore<string, State, Getter, Actions>('correctAnswer', {
   state: () => ({
     _correctAnswer: null,
   }),
