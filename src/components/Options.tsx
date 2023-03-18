@@ -54,13 +54,7 @@ export const Options = defineComponent({
             </h3>
             {pos.verb ? <VerbOptions verbConfig={verb} onUpdateVerb={updateVerbValid} /> : null}
           </div>
-          <div>
-            <h3>
-              <input type='checkbox' v-model={pos.adj} />
-              形容词
-            </h3>
-            {pos.adj ? <AdjOptions adjConfig={adj} onUpdateAdj={updateAdjValid} /> : null}
-          </div>
+          <AdjOptions tempConfig={tempConfig} onUpdateAdj={updateAdjValid} />
           <Button onClick={onClick} disabled={formValid.value}>
             戻る ↩
           </Button>
