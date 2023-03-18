@@ -18,7 +18,7 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
       {
         const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
         voices.polite = false;
-        setNegAndPres(voices, polarity, tense);
+        setNegAndPresForPlain(voices, polarity, tense);
       }
       break;
     case 'masu':
@@ -56,3 +56,11 @@ const setNegAndPres = (voices: Voices, polarity: Record<Polarity, boolean>, tens
   voices.negative = getKey(polarity) === 'negative';
   voices.present = getKey(tense) === 'present';
 };
+
+const setNegAndPresForPlain = (voices: Voices, polarity: Record<Polarity, boolean>, tense: Record<Tense, boolean>) => {
+  voices.negative = getKey(polarity) === 'negative';
+  voices.present = getKey(tense) === 'present';
+  if(!voices.negative && voices.present) {
+    setNegAndPresForPlain(voices, polarity, tense);
+  }
+}
