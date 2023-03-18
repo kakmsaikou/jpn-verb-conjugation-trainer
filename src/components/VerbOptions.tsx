@@ -1,5 +1,5 @@
 import { computed, defineComponent, PropType, watch } from 'vue';
-import { FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
+import { BILINGUAL_LIST, VERB_FORM_LIST } from '../const';
 import s from './WordOptions.module.scss';
 
 export const VerbOptions = defineComponent({
@@ -32,7 +32,7 @@ export const VerbOptions = defineComponent({
               {VERB_FORM_LIST.map(form => (
                 <li>
                   <input type='checkbox' v-model={verb[form]} />
-                  <span>{FORM_KANJI_MAP[form]}</span>
+                  <span>{BILINGUAL_LIST[form]}</span>
                 </li>
               ))}
             </ul>

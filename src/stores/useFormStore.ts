@@ -1,6 +1,6 @@
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
-import { FORM_KANJI_MAP } from '../const';
+import { BILINGUAL_LIST } from '../const';
 import { getVoices } from '../utils/getVoices';
 import { getKey } from '../utils/getKey';
 
@@ -63,7 +63,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     },
     formKanji() {
       if (this.posStr === 'verb') {
-        return FORM_KANJI_MAP[this.form] ? FORM_KANJI_MAP[this.form] : this.form;
+        return BILINGUAL_LIST[this.form] ? BILINGUAL_LIST[this.form] : this.form;
       } else {
         const polite = this.voices.polite ? '敬体' : '简体';
         const negative = this.voices.negative ? '，否定' : '';

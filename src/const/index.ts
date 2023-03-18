@@ -5,15 +5,7 @@ export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
 export const VERB_TYPE_LIST: VerbType[] = ['v1', 'v5', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i'];
 
-export const FORM_KANJI_MAP: Record<WordForm, string> = {
-  masu: 'ます形',
-  te: 'て形',
-  ta: 'た形',
-  nai: 'ない形',
-  adj: '形容词',
-} as const;
-
-export const BILINGUAL_LIST = {
+export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm, string> = {
   verb: '动词',
   adj: '形容词',
   plain: '简体',
@@ -22,6 +14,10 @@ export const BILINGUAL_LIST = {
   negative: '否定',
   present: '现在',
   past: '过去',
+  masu: 'ます形',
+  te: 'て形',
+  ta: 'た形',
+  nai: 'ない形',
 };
 
 // 最大几次内单词不会重复
