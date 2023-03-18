@@ -13,7 +13,7 @@ export const Options = defineComponent({
     const configStore = useConfigStore();
     const correctAnswer = useCorrectAnswerStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
-    const { verb, pos, adj } = tempConfig;
+    const { pos } = tempConfig;
 
     const posValid = computed(() => {
       return pos.verb || pos.adj;
@@ -47,13 +47,7 @@ export const Options = defineComponent({
         <h2>设置</h2>
         <form class={s.optionsForm}>
           <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
-          <div>
-            <h3>
-              <input type='checkbox' v-model={pos.verb} />
-              动词
-            </h3>
-            {pos.verb ? <VerbOptions verbConfig={verb} onUpdateVerb={updateVerbValid} /> : null}
-          </div>
+          <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
           <AdjOptions tempConfig={tempConfig} onUpdateAdj={updateAdjValid} />
           <Button onClick={onClick} disabled={formValid.value}>
             戻る ↩
