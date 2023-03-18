@@ -2,12 +2,6 @@ import { computed, defineComponent, PropType, Ref, watch } from 'vue';
 import { BILINGUAL_LIST } from '../const';
 import s from './WordOptions.module.scss';
 
-type AdjConfig = {
-  sow: Record<Sow, boolean>;
-  polarity: Record<Polarity, boolean>;
-  tense: Record<Tense, boolean>;
-};
-
 export const AdjOptions = defineComponent({
   emits: ['updateAdj'],
   props: {
