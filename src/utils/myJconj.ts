@@ -4,9 +4,9 @@ import { getPosNum } from './getPosNum';
 import { jconj } from '../plugins/jconj/jconj';
 
 /*
-* 输入 wordData、present、formal、negative 会返回对应字符串
-* 其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
-*/
+ * 输入 wordData、present、formal、negative 会返回对应字符串
+ * 其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
+ */
 
 const formStore = useFormStore();
 
@@ -27,7 +27,7 @@ export const myJconj = (
     switch (formStore.form) {
       case 'masu':
         // 敬体、敬体过去形、敬体否定形、敬体否定过去形
-        conj = 1;
+        conj = present ? 1 : 2;
         break;
       case 'te':
         conj = 3;

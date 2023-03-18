@@ -7,7 +7,7 @@ export const getVoices = (posStr: Pos, form: WordForm, voices: Voices) => {
   if (posStr === 'verb') {
     getVerbVoices(form, voices);
   } else if (posStr === 'adj') {
-    getAdjVoices(voices);
+    avoidPurePlain(voices, configStore.tempConfig.adj!);
   }
 };
 
@@ -15,8 +15,9 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
   voices.present = false;
   switch (form) {
     case 'masu':
+      const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
       voices.polite = true;
-      voices.negative = false;
+      setNegAndPres(voices, polarity, tense);
       break;
     case 'te':
       voices.polite = false;
@@ -33,20 +34,20 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
   }
 };
 
-const getAdjVoices = (voices: Voices) => {
-  const { sow, polarity, tense } = configStore.tempConfig.adj!;
+const avoidPurePlain = (voices: Voices, voiceConfig: VoicesConfig) => {
+  const { sow, polarity, tense } = voiceConfig;
+  voices.polite = getKey(sow) === 'polite';
+  setNegAndPres(voices, polarity, tense);
 
-  const avoidPurePlain = (voices: Voices) => {
-    voices.polite = getKey(sow) === 'polite';
-    voices.negative = getKey(polarity) === 'negative';
-    voices.present = getKey(tense) === 'present';
-
-    // 防止出现「简体 + 肯定 + 现在」的结果
-    if (!voices.polite) {
-      if (!voices.negative && voices.present) {
-        avoidPurePlain(voices);
-      }
+  // 防止出现「简体 + 肯定 + 现在」的结果
+  if (!voices.polite) {
+    if (!voices.negative && voices.present) {
+      avoidPurePlain(voices, voiceConfig);
     }
-  };
-  avoidPurePlain(voices);
+  }
+};
+
+const setNegAndPres = (voices: Voices, polarity: Record<Polarity, boolean>, tense: Record<Tense, boolean>) => {
+  voices.negative = getKey(polarity) === 'negative';
+  voices.present = getKey(tense) === 'present';
 };

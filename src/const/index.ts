@@ -33,7 +33,7 @@ export const INIT_CONFIG: Config = {
     te: true,
     ta: true,
     nai: true,
-    voices: {
+    voiceConfig: {
       sow: {
         plain: true,
         polite: true,
