@@ -20,13 +20,13 @@ export const VerbOptions = defineComponent({
     });
 
     return () => (
-      <>
+      <div class={s.wrapper}>
         <h3>
           <input type='checkbox' v-model={pos.verb} />
           动词
         </h3>
         {pos.verb ? (
-          <div class={s.ulWrapper}>
+          <div class={s.relativeBox}>
             <h4 v-show={!verbValid.value}>*你至少需要选择一个类别</h4>
             <ul>
               {VERB_FORM_LIST.map(form => (
@@ -38,7 +38,7 @@ export const VerbOptions = defineComponent({
             </ul>
           </div>
         ) : null}
-      </>
+      </div>
     );
   },
 });

@@ -12,17 +12,29 @@ export const AdjOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, adj } = props.tempConfig;
+    const { sow, tense, polarity } = adj;
     const sowValid = computed(() => {
-      return adj.sow.plain || adj.sow.polite;
+      return sow.plain || sow.polite;
     });
     const tenseValid = computed(() => {
-      return adj.tense.present || adj.tense.past;
+      return tense.present || tense.past;
     });
     const polarityValid = computed(() => {
-      return adj.polarity.affirmative || adj.polarity.negative;
+      return polarity.affirmative || polarity.negative;
+    });
+    const plainValid = computed(() => {
+      // 不能出现简体+肯定+现在的语态
+      if (sow.plain && !sow.polite) {
+        if (polarity.affirmative && !polarity.negative) {
+          if (tense.present && !tense.past) {
+            return false;
+          }
+        }
+      }
+      return true;
     });
     const adjValid = computed(() => {
-      return sowValid.value && tenseValid.value && polarityValid.value;
+      return sowValid.value && tenseValid.value && polarityValid.value && plainValid.value;
     });
     watch(adjValid, (newVal, oldVal) => {
       context.emit('updateAdj', newVal);
@@ -31,28 +43,30 @@ export const AdjOptions = defineComponent({
     const adjFormList = [
       {
         isValid: sowValid,
-        options: adj.sow,
+        options: sow,
         key: ['plain', 'polite'],
       },
       {
         isValid: tenseValid,
-        options: adj.tense,
+        options: tense,
         key: ['present', 'past'],
       },
       {
         isValid: polarityValid,
-        options: adj.polarity,
+        options: polarity,
         key: ['affirmative', 'negative'],
       },
     ];
     return () => (
-      <>
+      <div class={s.wrapper}>
         <h3>
           <input type='checkbox' v-model={pos.adj} />
           形容词
         </h3>
-        {pos.adj
-          ? adjFormList.map(({ isValid, options, key }) => (
+        {pos.adj ? (
+          <div class={s.relativeBox}>
+            <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
+            {adjFormList.map(({ isValid, options, key }) => (
               <div class={s.ulWrapper}>
                 <h4 v-show={!isValid.value}>*你至少需要选择一个类别</h4>
                 <ul>
@@ -64,9 +78,10 @@ export const AdjOptions = defineComponent({
                   ))}
                 </ul>
               </div>
-            ))
-          : null}
-      </>
+            ))}
+          </div>
+        ) : null}
+      </div>
     );
   },
 });
