@@ -25,6 +25,9 @@ export const myJconj = (
   const { type } = wordData;
   if (VERB_TYPE_LIST.includes(type as VerbType)) {
     switch (formStore.form) {
+      case 'plain':
+        conj = present ? 1 : 2;
+        break;
       case 'masu':
         // 敬体、敬体过去形、敬体否定形、敬体否定过去形
         conj = present ? 1 : 2;
@@ -34,9 +37,6 @@ export const myJconj = (
         break;
       case 'ta':
         conj = 2;
-        break;
-      case 'nai':
-        conj = 1;
         break;
     }
   } else if (ADJ_TYPE_LIST.includes(type as AdjType)) {

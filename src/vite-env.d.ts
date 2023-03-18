@@ -2,7 +2,7 @@
 
 // 动词配置相关
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
-type VerbForm = 'masu' | 'te' | 'ta' | 'nai';
+type VerbForm = 'plain' | 'masu' | 'te' | 'ta' 
 interface VerbData extends BaseWordData {
   type: VerbType;
 }
@@ -41,6 +41,6 @@ type Voices = Record<Voice, boolean>;
 // userConfig 参数相关
 type Config = {
   pos: Record<Pos, boolean>;
-  verb: Record<VerbForm, boolean> & {voiceConfig: VoicesConfig};
+  verb: Record<VerbForm, boolean> & { voiceConfig: VoicesConfig };
   adj: VoicesConfig;
 };

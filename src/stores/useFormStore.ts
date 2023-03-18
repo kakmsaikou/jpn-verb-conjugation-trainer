@@ -26,7 +26,7 @@ const configStore = useConfigStore();
 /*
  * 顺序：
  *   1. 获取词性 pos，包括动词、形容词，比如 verb、adj
- *   2. 获取形态 form，包括ます形、て形，比如 masu、te、ta、nai 和 adj（形容词只有 adj）
+ *   2. 获取形态 form，包括ます形、て形，比如 plain、masu、te、ta、nai 和 adj（形容词只有 adj）
  *   3. 获取语态 voices，包括敬体、时态、否定形，是 myJconj 的查询参数，比如 {present: true, negative: false, polite: false}
  */
 // 这一页有好多 ! 断言，有空记得去掉
@@ -63,13 +63,19 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     },
     formKanji() {
       if (this.posStr === 'verb') {
-        if (this.form === 'masu') {
+        if (this.form === 'plain') {
+          const polite = '简体';
+          const negative = this.voices.negative ? '，否定' : '';
+          const present = this.voices.present ? '' : '，过去';
+          return polite + negative + present;
+        } else if (this.form === 'masu') {
           const polite = 'ます形';
           const negative = this.voices.negative ? '，否定' : '';
           const present = this.voices.present ? '' : '，过去';
           return polite + negative + present;
+        } else {
+          return BILINGUAL_LIST[this.form] ? BILINGUAL_LIST[this.form] : this.form;
         }
-        return BILINGUAL_LIST[this.form] ? BILINGUAL_LIST[this.form] : this.form;
       } else {
         const polite = this.voices.polite ? '敬体' : '简体';
         const negative = this.voices.negative ? '，否定' : '';

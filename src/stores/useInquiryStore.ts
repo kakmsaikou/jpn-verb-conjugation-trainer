@@ -27,6 +27,7 @@ export const useInquiryStore = defineStore<string, State, Getter, Actions>('corr
   getters: {
     correctAnswer: state => {
       if (state._correctAnswer === null) {
+        console.log(formStore.voices)
         const { present, negative, polite } = formStore.voices;
         state._correctAnswer = myJconj(wordDataStore.wordData, present, negative, polite);
       }

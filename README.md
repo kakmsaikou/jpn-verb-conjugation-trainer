@@ -46,14 +46,14 @@ fml: A bool, false for plain, true for formal (-masu) form.
 | ます形 + 过去 | ,2,false,true |
 | ます形 + 过去 + 否定 | ,2,true,true |
 | ます形 + 敬语意志 | ,9,false,true |
-| ない形 | ,1,true,false |
-| ない形 + 过去 + 否定 | ,2,true,false |
+| ない形 (基本形否定式) | ,1,true,false |
+| ない形 + 过去 + 否定（基本形否定过去） | ,2,true,false |
 | ます形 + 否定 | ,1,true,true |
 | 命令形 | ,10,false,false |
 | ます形 + 命令 | ,10,false,true |
 | 禁止形 | ,10,true,false |
 | た形 + 假定 | ,11,false,false |
-| た形 | ,2,false,false |
+| た形（基本形过去式） | ,2,false,false |
 | て形 | ,3,false,false |
 | ば形 | ,4,false,false |
 | ば形 + 否定 + 假定 | ,4,true,false |

@@ -14,10 +14,19 @@ export const getVoices = (posStr: Pos, form: WordForm, voices: Voices) => {
 const getVerbVoices = (form: WordForm, voices: Voices) => {
   voices.present = false;
   switch (form) {
+    case 'plain':
+      {
+        const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
+        voices.polite = false;
+        setNegAndPres(voices, polarity, tense);
+      }
+      break;
     case 'masu':
-      const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
-      voices.polite = true;
-      setNegAndPres(voices, polarity, tense);
+      {
+        const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
+        voices.polite = true;
+        setNegAndPres(voices, polarity, tense);
+      }
       break;
     case 'te':
       voices.polite = false;
@@ -26,10 +35,6 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
     case 'ta':
       voices.polite = false;
       voices.negative = false;
-      break;
-    case 'nai':
-      voices.polite = false;
-      voices.negative = true;
       break;
   }
 };
