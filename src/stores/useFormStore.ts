@@ -47,7 +47,6 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       if (this._pos === null) {
         return (this._pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb');
       }
-      console.log(this._pos);
       return this._pos;
     },
     // 获得形态
@@ -92,7 +91,14 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       return this._voices;
     },
     formKanji() {
-      return FORM_KANJI_MAP[this.form] ? FORM_KANJI_MAP[this.form] : this.form;
+      if (this.posStr === 'verb') {
+        return FORM_KANJI_MAP[this.form] ? FORM_KANJI_MAP[this.form] : this.form;
+      } else {
+        const polite = this.voices.polite ? '敬体' : '简体';
+        const negative = this.voices.negative ? '，否定' : '';
+        const present = this.voices.present ? '' : '，过去';
+        return polite + negative + present;
+      }
     },
   },
   actions: {
