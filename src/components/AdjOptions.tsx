@@ -51,7 +51,6 @@ export const AdjOptions = defineComponent({
           <input type='checkbox' v-model={pos.adj} />
           形容词
         </h3>
-
         {pos.adj
           ? adjFormList.map(({ isValid, options, key }) => (
               <div class={s.ulWrapper}>
