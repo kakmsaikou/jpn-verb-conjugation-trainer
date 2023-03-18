@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType, watch } from 'vue';
 import { FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
-import s from './VerbOptions.module.scss';
+import s from './WordOptions.module.scss';
 
 export const VerbOptions = defineComponent({
   emits: ['updateVerb'],

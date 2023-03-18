@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType, Ref, watch } from 'vue';
 import { BILINGUAL_LIST } from '../const';
-import s from './AdjOptions.module.scss';
+import s from './WordOptions.module.scss';
 
 type AdjConfig = {
   sow: Record<Sow, boolean>;

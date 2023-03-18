@@ -11,38 +11,16 @@
     position: absolute;
     font-size: 12px;
     color: red;
+    top: 0.5em;
+    right: 0;
   }
 
   .optionsForm {
     width: 100%;
     position: relative;
 
-    
     input {
-      margin-right:0.3em;
-    }
-
-    > h4 {
-      top: 0.5em;
-      right: 0;
-    }
-
-    .ulWrapper {
-      position: relative;
-
-      > h4 {
-        right: 0;
-        top: 0;
-      }
-
-      ul {
-        padding-top: 1em;
-        padding-left: 2em;
-
-        li {
-          padding-bottom: 0.3em;
-        }
-      }
+      margin-right: 0.3em;
     }
   }
 }
