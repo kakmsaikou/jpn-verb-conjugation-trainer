@@ -52,7 +52,7 @@ export const AdjOptions = defineComponent({
       },
     ];
     return () => (
-      <div>
+      <>
         {adjFormList.map(({ isValid, options, key }) => (
           <div class={s.ulWrapper}>
             <h4 v-show={!isValid.value}>*你至少需要选择一个类别</h4>
@@ -66,7 +66,7 @@ export const AdjOptions = defineComponent({
             </ul>
           </div>
         ))}
-      </div>
+      </>
     );
   },
 });
