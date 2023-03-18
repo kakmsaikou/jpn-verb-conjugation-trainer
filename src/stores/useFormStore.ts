@@ -100,6 +100,8 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       this._pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb';
     },
     refreshVoices() {
+      // 每次获得 voices 前，都要刷新 pos
+      this.refreshPos();
       if (this._form === null) {
         if (this.posStr === 'verb') {
           this._form = getKey(configStore.tempConfig.verb!);
@@ -110,7 +112,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       return this._form;
     },
     refreshForm() {
-      this.refreshPos();
+      // 每次获得 form 前，都要刷新 voices
       this.refreshVoices();
       if (this._voices === null) {
         this._voices = INIT_VOICES;
