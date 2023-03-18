@@ -16,7 +16,7 @@ export const PracticePage = defineComponent({
   setup: () => {
     const formStore = useFormStore();
     const wordDataStore = useWordDataStore();
-    const correctAnswerStore = useInquiryStore();
+    const inquiryStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
     // refAnswer 要用于 focus()
@@ -44,12 +44,12 @@ export const PracticePage = defineComponent({
       dailyAnswerCount++;
 
       // 判断输入的答案是否是汉字或是对应的平假名
-      const isAnswerCorrect = correctAnswerStore.isAnswerCorrect(refAnswer.value.value);
+      const isAnswerCorrect = inquiryStore.isAnswerCorrect(refAnswer.value.value);
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('correct', 'wrong');
           isAnswerSubmitted.value = false;
-          correctAnswerStore.refreshCorrectAnswer();
+          inquiryStore.refreshCorrectAnswer();
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerCorrect === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -68,9 +68,9 @@ export const PracticePage = defineComponent({
         refAnswer.value.value = '';
       } else {
         classList.add('wrong');
-        refCorrectAnswer.value.innerText = correctAnswerStore.isKanjiKanaEqual
-          ? correctAnswerStore.kana
-          : correctAnswerStore.kana + '\n' + correctAnswerStore.kanji;
+        refCorrectAnswer.value.innerText = inquiryStore.isKanjiKanaEqual
+          ? inquiryStore.kana
+          : inquiryStore.kana + '\n' + inquiryStore.kanji;
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
