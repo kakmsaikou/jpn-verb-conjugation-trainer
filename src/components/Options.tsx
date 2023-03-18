@@ -4,8 +4,8 @@ import { useCorrectAnswerStore } from '../stores/useCorrectAnswer';
 import { deepClone } from '../utils/deepClone';
 import { Button } from './Button';
 import s from './Options.module.scss';
-import { FORM_KANJI_MAP, VERB_FORM_LIST } from '../const';
 import { AdjOptions } from './AdjOptions';
+import { VerbOptions } from './VerbOptions';
 
 export const Options = defineComponent({
   emits: ['close'],
@@ -19,9 +19,10 @@ export const Options = defineComponent({
       return pos.verb || pos.adj;
     });
 
-    const verbValid = computed(() => {
-      return verb.masu || verb.te || verb.ta || verb.nai;
-    });
+    const verbValid = ref<boolean | null>(null);
+    const updateVerbValid = (val: boolean) => {
+      verbValid.value = val;
+    };
 
     const adjValid = ref<boolean | null>(null);
     const updateAdjValid = (val: boolean) => {
@@ -51,19 +52,7 @@ export const Options = defineComponent({
               <input type='checkbox' v-model={pos.verb} />
               动词
             </h3>
-            {pos.verb ? (
-              <div class={s.ulWrapper}>
-                <h4 v-show={!verbValid.value}>*你至少需要选择一个类别</h4>
-                <ul v-show={pos.verb}>
-                  {VERB_FORM_LIST.map(form => (
-                    <li>
-                      <input type='checkbox' v-model={verb[form]} />
-                      <span>{FORM_KANJI_MAP[form]}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+            {pos.verb ? <VerbOptions verbConfig={verb} onUpdateVerb={updateVerbValid} /> : null}
           </div>
           <div>
             <h3>
