@@ -1,6 +1,7 @@
 import { useConfigStore } from '../stores/useConfigStore';
 import { getKey } from './getKey';
 
+// 这坨代码是个屎山，要改需要把 config 的数据结构都改了
 const configStore = useConfigStore();
 
 export const getVoices = (pos: Pos, form: WordForm, voices: Voices, type: WordType) => {

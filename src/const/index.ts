@@ -1,6 +1,5 @@
 export const VERB_FORM_LIST: VerbForm[] = ['plain', 'masu', 'te'];
 export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
-export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
 
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];

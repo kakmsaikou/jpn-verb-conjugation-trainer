@@ -22,8 +22,11 @@ export const PracticePage = defineComponent({
       refAnswer.value.value = '';
     }
 
-    let dailyCorrectCount = 0;
-    let dailyAnswerCount = 0;
+    let dailyCount = parseInt(localStorage.getItem('daily_count') || 'null') || [new Date(), 0, 0];
+    console.log(dailyCount)
+
+    let dailyCorrectCount = parseInt(localStorage.getItem('daily_correct_count') || '0');
+    let dailyAnswerCount = parseInt(localStorage.getItem('daily_answer_count') || '0');
 
     const isAnswerSubmitted = ref(false);
 
@@ -35,6 +38,7 @@ export const PracticePage = defineComponent({
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
       dailyAnswerCount++;
+      localStorage.setItem('daily_answer_count', JSON.stringify(dailyAnswerCount));
 
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
@@ -55,13 +59,14 @@ export const PracticePage = defineComponent({
       };
       if (isAnswerCorrect) {
         dailyCorrectCount++;
+        localStorage.setItem('daily_correct_count', JSON.stringify(dailyCorrectCount));
         classList.add('correct');
         refCorrectAnswer.value.innerText = refAnswer.value.value;
         document.addEventListener('keyup', handleGlobalEnter);
         refAnswer.value.value = '';
       } else {
         classList.add('wrong');
-        refCorrectAnswer.value.innerText = wordStore.answer
+        refCorrectAnswer.value.innerText = wordStore.answer;
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
