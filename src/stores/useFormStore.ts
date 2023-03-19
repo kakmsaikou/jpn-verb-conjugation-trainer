@@ -64,9 +64,18 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     formKanji() {
       if (this.posStr === 'verb') {
         if (this.form === 'plain') {
-          const polite = '简体';
+          const polite = '基本形';
           const negative = this.voices.negative ? '，否定' : '';
           const present = this.voices.present ? '' : '，过去';
+          const formKanji = polite + negative + present;
+          switch (formKanji) {
+            case '基本形，否定':
+              return 'ない形';
+            case '基本形，过去':
+              return 'た形';
+            case '基本形，否定，过去':
+              return 'なか形，过去';
+          }
           return polite + negative + present;
         } else if (this.form === 'masu') {
           const polite = 'ます形';
