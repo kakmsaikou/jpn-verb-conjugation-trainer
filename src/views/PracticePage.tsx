@@ -5,11 +5,11 @@ import { DailyRecord } from '../components/DailyRecord';
 import { useInquiryStore } from '../stores/useInquiryStore';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
-import { useFuckStore } from '../stores/useFuckStore';
+import { useWordStore } from '../stores/useWordStore';
 
 export const PracticePage = defineComponent({
   setup: () => {
-    const fuckStore = useFuckStore();
+    const WordStore = useWordStore();
     const inquiryStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
@@ -85,12 +85,12 @@ export const PracticePage = defineComponent({
           <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <p class={s.kana}>{fuckStore.kanji === fuckStore.kana ? '　' : fuckStore.kana}</p>
-              <h2 class={s.wordText}>{fuckStore.kanji}</h2>
-              <p class={s.meaning}>{fuckStore.meaning}</p>
-              <p class={s.type}>{isAnswerSubmitted.value ? fuckStore.type : '　'}</p>
+              <p class={s.kana}>{WordStore.kanji === WordStore.kana ? '　' : WordStore.kana}</p>
+              <h2 class={s.wordText}>{WordStore.kanji}</h2>
+              <p class={s.meaning}>{WordStore.meaning}</p>
+              <p class={s.type}>{isAnswerSubmitted.value ? WordStore.type : '　'}</p>
             </div>
-            <h3 class={s.questionContent}>{fuckStore.formKanji}</h3>
+            <h3 class={s.questionContent}>{WordStore.formKanji}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input

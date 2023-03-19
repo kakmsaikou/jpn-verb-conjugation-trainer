@@ -1,4 +1,4 @@
-import { useFuckStore } from './useFuckStore';
+import { useWordStore } from './useWordStore';
 import { myJconj } from '../utils/myJconj';
 import { defineStore } from 'pinia';
 
@@ -16,7 +16,7 @@ type Actions = {
   refreshCorrectAnswer: () => void;
 };
 
-const fuckStore = useFuckStore();
+const WordStore = useWordStore();
 
 export const useInquiryStore = defineStore<string, State, Getter, Actions>('correctAnswer', {
   state: () => ({
@@ -25,8 +25,8 @@ export const useInquiryStore = defineStore<string, State, Getter, Actions>('corr
   getters: {
     correctAnswer: state => {
       if (state._correctAnswer === null) {
-        const { present, negative, polite } = fuckStore.voices;
-        state._correctAnswer = myJconj(fuckStore.word, present, negative, polite);
+        const { present, negative, polite } = WordStore.voices;
+        state._correctAnswer = myJconj(WordStore.word, present, negative, polite);
       }
       return state._correctAnswer;
     },
@@ -45,9 +45,9 @@ export const useInquiryStore = defineStore<string, State, Getter, Actions>('corr
   },
   actions: {
     refreshCorrectAnswer() {
-      fuckStore.refreshFuck();
-      const { present, negative, polite } = fuckStore.voices;
-      this._correctAnswer = myJconj(fuckStore.word, present, negative, polite);
+      WordStore.refreshWord();
+      const { present, negative, polite } = WordStore.voices;
+      this._correctAnswer = myJconj(WordStore.word, present, negative, polite);
     },
   },
 });

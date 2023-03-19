@@ -1,9 +1,9 @@
 import { VERB_TYPE_LIST, ADJ_TYPE_LIST } from './../const/index';
 import { getPosNum } from './getPosNum';
 import { jconj } from '../plugins/jconj/jconj';
-import { useFuckStore } from '../stores/useFuckStore';
+import { useWordStore } from '../stores/useWordStore';
 
-const fuckStore = useFuckStore();
+const WordStore = useWordStore();
 
 /*
  * 输入 wordData、present、formal、negative 会返回对应字符串
@@ -36,7 +36,7 @@ export const myJconj = (
   let conj: number = 0;
   const { type } = wordData;
   if (VERB_TYPE_LIST.includes(type as VerbType)) {
-    switch (fuckStore.form) {
+    switch (WordStore.form) {
       case 'plain':
         conj = present ? 1 : 2;
         break;

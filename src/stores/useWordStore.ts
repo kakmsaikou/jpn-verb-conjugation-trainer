@@ -29,7 +29,7 @@ type Actions = {
   refreshForm: () => void;
   refreshWordData: () => void;
   refreshVoices: () => void;
-  refreshFuck: () => void;
+  refreshWord: () => void;
 };
 
 const configStore = useConfigStore();
@@ -42,7 +42,7 @@ const configStore = useConfigStore();
  *   4. 获取语态 voices，包括敬体、时态、否定形，是 myJconj 的查询参数，比如 {present: true, negative: false, polite: false}
  *   5. 获取 correctAnswer
  */
-export const useFuckStore = defineStore<string, State, Getters, Actions>('Fuck', {
+export const useWordStore = defineStore<string, State, Getters, Actions>('Word', {
   state: () => ({
     pos: configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb',
     _form: null,
@@ -140,7 +140,7 @@ export const useFuckStore = defineStore<string, State, Getters, Actions>('Fuck',
     refreshVoices() {
       getVoices(this.pos, this.form, this._voices);
     },
-    refreshFuck() {
+    refreshWord() {
       this.refreshPos();
       this.refreshForm();
       this.refreshWordData();
