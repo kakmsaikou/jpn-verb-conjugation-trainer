@@ -5,11 +5,11 @@ import { DailyRecord } from '../components/DailyRecord';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
+import dayjs from 'dayjs';
 
 export const PracticePage = defineComponent({
   setup: () => {
     const wordStore = useWordStore();
-    // const inquiryStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
     // refAnswer 要用于 focus()
@@ -22,11 +22,18 @@ export const PracticePage = defineComponent({
       refAnswer.value.value = '';
     }
 
-    let dailyCount = parseInt(localStorage.getItem('daily_count') || 'null') || [new Date(), 0, 0];
-    console.log(dailyCount)
-
-    let dailyCorrectCount = parseInt(localStorage.getItem('daily_correct_count') || '0');
-    let dailyAnswerCount = parseInt(localStorage.getItem('daily_answer_count') || '0');
+    const dailyRecord = JSON.parse(localStorage.getItem('daily_record') || 'null') || {
+      day: dayjs().format('DD/MM/YYYY'),
+      correct: 0,
+      answer: 0,
+    };
+    if (dayjs().format('DD/MM/YYYY') !== dailyRecord.day) {
+      Object.assign(dailyRecord, {
+        day: dayjs().format('DD/MM/YYYY'),
+        correct: 0,
+        answer: 0,
+      });
+    }
 
     const isAnswerSubmitted = ref(false);
 
@@ -37,8 +44,8 @@ export const PracticePage = defineComponent({
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
-      dailyAnswerCount++;
-      localStorage.setItem('daily_answer_count', JSON.stringify(dailyAnswerCount));
+      dailyRecord.answer++;
+      localStorage.setItem('daily_record', JSON.stringify(dailyRecord));
 
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
@@ -58,8 +65,8 @@ export const PracticePage = defineComponent({
         }
       };
       if (isAnswerCorrect) {
-        dailyCorrectCount++;
-        localStorage.setItem('daily_correct_count', JSON.stringify(dailyCorrectCount));
+        dailyRecord.correct++;
+        localStorage.setItem('daily_record', JSON.stringify(dailyRecord));
         classList.add('correct');
         refCorrectAnswer.value.innerText = refAnswer.value.value;
         document.addEventListener('keyup', handleGlobalEnter);
@@ -84,7 +91,7 @@ export const PracticePage = defineComponent({
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
         <div class={s.practiceWrapper} v-show={!isOptionsVisible.value}>
-          <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
+          <DailyRecord dailyCorrectCount={dailyRecord.correct} dailyAnswerCount={dailyRecord.answer} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
               <p class={s.kana}>{wordStore.kanji === wordStore.kana ? '　' : wordStore.kana}</p>
