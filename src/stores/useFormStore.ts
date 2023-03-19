@@ -53,7 +53,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       if (this.posStr === 'verb') {
         return (this._form = getKey(configStore.tempConfig.verb!));
       } else {
-        // 形容词变化全部用语态来表示，没有ます形、て形等
+        // 形容词变化全部用语态来表示，没有ます
         return (this._form = 'adj');
       }
     },
@@ -98,14 +98,9 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
     refreshPos() {
       this._pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb';
     },
-    refreshVoices() {
-      // 每次获得 voices 前，都要刷新 pos
-      this.refreshPos();
-      getVoices(this.posStr, this.form, this._voices);
-    },
     refreshForm() {
-      // 每次获得 form 前，都要刷新 voices
-      this.refreshVoices();
+      // 每次获得 form 前，都要刷新 pos
+      this.refreshPos();
       if (this._form === null) {
         if (this.posStr === 'verb') {
           this._form = getKey(configStore.tempConfig.verb!);
@@ -113,6 +108,11 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
           this._form = 'adj';
         }
       }
+    },
+    refreshVoices() {
+      // 每次获得 voices 前，都要刷新 form
+      this.refreshForm();
+      getVoices(this.posStr, this.form, this._voices);
     },
   },
 });
