@@ -24,12 +24,6 @@ export const VerbOptions = defineComponent({
       }
       return true;
     });
-    const tenseValid = computed(() => {
-      return tense.present || tense.past;
-    });
-    const polarityValid = computed(() => {
-      return polarity.affirmative || polarity.negative;
-    });
     const plainOrMasuSelected = computed(() => {
       return verb.plain || verb.masu;
     });
@@ -37,14 +31,25 @@ export const VerbOptions = defineComponent({
       return verb.plain || verb.masu || verb.te;
     });
     const verbValid = computed(() => {
-      if(plainOrMasuSelected){
-        return plainValid.value && formValid.value && tenseValid.value && polarityValid.value;
+      if (plainOrMasuSelected) {
+        return plainValid.value && formValid.value;
       }
       return plainValid.value && formValid.value;
     });
-    watch(verbValid, (newVal, oldVal) => {
+    watch(verbValid, newVal => {
       context.emit('updateVerb', newVal);
     });
+
+    const onChangeForTense = (key: Tense) => {
+      if (!tense.present === !tense.past) {
+        tense[key] = true;
+      }
+    };
+    const onChangeForPolarity = (key: Polarity) => {
+      if (!polarity.affirmative === !polarity.negative) {
+        polarity[key] = true;
+      }
+    };
 
     return () => (
       <div class={[s.wrapper, s.relativeBox]}>
@@ -67,33 +72,50 @@ export const VerbOptions = defineComponent({
               </ul>
             </div>
             <div v-show={plainOrMasuSelected.value}>
-              <div class={s.relativeBox}>
-                <h4 v-show={!tenseValid.value}>*你至少需要选择一个类别</h4>
-                <ul>
-                  <li>
-                    <input type='checkbox' v-model={tense.present} />
-                    <span>现在</span>
-                  </li>
-                  <li>
-                    <input type='checkbox' v-model={tense.past} />
-                    <span>过去</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class={s.relativeBox}>
-                <h4 v-show={!polarityValid.value}>*你至少需要选择一个类别</h4>
-                <ul>
-                  <li>
-                    <input type='checkbox' v-model={polarity.affirmative} />
-                    <span>肯定</span>
-                  </li>
-                  <li>
-                    <input type='checkbox' v-model={polarity.negative} />
-                    <span>否定</span>
-                  </li>
-                </ul>
-              </div>
+              <ul>
+                <li>
+                  <input
+                    type='checkbox'
+                    v-model={tense.present}
+                    onChange={() => {
+                      onChangeForTense('past');
+                    }}
+                  />
+                  <span>现在</span>
+                </li>
+                <li>
+                  <input
+                    type='checkbox'
+                    v-model={tense.past}
+                    onChange={() => {
+                      onChangeForTense('present');
+                    }}
+                  />
+                  <span>过去</span>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <input
+                    type='checkbox'
+                    v-model={polarity.affirmative}
+                    onChange={() => {
+                      onChangeForPolarity('negative');
+                    }}
+                  />
+                  <span>肯定</span>
+                </li>
+                <li>
+                  <input
+                    type='checkbox'
+                    v-model={polarity.negative}
+                    onChange={() => {
+                      onChangeForPolarity('affirmative');
+                    }}
+                  />
+                  <span>否定</span>
+                </li>
+              </ul>
             </div>
           </>
         ) : null}
