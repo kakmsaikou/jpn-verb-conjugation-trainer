@@ -53,6 +53,7 @@ export const useFormStore = defineStore<string, State, Getters, Actions>('formSt
       if (this.posStr === 'verb') {
         return (this._form = getKey(configStore.tempConfig.verb!));
       } else {
+        // 形容词变化全部用语态来表示，没有ます形、て形等
         return (this._form = 'adj');
       }
     },

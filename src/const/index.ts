@@ -3,7 +3,7 @@ export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
 
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
-export const ADJ_TYPE_LIST: AdjType[] = ['adj_i'];
+export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 
 export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | VerbType | AdjType, string> = {
   verb: '动词',
@@ -21,6 +21,7 @@ export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | Ve
   suru: 'サ变动词',
   kuru: 'カ变动词',
   adj_i: 'イ形容词',
+  adj_na: 'ナ形容词',
 };
 
 // 最大几次内单词不会重复

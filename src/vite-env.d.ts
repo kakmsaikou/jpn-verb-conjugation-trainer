@@ -8,7 +8,7 @@ interface VerbData extends BaseWordData {
 }
 
 // 形容词配置相关
-type AdjType = 'adj_i';
+type AdjType = 'adj_i' | 'adj_na';
 type AdjForm = 'adj';
 interface AdjData extends BaseWordData {
   type: AdjType;
