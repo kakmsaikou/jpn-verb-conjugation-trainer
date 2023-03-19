@@ -16,14 +16,14 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
   switch (form) {
     case 'plain':
       {
-        const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
+        const { polarity, tense } = configStore.tempConfig.verb!;
         voices.polite = false;
         setNegAndPresForPlain(voices, polarity, tense);
       }
       break;
     case 'masu':
       {
-        const { polarity, tense } = configStore.tempConfig.verb!.voiceConfig;
+        const { polarity, tense } = configStore.tempConfig.verb!;
         voices.polite = true;
         setNegAndPres(voices, polarity, tense);
       }
@@ -39,6 +39,7 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
   }
 };
 
+// 用于形容词
 const avoidPurePlain = (voices: Voices, voiceConfig: VoicesConfig) => {
   const { sow, polarity, tense } = voiceConfig;
   voices.polite = getKey(sow) === 'polite';
@@ -52,6 +53,7 @@ const avoidPurePlain = (voices: Voices, voiceConfig: VoicesConfig) => {
   }
 };
 
+// 用于动词
 const setNegAndPres = (voices: Voices, polarity: Record<Polarity, boolean>, tense: Record<Tense, boolean>) => {
   voices.negative = getKey(polarity) === 'negative';
   voices.present = getKey(tense) === 'present';

@@ -32,19 +32,13 @@ export const INIT_CONFIG: Config = {
     masu: true,
     te: true,
     ta: true,
-    voiceConfig: {
-      sow: {
-        plain: true,
-        polite: true,
-      },
-      polarity: {
-        affirmative: true,
-        negative: true,
-      },
-      tense: {
-        present: true,
-        past: true,
-      },
+    polarity: {
+      affirmative: true,
+      negative: true,
+    },
+    tense: {
+      present: true,
+      past: true,
     },
   },
   adj: {
