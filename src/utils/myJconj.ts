@@ -1,22 +1,21 @@
-import { useFormStore } from './../stores/useFormStore';
 import { VERB_TYPE_LIST, ADJ_TYPE_LIST } from './../const/index';
 import { getPosNum } from './getPosNum';
 import { jconj } from '../plugins/jconj/jconj';
+import { useFuckStore } from '../stores/useFuckStore';
+
+const fuckStore = useFuckStore();
 
 /*
  * 输入 wordData、present、formal、negative 会返回对应字符串
  * 其中 wordData 是一个对象，包含了五个属性： kanji、kana、meaning、type
  */
-
-const formStore = useFormStore();
-
-// formal 和 negative 都是可以直接拼接的，只有 present 需要特殊处理
 export const myJconj = (
   wordData: WordData,
   present: boolean = true,
   negative: boolean = false,
   polite: boolean = false
 ) => {
+  // formal 和 negative 都是可以直接拼接的，只有 present 需要特殊处理
   let transwrdList;
   let pos;
   if (wordData.type === 'adj_na') {
@@ -37,7 +36,7 @@ export const myJconj = (
   let conj: number = 0;
   const { type } = wordData;
   if (VERB_TYPE_LIST.includes(type as VerbType)) {
-    switch (formStore.form) {
+    switch (fuckStore.form) {
       case 'plain':
         conj = present ? 1 : 2;
         break;

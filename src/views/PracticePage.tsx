@@ -2,19 +2,14 @@ import { defineComponent, nextTick, Ref, ref } from 'vue';
 import s from './PracticePage.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/DailyRecord';
-import { useFormStore } from '../stores/useFormStore';
-import { useWordDataStore } from '../stores/useWordData';
 import { useInquiryStore } from '../stores/useInquiryStore';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
-
-// import { test } from '../utils/createForm';
-// test()
+import { useFuckStore } from '../stores/useFuckStore';
 
 export const PracticePage = defineComponent({
   setup: () => {
-    const formStore = useFormStore();
-    const wordDataStore = useWordDataStore();
+    const fuckStore = useFuckStore();
     const inquiryStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
@@ -90,12 +85,12 @@ export const PracticePage = defineComponent({
           <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <p class={s.kana}>{wordDataStore.kanji === wordDataStore.kana ? '　' : wordDataStore.kana}</p>
-              <h2 class={s.wordText}>{wordDataStore.kanji}</h2>
-              <p class={s.meaning}>{wordDataStore.meaning}</p>
-              <p class={s.type}>{isAnswerSubmitted.value ? wordDataStore.type : '　'}</p>
+              <p class={s.kana}>{fuckStore.kanji === fuckStore.kana ? '　' : fuckStore.kana}</p>
+              <h2 class={s.wordText}>{fuckStore.kanji}</h2>
+              <p class={s.meaning}>{fuckStore.meaning}</p>
+              <p class={s.type}>{isAnswerSubmitted.value ? fuckStore.type : '　'}</p>
             </div>
-            <h3 class={s.questionContent}>{formStore.formKanji}</h3>
+            <h3 class={s.questionContent}>{fuckStore.formKanji}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input
