@@ -13,7 +13,7 @@ export const VerbOptions = defineComponent({
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
     const verbValid = computed(() => {
-      return verb.masu || verb.te || verb.ta || verb.nai;
+      return verb.masu || verb.te || verb.ta;
     });
     watch(verbValid, (newVal, oldVal) => {
       context.emit('updateVerb', newVal);
@@ -26,17 +26,41 @@ export const VerbOptions = defineComponent({
           动词
         </h3>
         {pos.verb ? (
-          <div class={s.relativeBox}>
-            <h4 v-show={!verbValid.value}>*你至少需要选择一个类别</h4>
-            <ul>
-              {VERB_FORM_LIST.map(form => (
+          <>
+            <div class={s.relativeBox}>
+              <h4 v-show={!verbValid.value}>*你至少需要选择一个类别</h4>
+              <ul>
+                {VERB_FORM_LIST.map(form => (
+                  <li>
+                    <input type='checkbox' v-model={verb[form]} />
+                    <span>{BILINGUAL_LIST[form]}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class={s.relativeBox}>
+              <ul>
                 <li>
-                  <input type='checkbox' v-model={verb[form]} />
-                  <span>{BILINGUAL_LIST[form]}</span>
+                  <input type='checkbox' />
+                  <span>现在</span>
                 </li>
-              ))}
-            </ul>
-          </div>
+                <li>
+                  <input type='checkbox' />
+                  <span>过去</span>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <input type='checkbox' />
+                  <span>肯定</span>
+                </li>
+                <li>
+                  <input type='checkbox' />
+                  <span>否定</span>
+                </li>
+              </ul>
+            </div>
+          </>
         ) : null}
       </div>
     );
