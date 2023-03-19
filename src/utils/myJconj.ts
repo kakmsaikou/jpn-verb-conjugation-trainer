@@ -35,9 +35,6 @@ export const myJconj = (
       case 'te':
         conj = 3;
         break;
-      case 'ta':
-        conj = 2;
-        break;
     }
   } else if (ADJ_TYPE_LIST.includes(type as AdjType)) {
     conj = present ? 1 : 2;
