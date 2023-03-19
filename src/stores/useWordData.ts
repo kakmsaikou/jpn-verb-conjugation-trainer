@@ -1,6 +1,6 @@
 import { verbList } from './../assets/wordData/verbList';
 import { adjList } from './../assets/wordData/adjList';
-import { VERB_FORM_LIST } from './../const/index';
+import { VERB_FORM_LIST, BILINGUAL_LIST } from './../const/index';
 import { useFormStore } from './useFormStore';
 import { defineStore } from 'pinia';
 import { MAX_RANDOM_WORDS_COUNT } from '../const';
@@ -15,6 +15,7 @@ type Getters = {
   kanji: () => string;
   kana: () => string;
   meaning: () => string;
+  type: () => string;
 };
 type Actions = {
   refreshWordData: () => void;
@@ -48,6 +49,9 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
     },
     meaning() {
       return this.wordData.meaning;
+    },
+    type() {
+      return BILINGUAL_LIST[this.wordData.type];
     },
   },
   actions: {

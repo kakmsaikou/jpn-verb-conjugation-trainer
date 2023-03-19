@@ -8,7 +8,6 @@ import { useInquiryStore } from '../stores/useInquiryStore';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
 
-
 // import { test } from '../utils/createForm';
 // test()
 
@@ -94,6 +93,7 @@ export const PracticePage = defineComponent({
               <p class={s.kana}>{wordDataStore.kanji === wordDataStore.kana ? '　' : wordDataStore.kana}</p>
               <h2 class={s.wordText}>{wordDataStore.kanji}</h2>
               <p class={s.meaning}>{wordDataStore.meaning}</p>
+              <p class={s.type}>{isAnswerSubmitted.value ? wordDataStore.type : '　'}</p>
             </div>
             <h3 class={s.questionContent}>{formStore.formKanji}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
