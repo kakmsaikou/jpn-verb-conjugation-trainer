@@ -44,7 +44,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={sow.plain}
                   onChange={() => {
-                    handleCheckbox(sow, 'polite');
+                    handleCheckbox(sow, 'plain');
                   }}
                 />
                 <span>简体</span>
@@ -54,7 +54,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={sow.polite}
                   onChange={() => {
-                    handleCheckbox(sow, 'plain');
+                    handleCheckbox(sow, 'polite');
                   }}
                 />
                 <span>敬体</span>
@@ -66,7 +66,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={tense.present}
                   onChange={() => {
-                    handleCheckbox(tense, 'past');
+                    handleCheckbox(tense, 'present');
                   }}
                 />
                 <span>现在</span>
@@ -76,7 +76,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={tense.past}
                   onChange={() => {
-                    handleCheckbox(tense, 'present');
+                    handleCheckbox(tense, 'past');
                   }}
                 />
                 <span>过去</span>
@@ -88,7 +88,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={polarity.affirmative}
                   onChange={() => {
-                    handleCheckbox(polarity, 'negative');
+                    handleCheckbox(polarity, 'affirmative');
                   }}
                 />
                 <span>肯定</span>
@@ -98,7 +98,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={polarity.negative}
                   onChange={() => {
-                    handleCheckbox(polarity, 'affirmative');
+                    handleCheckbox(polarity, 'negative');
                   }}
                 />
                 <span>否定</span>
