@@ -32,10 +32,6 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
       voices.polite = false;
       voices.negative = false;
       break;
-    case 'ta':
-      voices.polite = false;
-      voices.negative = false;
-      break;
   }
 };
 
