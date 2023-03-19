@@ -83,6 +83,8 @@ export const VerbOptions = defineComponent({
                 </ul>
               ))}
             </div>
+            <p>「た形」= 简体 + 过去</p>
+            <p>「ない形」= 简体 + 否定</p>
           </>
         ) : null}
       </div>
