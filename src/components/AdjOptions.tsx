@@ -40,7 +40,7 @@ export const AdjOptions = defineComponent({
       context.emit('updateAdj', newVal);
     });
 
-    const adjFormList = [
+    const adjVoiceList = [
       {
         isValid: sowValid,
         options: sow,
@@ -66,7 +66,7 @@ export const AdjOptions = defineComponent({
         {pos.adj ? (
           <div class={s.relativeBox}>
             <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
-            {adjFormList.map(({ isValid, options, key }) => (
+            {adjVoiceList.map(({ isValid, options, key }) => (
               <div class={s.ulWrapper}>
                 <h4 v-show={!isValid.value}>*你至少需要选择一个类别</h4>
                 <ul>
