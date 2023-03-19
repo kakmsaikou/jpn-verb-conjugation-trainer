@@ -1,4 +1,4 @@
-export const VERB_FORM_LIST: VerbForm[] = ['plain', 'masu', 'te', 'ta'];
+export const VERB_FORM_LIST: VerbForm[] = ['plain', 'masu', 'te'];
 export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
 
@@ -16,7 +16,6 @@ export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm, str
   past: '过去',
   masu: 'ます形',
   te: 'て形',
-  ta: 'た形',
 };
 
 // 最大几次内单词不会重复
@@ -31,7 +30,6 @@ export const INIT_CONFIG: Config = {
     plain: true,
     masu: true,
     te: true,
-    ta: true,
     polarity: {
       affirmative: true,
       negative: true,
