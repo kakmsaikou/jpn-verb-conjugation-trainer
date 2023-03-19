@@ -1,5 +1,6 @@
 import { computed, defineComponent, PropType, Ref, watch } from 'vue';
 import { BILINGUAL_LIST } from '../const';
+import handleCheckbox from '../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
 export const AdjOptions = defineComponent({
@@ -28,22 +29,6 @@ export const AdjOptions = defineComponent({
       context.emit('updateAdj', newVal);
     });
 
-    const onChangeForSow = (key: Sow) => {
-      if (!sow.plain === !sow.polite) {
-        sow[key] = true;
-      }
-    };
-    const onChangeForTense = (key: Tense) => {
-      if (!tense.present === !tense.past) {
-        tense[key] = true;
-      }
-    };
-    const onChangeForPolarity = (key: Polarity) => {
-      if (!polarity.affirmative === !polarity.negative) {
-        polarity[key] = true;
-      }
-    };
-
     return () => (
       <div class={s.wrapper}>
         <h3>
@@ -59,7 +44,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={sow.plain}
                   onChange={() => {
-                    onChangeForSow('polite');
+                    handleCheckbox(sow, 'polite');
                   }}
                 />
                 <span>简体</span>
@@ -69,7 +54,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={sow.polite}
                   onChange={() => {
-                    onChangeForSow('plain');
+                    handleCheckbox(sow, 'plain');
                   }}
                 />
                 <span>敬体</span>
@@ -81,7 +66,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={tense.present}
                   onChange={() => {
-                    onChangeForTense('past');
+                    handleCheckbox(tense, 'past');
                   }}
                 />
                 <span>现在</span>
@@ -91,7 +76,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={tense.past}
                   onChange={() => {
-                    onChangeForTense('present');
+                    handleCheckbox(tense, 'present');
                   }}
                 />
                 <span>过去</span>
@@ -103,7 +88,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={polarity.affirmative}
                   onChange={() => {
-                    onChangeForPolarity('negative');
+                    handleCheckbox(polarity, 'negative');
                   }}
                 />
                 <span>肯定</span>
@@ -113,7 +98,7 @@ export const AdjOptions = defineComponent({
                   type='checkbox'
                   v-model={polarity.negative}
                   onChange={() => {
-                    onChangeForPolarity('affirmative');
+                    handleCheckbox(polarity, 'affirmative');
                   }}
                 />
                 <span>否定</span>
