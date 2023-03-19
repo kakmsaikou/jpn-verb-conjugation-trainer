@@ -1,14 +1,13 @@
 import { useConfigStore } from '../stores/useConfigStore';
-import { useWordStore } from '../stores/useWordStore';
 import { getKey } from './getKey';
 
 const configStore = useConfigStore();
 
-export const getVoices = (posStr: Pos, form: WordForm, voices: Voices) => {
+export const getVoices = (posStr: Pos, form: WordForm, voices: Voices, type: WordType) => {
   if (posStr === 'verb') {
     getVerbVoices(form, voices);
   } else if (posStr === 'adj') {
-    avoidPurePlain(voices, configStore.tempConfig.adj!);
+    avoidPurePlain(voices, configStore.tempConfig.adj!, type);
   }
 };
 
@@ -36,19 +35,16 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
   }
 };
 
-const wordStore = useWordStore();
-
 // 用于形容词
-const avoidPurePlain = (voices: Voices, voiceConfig: VoicesConfig) => {
+const avoidPurePlain = (voices: Voices, voiceConfig: VoicesConfig, type: WordType) => {
   const { sow, polarity, tense } = voiceConfig;
   voices.polite = getKey(sow) === 'polite';
   setNegAndPres(voices, polarity, tense);
-
-  console.log(wordStore.word.type)
+  
   // 防止出现「简体 + 肯定 + 现在」的结果
-  if (!voices.polite) {
+  if (!voices.polite && type !== 'adj_na') {
     if (!voices.negative && voices.present) {
-      avoidPurePlain(voices, voiceConfig);
+      avoidPurePlain(voices, voiceConfig, type);
     }
   }
 };

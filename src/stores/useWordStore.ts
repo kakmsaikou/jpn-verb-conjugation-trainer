@@ -79,7 +79,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     // 获得语态
     voices() {
-      getVoices(this.pos, this.form, this._voices);
+      getVoices(this.pos, this.form, this._voices, this.word.type);
       return this._voices;
     },
     kanji() {
@@ -138,7 +138,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       this._word = this.selectedWordList[index];
     },
     refreshVoices() {
-      getVoices(this.pos, this.form, this._voices);
+      getVoices(this.pos, this.form, this._voices, this.word.type);
     },
     refreshWord() {
       this.refreshPos();
