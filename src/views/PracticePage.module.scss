@@ -78,7 +78,9 @@
 .correctAnswer {
   opacity: 0;
   font-size: 24px;
-  width: 12em;
+  min-width: 12em;
+  max-width: 18em;
+  padding: 0 1em;
   background-color: #008000;
   border-radius: 0.8em;
   height: 3.1em;
