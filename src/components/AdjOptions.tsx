@@ -14,7 +14,7 @@ export const AdjOptions = defineComponent({
   setup: (props, context) => {
     const { pos, adj } = props.tempConfig;
     const { sow, tense, polarity, type_list } = adj;
-    
+
     const adjVoiceList = [
       {
         options: sow,
@@ -34,7 +34,16 @@ export const AdjOptions = defineComponent({
       return type_list.adj_i || type_list.adj_na;
     });
     const plainValid = computed(() => {
-      return !(sow.plain && !sow.polite && polarity.affirmative && !polarity.negative && tense.present && !tense.past);
+      return !(
+        type_list.adj_i &&
+        !type_list.adj_na &&
+        sow.plain &&
+        !sow.polite &&
+        polarity.affirmative &&
+        !polarity.negative &&
+        tense.present &&
+        !tense.past
+      );
     });
     const adjValid = computed(() => {
       return plainValid.value && typeValid.value;
@@ -52,6 +61,7 @@ export const AdjOptions = defineComponent({
           <>
             <div class={s.relativeBox}>
               <h4 v-show={!typeValid.value}>*你至少需要选择一个类别</h4>
+              <h4 v-show={!plainValid.value}>*你不能同时只选择“イ形容词”、“基本形 / 简体”、“现在”、“肯定”</h4>
               <ul>
                 {ADJ_TYPE_LIST.map(type => (
                   <li>
@@ -62,7 +72,6 @@ export const AdjOptions = defineComponent({
               </ul>
             </div>
             <div class={s.relativeBox}>
-              <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
               {adjVoiceList.map(({ options, key }) => (
                 <ul>
                   {key.map(k => (

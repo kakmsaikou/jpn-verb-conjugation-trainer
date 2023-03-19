@@ -65,7 +65,7 @@ export const VerbOptions = defineComponent({
               </ul>
             </div>
             <div class={s.relativeBox}>
-              <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
+              <h4 v-show={!plainValid.value}>*你不能同时只选择“基本形 / 简体”、“现在”、“肯定”</h4>
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
               <ul>
                 {VERB_FORM_LIST.map(form => (
