@@ -7,9 +7,7 @@ type State = {
 };
 type Getter = {
   correctAnswer: (state: State) => string[];
-  isKanjiKanaEqual: () => boolean;
-  kanji: () => string;
-  kana: () => string;
+  answer: () => string;
   isAnswerCorrect: () => (answer: string) => boolean;
 };
 type Actions = {
@@ -30,14 +28,8 @@ export const useInquiryStore = defineStore<string, State, Getter, Actions>('corr
       }
       return state._correctAnswer;
     },
-    kanji() {
-      return this.correctAnswer[0];
-    },
-    kana() {
-      return this.correctAnswer[1];
-    },
-    isKanjiKanaEqual() {
-      return this.correctAnswer[0] === this.correctAnswer[1];
+    answer(){
+      return this.correctAnswer[0] === this.correctAnswer[1] ? this.correctAnswer[0] : this.correctAnswer[1] + '\n' + this.correctAnswer[0]
     },
     isAnswerCorrect() {
       return (answer: string) => this.correctAnswer.includes(answer);

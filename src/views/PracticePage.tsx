@@ -9,7 +9,7 @@ import { useWordStore } from '../stores/useWordStore';
 
 export const PracticePage = defineComponent({
   setup: () => {
-    const WordStore = useWordStore();
+    const wordStore = useWordStore();
     const inquiryStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
@@ -62,9 +62,7 @@ export const PracticePage = defineComponent({
         refAnswer.value.value = '';
       } else {
         classList.add('wrong');
-        refCorrectAnswer.value.innerText = inquiryStore.isKanjiKanaEqual
-          ? inquiryStore.kana
-          : inquiryStore.kana + '\n' + inquiryStore.kanji;
+        refCorrectAnswer.value.innerText = inquiryStore.answer
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);
@@ -85,12 +83,12 @@ export const PracticePage = defineComponent({
           <DailyRecord dailyCorrectCount={dailyCorrectCount} dailyAnswerCount={dailyAnswerCount} />
           <div class={s.questionWrapper}>
             <div class={s.wordWrapper}>
-              <p class={s.kana}>{WordStore.kanji === WordStore.kana ? '　' : WordStore.kana}</p>
-              <h2 class={s.wordText}>{WordStore.kanji}</h2>
-              <p class={s.meaning}>{WordStore.meaning}</p>
-              <p class={s.type}>{isAnswerSubmitted.value ? WordStore.type : '　'}</p>
+              <p class={s.kana}>{wordStore.kanji === wordStore.kana ? '　' : wordStore.kana}</p>
+              <h2 class={s.wordText}>{wordStore.kanji}</h2>
+              <p class={s.meaning}>{wordStore.meaning}</p>
+              <p class={s.type}>{isAnswerSubmitted.value ? wordStore.type : '　'}</p>
             </div>
-            <h3 class={s.questionContent}>{WordStore.formKanji}</h3>
+            <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
           <input
