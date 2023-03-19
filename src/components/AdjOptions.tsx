@@ -1,5 +1,5 @@
 import { computed, defineComponent, PropType, Ref, watch } from 'vue';
-import { BILINGUAL_LIST } from '../const';
+import { ADJ_TYPE_LIST, BILINGUAL_LIST } from '../const';
 import handleCheckbox from '../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
@@ -13,7 +13,8 @@ export const AdjOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, adj } = props.tempConfig;
-    const { sow, tense, polarity } = adj;
+    const { sow, tense, polarity, type_list } = adj;
+    
     const adjVoiceList = [
       {
         options: sow,
@@ -28,10 +29,17 @@ export const AdjOptions = defineComponent({
         key: ['affirmative', 'negative'],
       },
     ];
+
+    const typeValid = computed(() => {
+      return type_list.adj_i || type_list.adj_na;
+    });
     const plainValid = computed(() => {
       return !(sow.plain && !sow.polite && polarity.affirmative && !polarity.negative && tense.present && !tense.past);
     });
-    watch(plainValid, newVal => {
+    const adjValid = computed(() => {
+      return plainValid.value && typeValid.value;
+    });
+    watch(adjValid, newVal => {
       context.emit('updateAdj', newVal);
     });
     return () => (
@@ -41,25 +49,38 @@ export const AdjOptions = defineComponent({
           形容词
         </h3>
         {pos.adj ? (
-          <div class={s.relativeBox}>
-            <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
-            {adjVoiceList.map(({ options, key }) => (
+          <>
+            <div class={s.relativeBox}>
+              <h4 v-show={!typeValid.value}>*你至少需要选择一个类别</h4>
               <ul>
-                {key.map(k => (
+                {ADJ_TYPE_LIST.map(type => (
                   <li>
-                    <input
-                      type='checkbox'
-                      v-model={options[k as keyof typeof options]}
-                      onChange={() => {
-                        handleCheckbox(options, k as keyof typeof options);
-                      }}
-                    />
-                    <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                    <input type='checkbox' v-model={type_list[type]} />
+                    <span>{BILINGUAL_LIST[type]}</span>
                   </li>
                 ))}
               </ul>
-            ))}
-          </div>
+            </div>
+            <div class={s.relativeBox}>
+              <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
+              {adjVoiceList.map(({ options, key }) => (
+                <ul>
+                  {key.map(k => (
+                    <li>
+                      <input
+                        type='checkbox'
+                        v-model={options[k as keyof typeof options]}
+                        onChange={() => {
+                          handleCheckbox(options, k as keyof typeof options);
+                        }}
+                      />
+                      <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </>
         ) : null}
       </div>
     );

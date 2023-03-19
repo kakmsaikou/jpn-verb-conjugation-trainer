@@ -36,8 +36,12 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
         const usedVerbList = Object.keys(typeList);
         const useVerbList = verbList.filter(verb => usedVerbList.includes(verb.type));
         return useVerbList;
+      }else{
+        const typeList = configStore.tempConfig.adj!.type_list;
+        const usedAdjList = Object.keys(typeList);
+        const useAdjList = adjList.filter(adj => usedAdjList.includes(adj.type));
+        return useAdjList;
       }
-      return adjList;
     },
     wordData() {
       if (this._wordData === null) {

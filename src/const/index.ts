@@ -52,6 +52,10 @@ export const INIT_CONFIG: Config = {
     },
   },
   adj: {
+    type_list: {
+      adj_i: true,
+      adj_na: true,
+    },
     sow: {
       plain: true,
       polite: true,
