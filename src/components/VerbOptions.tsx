@@ -46,13 +46,13 @@ export const VerbOptions = defineComponent({
       context.emit('updateVerb', newVal);
     });
     return () => (
-      <div class={[s.wrapper, s.relativeBox]}>
+      <div class={s.wrapper}>
         <h3>
           <input type='checkbox' v-model={pos.verb} />
           动词
         </h3>
         {pos.verb ? (
-          <>
+          <div class={s.relativeBox}>
             <div class={s.relativeBox}>
               <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
@@ -83,9 +83,12 @@ export const VerbOptions = defineComponent({
                 </ul>
               ))}
             </div>
-            <p>「た形」= 简体 + 过去</p>
-            <p>「ない形」= 简体 + 否定</p>
-          </>
+            <div class={s.tips}>
+              <p>「た形」= 简体 + 过去</p>
+              <br />
+              <p>「ない形」= 简体 + 否定</p>
+            </div>
+          </div>
         ) : null}
       </div>
     );
