@@ -1,5 +1,6 @@
 import { computed, defineComponent, PropType, watch } from 'vue';
 import { BILINGUAL_LIST, VERB_FORM_LIST } from '../const';
+import handleCheckbox from '../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
 export const VerbOptions = defineComponent({
@@ -13,6 +14,16 @@ export const VerbOptions = defineComponent({
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
     const { polarity, tense } = verb;
+    const verbVoiceList = [
+      {
+        options: tense,
+        key: ['present', 'past'],
+      },
+      {
+        options: polarity,
+        key: ['affirmative', 'negative'],
+      },
+    ];
     const plainValid = computed(() => {
       // 不能出现简体+肯定+现在的语态
       if (verb.plain && !verb.masu) {
@@ -39,18 +50,6 @@ export const VerbOptions = defineComponent({
     watch(verbValid, newVal => {
       context.emit('updateVerb', newVal);
     });
-
-    const onChangeForTense = (key: Tense) => {
-      if (!tense.present === !tense.past) {
-        tense[key] = true;
-      }
-    };
-    const onChangeForPolarity = (key: Polarity) => {
-      if (!polarity.affirmative === !polarity.negative) {
-        polarity[key] = true;
-      }
-    };
-
     return () => (
       <div class={[s.wrapper, s.relativeBox]}>
         <h3>
@@ -72,50 +71,22 @@ export const VerbOptions = defineComponent({
               </ul>
             </div>
             <div v-show={plainOrMasuSelected.value}>
-              <ul>
-                <li>
-                  <input
-                    type='checkbox'
-                    v-model={tense.present}
-                    onChange={() => {
-                      onChangeForTense('past');
-                    }}
-                  />
-                  <span>现在</span>
-                </li>
-                <li>
-                  <input
-                    type='checkbox'
-                    v-model={tense.past}
-                    onChange={() => {
-                      onChangeForTense('present');
-                    }}
-                  />
-                  <span>过去</span>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <input
-                    type='checkbox'
-                    v-model={polarity.affirmative}
-                    onChange={() => {
-                      onChangeForPolarity('negative');
-                    }}
-                  />
-                  <span>肯定</span>
-                </li>
-                <li>
-                  <input
-                    type='checkbox'
-                    v-model={polarity.negative}
-                    onChange={() => {
-                      onChangeForPolarity('affirmative');
-                    }}
-                  />
-                  <span>否定</span>
-                </li>
-              </ul>
+              {verbVoiceList.map(({ options, key }) => (
+                <ul>
+                  {key.map(k => (
+                    <li>
+                      <input
+                        type='checkbox'
+                        v-model={options[k as keyof typeof options]}
+                        onChange={() => {
+                          handleCheckbox(options, k as keyof typeof options);
+                        }}
+                      />
+                      <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
             </div>
           </>
         ) : null}
