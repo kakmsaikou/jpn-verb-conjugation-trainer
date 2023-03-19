@@ -2,7 +2,6 @@ import { defineComponent, nextTick, Ref, ref } from 'vue';
 import s from './PracticePage.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/DailyRecord';
-import { useInquiryStore } from '../stores/useInquiryStore';
 import { Options } from '../components/Options';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
@@ -10,7 +9,7 @@ import { useWordStore } from '../stores/useWordStore';
 export const PracticePage = defineComponent({
   setup: () => {
     const wordStore = useWordStore();
-    const inquiryStore = useInquiryStore();
+    // const inquiryStore = useInquiryStore();
 
     // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
     // refAnswer 要用于 focus()
@@ -38,12 +37,12 @@ export const PracticePage = defineComponent({
       dailyAnswerCount++;
 
       // 判断输入的答案是否是汉字或是对应的平假名
-      const isAnswerCorrect = inquiryStore.isAnswerCorrect(refAnswer.value.value);
+      const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('correct', 'wrong');
           isAnswerSubmitted.value = false;
-          inquiryStore.refreshCorrectAnswer();
+          wordStore.refreshWord();
           document.removeEventListener('keyup', handleGlobalEnter);
           if (isAnswerCorrect === false && refAnswer.value !== undefined) {
             refAnswer.value.value = '';
@@ -62,7 +61,7 @@ export const PracticePage = defineComponent({
         refAnswer.value.value = '';
       } else {
         classList.add('wrong');
-        refCorrectAnswer.value.innerText = inquiryStore.answer
+        refCorrectAnswer.value.innerText = wordStore.answer
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);

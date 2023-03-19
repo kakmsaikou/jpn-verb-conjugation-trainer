@@ -1,17 +1,17 @@
 import { computed, defineComponent, reactive, ref } from 'vue';
 import { useConfigStore } from '../stores/useConfigStore';
-import { useInquiryStore } from '../stores/useInquiryStore';
 import { deepClone } from '../utils/deepClone';
 import { Button } from './Button';
 import s from './Options.module.scss';
 import { AdjOptions } from './AdjOptions';
 import { VerbOptions } from './VerbOptions';
+import { useWordStore } from '../stores/useWordStore';
 
 export const Options = defineComponent({
   emits: ['close'],
   setup: (props, context) => {
     const configStore = useConfigStore();
-    const correctAnswer = useInquiryStore();
+    const wordStore = useWordStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { pos } = tempConfig;
 
@@ -39,7 +39,7 @@ export const Options = defineComponent({
     const onClick = (e: MouseEvent) => {
       e.preventDefault();
       configStore.setConfig(tempConfig);
-      correctAnswer.refreshCorrectAnswer();
+      wordStore.refreshWord();
       context.emit('close', false);
     };
     return () => (

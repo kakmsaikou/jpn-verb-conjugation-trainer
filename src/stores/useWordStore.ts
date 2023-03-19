@@ -6,18 +6,23 @@ import { getKey } from '../utils/getKey';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
+import { myJconj } from '../utils/myJconj';
 
 type State = {
   pos: Pos;
   _form: WordForm | null;
   _word: WordData | null;
   _voices: Voices;
+  _answerArr: [string, string] | null;
 };
 type Getters = {
   form: () => WordForm;
   word: () => WordData;
   voices: () => Record<Voice, boolean>;
   selectedWordList: () => WordData[];
+  answerArr: () => [string, string];
+  answer: () => string;
+  isAnswerCorrect: () => (answer: string) => boolean;
   kana: () => string;
   kanji: () => string;
   meaning: () => string;
@@ -29,6 +34,7 @@ type Actions = {
   refreshForm: () => void;
   refreshWordData: () => void;
   refreshVoices: () => void;
+  refreshAnswer: () => void;
   refreshWord: () => void;
 };
 
@@ -52,6 +58,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       negative: false,
       polite: false,
     },
+    _answerArr: null,
   }),
   getters: {
     // 获得形态 masu、te、ta、nai 和 adj
@@ -81,6 +88,19 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     voices() {
       getVoices(this.pos, this.form, this._voices, this.word.type);
       return this._voices;
+    },
+    answerArr() {
+      if (this._answerArr === null) {
+        const { present, negative, polite } = this.voices;
+        this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+      }
+      return this._answerArr;
+    },
+    answer() {
+      return this.answerArr[0] === this.answerArr[1] ? this.answerArr[0] : this.answerArr[1] + '\n' + this.answerArr[0];
+    },
+    isAnswerCorrect() {
+      return (answer: string) => this.answerArr.includes(answer);
     },
     kanji() {
       return this.word.kanji;
@@ -140,11 +160,16 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     refreshVoices() {
       getVoices(this.pos, this.form, this._voices, this.word.type);
     },
+    refreshAnswer() {
+      const { present, negative, polite } = this.voices;
+      this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+    },
     refreshWord() {
       this.refreshPos();
       this.refreshForm();
       this.refreshWordData();
       this.refreshVoices();
+      this.refreshAnswer();
     },
   },
 });
