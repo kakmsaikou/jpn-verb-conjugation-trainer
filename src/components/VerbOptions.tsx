@@ -24,16 +24,10 @@ export const VerbOptions = defineComponent({
         key: ['affirmative', 'negative'],
       },
     ];
+
     const plainValid = computed(() => {
       // 不能出现简体+肯定+现在的语态
-      if (verb.plain && !verb.masu) {
-        if (polarity.affirmative && !polarity.negative) {
-          if (tense.present && !tense.past) {
-            return false;
-          }
-        }
-      }
-      return true;
+      return !(verb.plain && !verb.masu && polarity.affirmative && !polarity.negative && tense.present && !tense.past);
     });
     const plainOrMasuSelected = computed(() => {
       return verb.plain || verb.masu;
@@ -47,6 +41,7 @@ export const VerbOptions = defineComponent({
       }
       return plainValid.value && formValid.value;
     });
+
     watch(verbValid, newVal => {
       context.emit('updateVerb', newVal);
     });
@@ -56,10 +51,10 @@ export const VerbOptions = defineComponent({
           <input type='checkbox' v-model={pos.verb} />
           动词
         </h3>
-        <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
         {pos.verb ? (
           <>
             <div class={s.relativeBox}>
+              <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
               <ul>
                 {VERB_FORM_LIST.map(form => (
