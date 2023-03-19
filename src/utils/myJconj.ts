@@ -17,8 +17,21 @@ export const myJconj = (
   negative: boolean = false,
   polite: boolean = false
 ) => {
-  const pos = getPosNum(wordData);
-  const transwrdList = jconj(wordData, pos)[0];
+  let transwrdList;
+  let pos;
+  if (wordData.type === 'adj_na') {
+    pos = 15;
+    const tempWordData: WordData = {
+      kanji: wordData.kanji + 'だ',
+      kana: wordData.kana + 'だ',
+      meaning: wordData.meaning,
+      type: 'adj_i',
+    };
+    transwrdList = jconj(tempWordData, pos)[0];
+  } else {
+    pos = getPosNum(wordData);
+    transwrdList = jconj(wordData, pos)[0];
+  }
 
   // 根据 formal、past、negative 构造查询参数
   let conj: number = 0;
