@@ -5,6 +5,7 @@ import { useFormStore } from './useFormStore';
 import { defineStore } from 'pinia';
 import { MAX_RANDOM_WORDS_COUNT } from '../const';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
+import { useConfigStore } from './useConfigStore';
 
 type State = {
   _wordData: WordData | null;
@@ -22,6 +23,7 @@ type Actions = {
 };
 
 const formStore = useFormStore();
+const configStore = useConfigStore();
 
 export const useWordDataStore = defineStore<string, State, Getters, Actions>('wordData', {
   state: () => ({
@@ -30,7 +32,10 @@ export const useWordDataStore = defineStore<string, State, Getters, Actions>('wo
   getters: {
     filteredWordList: () => {
       if (VERB_FORM_LIST.includes(formStore.form as VerbForm)) {
-        return verbList;
+        const typeList = configStore.tempConfig.verb!.type_list;
+        const usedVerbList = Object.keys(typeList);
+        const useVerbList = verbList.filter(verb => usedVerbList.includes(verb.type));
+        return useVerbList;
       }
       return adjList;
     },

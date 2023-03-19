@@ -41,6 +41,8 @@ type Voices = Record<Voice, boolean>;
 // userConfig 参数相关
 type Config = {
   pos: Record<Pos, boolean>;
-  verb: Record<VerbForm, boolean> & { polarity: Record<Polarity, boolean> } & { tense: Record<Tense, boolean> };
+  verb: Record<VerbForm, boolean> & { polarity: Record<Polarity, boolean> } & { tense: Record<Tense, boolean> } & {
+    type_list: Record<VerbType, boolean>;
+  };
   adj: VoicesConfig;
 };

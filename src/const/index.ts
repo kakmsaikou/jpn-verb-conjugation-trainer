@@ -2,7 +2,7 @@ export const VERB_FORM_LIST: VerbForm[] = ['plain', 'masu', 'te'];
 export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 export const WORD_FORM_LIST = [...VERB_FORM_LIST, ...ADJ_FORM_LIST] as const;
 
-export const VERB_TYPE_LIST: VerbType[] = ['v1', 'v5', 'suru', 'kuru'];
+export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i'];
 
 export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | VerbType | AdjType, string> = {
@@ -32,6 +32,12 @@ export const INIT_CONFIG: Config = {
     adj: true,
   },
   verb: {
+    type_list: {
+      v1: true,
+      v5: true,
+      suru: true,
+      kuru: true,
+    },
     plain: true,
     masu: true,
     te: true,
