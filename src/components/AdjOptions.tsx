@@ -29,15 +29,7 @@ export const AdjOptions = defineComponent({
       },
     ];
     const plainValid = computed(() => {
-      // 不能出现简体+肯定+现在的语态
-      if (sow.plain && !sow.polite) {
-        if (polarity.affirmative && !polarity.negative) {
-          if (tense.present && !tense.past) {
-            return false;
-          }
-        }
-      }
-      return true;
+      return !(sow.plain && !sow.polite && polarity.affirmative && !polarity.negative && tense.present && !tense.past);
     });
     watch(plainValid, newVal => {
       context.emit('updateAdj', newVal);
