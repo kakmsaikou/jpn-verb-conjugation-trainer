@@ -14,6 +14,20 @@ export const AdjOptions = defineComponent({
   setup: (props, context) => {
     const { pos, adj } = props.tempConfig;
     const { sow, tense, polarity } = adj;
+    const adjVoiceList = [
+      {
+        options: sow,
+        key: ['plain', 'polite'],
+      },
+      {
+        options: tense,
+        key: ['present', 'past'],
+      },
+      {
+        options: polarity,
+        key: ['affirmative', 'negative'],
+      },
+    ];
     const plainValid = computed(() => {
       // 不能出现简体+肯定+现在的语态
       if (sow.plain && !sow.polite) {
@@ -28,7 +42,6 @@ export const AdjOptions = defineComponent({
     watch(plainValid, newVal => {
       context.emit('updateAdj', newVal);
     });
-
     return () => (
       <div class={s.wrapper}>
         <h3>
@@ -38,72 +51,22 @@ export const AdjOptions = defineComponent({
         {pos.adj ? (
           <div class={s.relativeBox}>
             <h4 v-show={!plainValid.value}>*你不能同时只选择“简体”、“现在”、“肯定”</h4>
-            <ul>
-              <li>
-                <input
-                  type='checkbox'
-                  v-model={sow.plain}
-                  onChange={() => {
-                    handleCheckbox(sow, 'plain');
-                  }}
-                />
-                <span>简体</span>
-              </li>
-              <li>
-                <input
-                  type='checkbox'
-                  v-model={sow.polite}
-                  onChange={() => {
-                    handleCheckbox(sow, 'polite');
-                  }}
-                />
-                <span>敬体</span>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <input
-                  type='checkbox'
-                  v-model={tense.present}
-                  onChange={() => {
-                    handleCheckbox(tense, 'present');
-                  }}
-                />
-                <span>现在</span>
-              </li>
-              <li>
-                <input
-                  type='checkbox'
-                  v-model={tense.past}
-                  onChange={() => {
-                    handleCheckbox(tense, 'past');
-                  }}
-                />
-                <span>过去</span>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <input
-                  type='checkbox'
-                  v-model={polarity.affirmative}
-                  onChange={() => {
-                    handleCheckbox(polarity, 'affirmative');
-                  }}
-                />
-                <span>肯定</span>
-              </li>
-              <li>
-                <input
-                  type='checkbox'
-                  v-model={polarity.negative}
-                  onChange={() => {
-                    handleCheckbox(polarity, 'negative');
-                  }}
-                />
-                <span>否定</span>
-              </li>
-            </ul>
+            {adjVoiceList.map(({ options, key }) => (
+              <ul>
+                {key.map(k => (
+                  <li>
+                    <input
+                      type='checkbox'
+                      v-model={options[k as keyof typeof options]}
+                      onChange={() => {
+                        handleCheckbox(options, k as keyof typeof options);
+                      }}
+                    />
+                    <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                  </li>
+                ))}
+              </ul>
+            ))}
           </div>
         ) : null}
       </div>
