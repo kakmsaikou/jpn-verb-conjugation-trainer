@@ -8,7 +8,7 @@ export const ADJ_TYPE_LIST: AdjType[] = ['adj_i'];
 export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm, string> = {
   verb: '动词',
   adj: '形容词',
-  plain: '基本形/简体',
+  plain: '基本形 / 简体',
   polite: '敬体',
   affirmative: '肯定',
   negative: '否定',
