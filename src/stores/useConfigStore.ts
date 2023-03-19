@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { INIT_CONFIG } from '../const';
 import { cloneTrueKeys } from '../utils/cloneTrueKeys';
 
-
 type State = {
   _config: Config | null;
 };
