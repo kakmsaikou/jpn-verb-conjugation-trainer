@@ -1,15 +1,13 @@
 @import './assets/styles/reset.scss';
+@import './assets/styles/vars.scss';
 
 body {
-  font-family: -apple-system, 'Noto Sans', 'Helvetica Neue', Helvetica,
-    'Nimbus Sans L', Arial, 'Liberation Sans', 'PingFang SC',
-    'Hiragino Sans GB', 'Noto Sans CJK SC', 'Source Han Sans SC',
-    'Source Han Sans CN', 'Microsoft YaHei', 'Wenquanyi Micro Hei',
-    'WenQuanYi Zen Hei', 'ST Heiti', SimHei, 'WenQuanYi Zen Hei Sharp',
-    sans-serif;
+  font-family: -apple-system, 'Noto Sans', 'Helvetica Neue', Helvetica, 'Nimbus Sans L', Arial, 'Liberation Sans',
+    'PingFang SC', 'Hiragino Sans GB', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Source Han Sans CN', 'Microsoft YaHei',
+    'Wenquanyi Micro Hei', 'WenQuanYi Zen Hei', 'ST Heiti', SimHei, 'WenQuanYi Zen Hei Sharp', sans-serif;
   font-size: 18px;
-  color: #e8e8e8;
-  background-color: #22221f;
+  color: var(--text-color);
+  background-color: var(--body-bg-color);
 }
 
 // 这两个样式是用来控制答案的对错样式的
@@ -19,5 +17,5 @@ p.correct {
 }
 p.wrong {
   opacity: 100%;
-  background-color: #da0505;
+  background-color: var(--wrong-color);
 }

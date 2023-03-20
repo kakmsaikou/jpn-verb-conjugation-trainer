@@ -14,16 +14,14 @@ export const PracticePage = defineComponent({
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
+    const isAnswerSubmitted = ref(false);
 
     onMounted(() => {
       bind(refAnswer.value as HTMLInputElement);
+      if (refAnswer.value) {
+        refAnswer.value.value = '';
+      }
     });
-
-    // 写这句话单纯只是为了消除报错
-    // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
-    if (refAnswer.value) {
-      refAnswer.value.value = '';
-    }
 
     const dailyRecord = JSON.parse(localStorage.getItem('daily_record') || 'null') || {
       day: dayjs().format('DD/MM/YYYY'),
@@ -37,9 +35,7 @@ export const PracticePage = defineComponent({
         answer: 0,
       });
     }
-
-    const isAnswerSubmitted = ref(false);
-
+    
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();

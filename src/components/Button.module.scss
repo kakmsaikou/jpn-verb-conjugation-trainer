@@ -1,19 +1,19 @@
 .backBtn {
   border: none;
-  background-color: #3f3f3f;
+  background-color: var(--button-bg-color);
   border-radius: 0.6em;
   padding: 0.2em 0.8em;
   font-size: 13px;
-  color: #ddd;
+  color: var(--text-color);
   float: right;
   box-shadow: 3px 3px 7px 1px #232323;
 
   &:hover {
-    background: rgb(70, 70, 70);
+    background: var(--button-hover-bg-color);
   }
 
   &:disabled {
-    color: #878787;
-    background: #282828;
+    color: var(--button-disabled-text-color);
+    background: var(--button-disabled-bg-color);
   }
 }
