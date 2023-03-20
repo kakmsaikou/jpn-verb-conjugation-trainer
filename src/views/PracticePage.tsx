@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, Ref, ref } from 'vue';
+import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue';
 import s from './PracticePage.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/DailyRecord';
@@ -6,15 +6,18 @@ import { Options } from '../components/Options';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
 import dayjs from 'dayjs';
+import { bind, isJapanese } from 'wanakana';
 
 export const PracticePage = defineComponent({
   setup: () => {
     const wordStore = useWordStore();
 
-    // refCorrectAnswer 要用于修改 classList.add() / classList.remove()
-    // refAnswer 要用于 focus()
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
+
+    onMounted(() => {
+      bind(refAnswer.value as HTMLInputElement);
+    });
 
     // 写这句话单纯只是为了消除报错
     // 不要写在 return 里面，不然每次渲染都会执行一次进而会导致答错情况输入框自动清空
@@ -41,6 +44,8 @@ export const PracticePage = defineComponent({
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
       if (refCorrectAnswer.value === undefined || refAnswer.value === undefined) return;
+
+      console.log(isJapanese(refAnswer.value.value));
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
