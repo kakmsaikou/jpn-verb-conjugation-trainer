@@ -41,7 +41,7 @@ export const PracticePage = defineComponent({
       e.stopPropagation();
       if (refCorrectAnswer.value === undefined || refAnswer.value === undefined) return;
 
-      console.log(isJapanese(refAnswer.value.value));
+      // console.log(isJapanese(refAnswer.value.value));
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;

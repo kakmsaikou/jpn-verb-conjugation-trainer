@@ -20,7 +20,7 @@ type State = {
   pos: Pos;
   _form: WordForm | null;
   _word: WordData | null;
-  _voices: Voices;
+  _voices: Voices | null;
   _answerArr: [string, string] | null;
 };
 type Getters = {
@@ -34,7 +34,7 @@ type Getters = {
   kana: () => string;
   kanji: () => string;
   meaning: () => string;
-  type: () => string;
+  type: () => WordType;
   formKanji: () => string;
 };
 type Actions = {
@@ -61,18 +61,19 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     pos: configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb',
     _form: null,
     _word: null,
-    _voices: {
-      present: true,
-      negative: false,
-      polite: false,
-    },
+    _voices: null,
     _answerArr: null,
   }),
   getters: {
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        return this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+        const tempForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+        // 保证在没有选择"过去式 || 否定式"的情况下，不会出现 plain 的 form
+        if (tempForm === 'plain' && !configStore.tempConfig.verb?.negative && !configStore.tempConfig.verb?.past) {
+          return (this._form = 'masu');
+        }
+        return (this._form = tempForm);
       }
       return this._form;
     },
@@ -90,7 +91,14 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     // 获得语态
     voices() {
-      getVoices(this.pos, this.form, this._voices, this.word.type);
+      if (this._voices === null) {
+        this._voices = {
+          present: true,
+          negative: false,
+          polite: false,
+        };
+        Object.assign(this._voices, getVoices());
+      }
       return this._voices;
     },
     answerArr() {
@@ -116,7 +124,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       return this.word.meaning;
     },
     type() {
-      return BILINGUAL_LIST[this.word.type];
+      return BILINGUAL_LIST[this.word.type] as WordType;
     },
     formKanji() {
       if (this.pos === 'verb') {
@@ -155,14 +163,22 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       this.pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb';
     },
     refreshForm() {
-      this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+      const tempForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+      // 保证在没有选择"过去式 || 否定式"的情况下，不会出现 plain 的 form
+      if (tempForm === 'plain' && !configStore.tempConfig.verb?.negative && !configStore.tempConfig.verb?.past) {
+        this._form = 'masu';
+      } else {
+        this._form = tempForm;
+      }
     },
     refreshWordData() {
       const index = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
       this._word = this.selectedWordList[index];
     },
     refreshVoices() {
-      getVoices(this.pos, this.form, this._voices, this.word.type);
+      if (this._voices !== null) {
+        Object.assign(this._voices, getVoices());
+      }
     },
     refreshAnswer() {
       const { present, negative, polite } = this.voices;

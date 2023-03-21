@@ -1,32 +1,31 @@
+import { useWordStore } from './../stores/useWordStore';
 import { useConfigStore } from './../stores/useConfigStore';
-import { SOW_LIST, POLARITY_LIST, TENSE_LIST } from './../const/index';
+import { SOW_LIST, POLARITY_LIST, TENSE_LIST, VERB_FORM_LIST } from './../const/index';
 import { getKey } from './getKey';
 
-// 这坨代码是个屎山，要改需要把 config 的数据结构都改了
-const configStore = useConfigStore();
+const config = useConfigStore().tempConfig;
 
-export const getVoices = (pos: Pos, form: WordForm, voices: Voices, type: WordType) => {
-  if (pos === 'verb') {
-    getVerbVoices(form, voices, configStore.tempConfig.verb!);
-  } else if (pos === 'adj') {
-    avoidPurePlainAdj(voices, configStore.tempConfig.adj!, type);
+export const getVoices = () => {
+  const wordStore = useWordStore();
+  const tempVoices: Voices = {
+    present: true,
+    negative: false,
+    polite: false,
+  };
+  if (wordStore.pos === 'verb') {
+    getVerbVoices(tempVoices, config.verb!, wordStore.form);
+  } else if (wordStore.pos === 'adj') {
+    avoidOverflow(tempVoices, config.adj!, wordStore.type as AdjType);
   }
+  return tempVoices;
 };
 
-const getVerbVoices = (form: WordForm, voices: Voices, verbConfig: VerbConfig) => {
+const getVerbVoices = (voices: Voices, verbConfig: VerbConfig, form: WordForm) => {
   switch (form) {
-    case 'plain':
-      {
-        form === 'plain' ? (voices.polite = false) : (voices.polite = true);
-        avoidPurePlainVerb(voices, verbConfig);
-      }
-      break;
     case 'masu':
-      {
-        voices.polite = true;
-        voices.negative = getKey(verbConfig, POLARITY_LIST) === 'negative';
-        voices.present = getKey(verbConfig, TENSE_LIST) === 'present';
-      }
+      voices.polite = true;
+    case 'plain':
+      avoidOverflow(voices, verbConfig, form);
       break;
     case 'te':
       voices.polite = false;
@@ -35,22 +34,20 @@ const getVerbVoices = (form: WordForm, voices: Voices, verbConfig: VerbConfig) =
   }
 };
 
-// 用于动词
-const avoidPurePlainVerb = (voices: Voices, verbConfig: VerbConfig) => {
-  voices.negative = getKey(verbConfig, POLARITY_LIST) === 'negative';
-  voices.present = getKey(verbConfig, TENSE_LIST) === 'present';
-  if (!voices.negative && voices.present) {
-    avoidPurePlainVerb(voices, verbConfig);
+function avoidOverflow(voices: Voices, config: VerbConfig, form: VerbForm): void;
+function avoidOverflow(voices: Voices, config: AdjConfig, type: AdjType): void;
+function avoidOverflow(voices: any, config: any, typeOrForm: any) {
+  voices.negative = getKey(config, POLARITY_LIST) === 'negative';
+  voices.present = getKey(config, TENSE_LIST) === 'present';
+  if (VERB_FORM_LIST.includes(typeOrForm)) {
+    if (typeOrForm === 'plain' && !voices.negative && voices.present) {
+      avoidOverflow(voices, config, typeOrForm);
+    }
+  } else {
+    voices.polite = getKey(config, SOW_LIST) === 'polite';
+    console.log(11);
+    if (typeOrForm === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
+      avoidOverflow(voices, config, typeOrForm);
+    }
   }
-};
-
-// 用于形容词
-const avoidPurePlainAdj = (voices: Voices, adjConfig: AdjConfig, type: WordType) => {
-  voices.polite = getKey(adjConfig, SOW_LIST) === 'polite';
-  voices.negative = getKey(adjConfig, POLARITY_LIST) === 'negative';
-  voices.present = getKey(adjConfig, TENSE_LIST) === 'present';
-  // 防止出现「イ形 + 简体 + 肯定 + 现在」的结果
-  if (type === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
-    avoidPurePlainAdj(voices, adjConfig, type);
-  }
-};
+}
