@@ -1,4 +1,4 @@
-import { getKeyFuck } from './../utils/getKey';
+import { getKey } from './../utils/getKey';
 import { ADJ_TYPE_LIST, POS_LIST, VERB_TYPE_LIST } from './../const/index';
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
@@ -51,7 +51,7 @@ const configStore = useConfigStore();
  */
 export const useWordStore = defineStore<string, State, Getters, Actions>('Word', {
   state: () => ({
-    pos: configStore.tempConfig.pos ? getKeyFuck(configStore.tempConfig.pos, POS_LIST) : 'verb',
+    pos: configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb',
     _form: null,
     _word: null,
     _voices: {
@@ -65,7 +65,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        return this.pos === 'verb' ? getKeyFuck(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+        return this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
       }
       return this._form;
     },
@@ -153,10 +153,10 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
   },
   actions: {
     refreshPos() {
-      this.pos = configStore.tempConfig.pos ? getKeyFuck(configStore.tempConfig.pos, POS_LIST) : 'verb';
+      this.pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb';
     },
     refreshForm() {
-      this.pos === 'verb' ? getKeyFuck(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+      this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
     },
     refreshWordData() {
       const index = getArrayRandomIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);

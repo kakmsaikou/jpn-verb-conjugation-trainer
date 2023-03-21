@@ -2,13 +2,7 @@
  * 这个函数用于从一个对象中随机获取一个key
  * 一般和 cloneTrueKeys 函数配合使用
  */
-export const getKey = (obj: Record<any, boolean>) => {
-  const keyList = Object.keys(obj).filter(key => obj[key] === true);
-  const key = keyList[Math.floor(Math.random() * keyList.length)] as keyof typeof obj;
-  return key;
-};
-
-export const getKeyFuck = (obj: Record<any, boolean>, keyList: string[]) => {
+export const getKey = (obj: Record<any, boolean>, keyList: string[]) => {
   const usedKeyList = Object.keys(obj).filter(key => obj[key] === true && keyList.includes(key));
   return usedKeyList[Math.floor(Math.random() * usedKeyList.length)] as keyof typeof obj;
 };
