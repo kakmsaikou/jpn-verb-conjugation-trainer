@@ -1,5 +1,6 @@
+import { SOW_LIST, POLARITY_LIST, TENSE_LIST } from './../const/index';
 import { useConfigStore } from '../stores/useConfigStore';
-import { getKey } from './getKey';
+import { getKey, getKeyFuck } from './getKey';
 
 // 这坨代码是个屎山，要改需要把 config 的数据结构都改了
 const configStore = useConfigStore();
@@ -46,14 +47,13 @@ const avoidPurePlainVerb = (voices: Voices, polarity: Record<Polarity, boolean>,
 };
 
 // 用于形容词
-const avoidPurePlainAdj = (voices: Voices, voiceConfig: VoicesConfig, type: WordType) => {
-  const { sow, polarity, tense } = voiceConfig;
-  voices.polite = getKey(sow) === 'polite';
-  voices.negative = getKey(polarity) === 'negative';
-  voices.present = getKey(tense) === 'present';
+const avoidPurePlainAdj = (voices: Voices, adjConfig: adjConfig, type: WordType) => {
+  voices.polite = getKeyFuck(adjConfig, SOW_LIST) === 'polite';
+  voices.negative = getKeyFuck(adjConfig, POLARITY_LIST) === 'negative';
+  voices.present = getKeyFuck(adjConfig, TENSE_LIST) === 'present';
 
   // 防止出现「イ形 + 简体 + 肯定 + 现在」的结果
   if (type === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
-    avoidPurePlainAdj(voices, voiceConfig, type);
+    avoidPurePlainAdj(voices, adjConfig, type);
   }
 };

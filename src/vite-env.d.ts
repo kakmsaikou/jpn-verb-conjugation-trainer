@@ -39,10 +39,12 @@ type VoicesConfig = {
 type Voice = 'present' | 'negative' | 'polite';
 type Voices = Record<Voice, boolean>;
 // userConfig 参数相关
+type adjConfig = Record<AdjType | Sow | Polarity | Tense, boolean>;
 type Config = {
   pos: Record<Pos, boolean>;
   verb: Record<VerbForm, boolean> & { polarity: Record<Polarity, boolean> } & { tense: Record<Tense, boolean> } & {
     type_list: Record<VerbType, boolean>;
   };
-  adj: VoicesConfig & { type_list: Record<AdjType, boolean> };
+  // adj: VoicesConfig & { type_list: Record<AdjType, boolean> };
+  adj: adjConfig;
 };

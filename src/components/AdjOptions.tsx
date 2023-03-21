@@ -1,5 +1,5 @@
 import { computed, defineComponent, PropType, Ref, watch } from 'vue';
-import { ADJ_TYPE_LIST, BILINGUAL_LIST } from '../const';
+import { ADJ_TYPE_LIST, BILINGUAL_LIST, POLARITY_LIST, SOW_LIST, TENSE_LIST } from '../const';
 import handleCheckbox from '../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
@@ -13,36 +13,22 @@ export const AdjOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, adj } = props.tempConfig;
-    const { sow, tense, polarity, type_list } = adj;
 
-    const adjVoiceList = [
-      {
-        options: sow,
-        key: ['plain', 'polite'],
-      },
-      {
-        options: tense,
-        key: ['present', 'past'],
-      },
-      {
-        options: polarity,
-        key: ['affirmative', 'negative'],
-      },
-    ];
+    const adjVoiceList = [SOW_LIST, TENSE_LIST, POLARITY_LIST];
 
     const typeValid = computed(() => {
-      return type_list.adj_i || type_list.adj_na;
+      return adj.adj_i || adj.adj_na;
     });
     const plainValid = computed(() => {
       return !(
-        type_list.adj_i &&
-        !type_list.adj_na &&
-        sow.plain &&
-        !sow.polite &&
-        polarity.affirmative &&
-        !polarity.negative &&
-        tense.present &&
-        !tense.past
+        adj.adj_i &&
+        !adj.adj_na &&
+        adj.plain &&
+        !adj.polite &&
+        adj.affirmative &&
+        !adj.negative &&
+        adj.present &&
+        !adj.past
       );
     });
     const adjValid = computed(() => {
@@ -65,29 +51,33 @@ export const AdjOptions = defineComponent({
               <ul>
                 {ADJ_TYPE_LIST.map(type => (
                   <li>
-                    <input type='checkbox' v-model={type_list[type]} />
+                    <input type='checkbox' v-model={adj[type]} />
                     <span>{BILINGUAL_LIST[type]}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div class={s.relativeBox}>
-              {adjVoiceList.map(({ options, key }) => (
-                <ul>
-                  {key.map(k => (
-                    <li>
-                      <input
-                        type='checkbox'
-                        v-model={options[k as keyof typeof options]}
-                        onChange={() => {
-                          handleCheckbox(options, k as keyof typeof options);
-                        }}
-                      />
-                      <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
-                    </li>
-                  ))}
-                </ul>
-              ))}
+              {adjVoiceList.map(item => {
+                return (
+                  <ul>
+                    {item.map(k => {
+                      return (
+                        <li>
+                          <input
+                            type='checkbox'
+                            v-model={adj[k as keyof typeof adj]}
+                            onChange={() => {
+                              handleCheckbox(adj, k as keyof typeof adj);
+                            }}
+                          />
+                          <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                );
+              })}
             </div>
           </>
         ) : null}

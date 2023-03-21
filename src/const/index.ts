@@ -4,6 +4,10 @@ export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 
+export const SOW_LIST: Sow[] = ['plain', 'polite'];
+export const POLARITY_LIST: Polarity[] = ['affirmative', 'negative'];
+export const TENSE_LIST: Tense[] = ['present', 'past'];
+
 export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | VerbType | AdjType, string> = {
   verb: '动词',
   adj: '形容词',
@@ -51,21 +55,13 @@ export const INIT_CONFIG: Config = {
     },
   },
   adj: {
-    type_list: {
-      adj_i: true,
-      adj_na: true,
-    },
-    sow: {
-      plain: true,
-      polite: true,
-    },
-    polarity: {
-      affirmative: true,
-      negative: true,
-    },
-    tense: {
-      present: true,
-      past: true,
-    },
+    adj_i: true,
+    adj_na: true,
+    plain: true,
+    polite: true,
+    affirmative: true,
+    negative: true,
+    present: true,
+    past: true,
   },
 };

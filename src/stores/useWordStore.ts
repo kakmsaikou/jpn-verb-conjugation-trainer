@@ -1,3 +1,4 @@
+import { ADJ_TYPE_LIST } from './../const/index';
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
 import { BILINGUAL_LIST, MAX_RANDOM_WORDS_COUNT, VERB_FORM_LIST } from '../const';
@@ -73,8 +74,11 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
         const selectedTypes = Object.keys(configStore.tempConfig.verb!.type_list);
         return verbList.filter(verb => selectedTypes.includes(verb.type));
       } else {
-        const usedAdjList = Object.keys(configStore.tempConfig.adj!.type_list);
-        return adjList.filter(adj => usedAdjList.includes(adj.type));
+        const usedAdjTypeList = Object.keys(configStore.tempConfig.adj!).filter(key =>
+          ADJ_TYPE_LIST.includes(key as AdjType)
+        );
+        console.log(usedAdjTypeList);
+        return adjList.filter(adj => usedAdjTypeList.includes(adj.type));
       }
     },
     word() {

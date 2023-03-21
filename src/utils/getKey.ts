@@ -7,3 +7,8 @@ export const getKey = (obj: Record<any, boolean>) => {
   const key = keyList[Math.floor(Math.random() * keyList.length)] as keyof typeof obj;
   return key;
 };
+
+export const getKeyFuck = (obj: Record<any, boolean>, keyList: string[]) => {
+  const usedKeyList = Object.keys(obj).filter(key => obj[key] === true && keyList.includes(key));
+  return usedKeyList[Math.floor(Math.random() * usedKeyList.length)] as keyof typeof obj;
+};
