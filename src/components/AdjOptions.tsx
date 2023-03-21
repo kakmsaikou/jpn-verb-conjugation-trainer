@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType, Ref, watch } from 'vue';
 import { ADJ_TYPE_LIST, BILINGUAL_LIST, POLARITY_LIST, SOW_LIST, TENSE_LIST } from '../const';
-import handleCheckbox from '../utils/handleCheckbox';
+import { handleCheckbox } from '../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
 export const AdjOptions = defineComponent({
@@ -61,17 +61,17 @@ export const AdjOptions = defineComponent({
               {adjVoiceList.map(item => {
                 return (
                   <ul>
-                    {item.map(k => {
+                    {item.map(key => {
                       return (
                         <li>
                           <input
                             type='checkbox'
-                            v-model={adj[k as keyof typeof adj]}
+                            v-model={adj[key]}
                             onChange={() => {
-                              handleCheckbox(adj, k as keyof typeof adj);
+                              handleCheckbox(adj, key);
                             }}
                           />
-                          <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                          <span>{BILINGUAL_LIST[key]}</span>
                         </li>
                       );
                     })}

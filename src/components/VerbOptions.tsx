@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType, watch } from 'vue';
-import { BILINGUAL_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../const';
-import handleCheckbox from '../utils/handleCheckbox';
+import { BILINGUAL_LIST, POLARITY_LIST, TENSE_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../const';
+import { handleCheckbox } from '../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
 export const VerbOptions = defineComponent({
@@ -13,10 +13,7 @@ export const VerbOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
-    const verbVoiceList = [
-      ['present', 'past'],
-      ['affirmative', 'negative'],
-    ];
+    const verbVoiceList = [TENSE_LIST, POLARITY_LIST];
 
     const typeValid = computed(() => {
       return verb.v5 || verb.v1 || verb.suru || verb.kuru;
@@ -70,26 +67,24 @@ export const VerbOptions = defineComponent({
               </ul>
             </div>
             <div v-show={plainOrMasuSelected.value}>
-              {
-                verbVoiceList.map(item=>{
-                  return (
-                    <ul>
-                      {item.map(k => (
-                        <li>
-                          <input
-                            type='checkbox'
-                            v-model={verb[k as keyof typeof verb]}
-                            onChange={() => {
-                              handleCheckbox(verb, k as keyof typeof verb);
-                            }}
-                          />
-                          <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                })
-              }
+              {verbVoiceList.map(item => {
+                return (
+                  <ul>
+                    {item.map(key => (
+                      <li>
+                        <input
+                          type='checkbox'
+                          v-model={verb[key]}
+                          onChange={() => {
+                            handleCheckbox(verb, key);
+                          }}
+                        />
+                        <span>{BILINGUAL_LIST[key]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                );
+              })}
             </div>
             <div class={s.tips}>
               <p>「た形」= 简体 + 过去</p>
