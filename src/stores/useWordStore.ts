@@ -14,6 +14,7 @@ import {
   MAX_RANDOM_WORDS_COUNT,
   BILINGUAL_LIST,
 } from '../const';
+import { getWordList } from '../utils/getWordList';
 
 type State = {
   pos: Pos;
@@ -76,17 +77,9 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       return this._form;
     },
     selectedWordList() {
-      if (VERB_FORM_LIST.includes(this.form as VerbForm)) {
-        const selectedTypes = Object.keys(configStore.tempConfig.verb!).filter(key =>
-          VERB_TYPE_LIST.includes(key as VerbType)
-        );
-        return verbList.filter(verb => selectedTypes.includes(verb.type));
-      } else {
-        const selectedTypes = Object.keys(configStore.tempConfig.adj!).filter(key =>
-          ADJ_TYPE_LIST.includes(key as AdjType)
-        );
-        return adjList.filter(adj => selectedTypes.includes(adj.type));
-      }
+      return VERB_FORM_LIST.includes(this.form as VerbForm)
+        ? getWordList(configStore.tempConfig.verb!, VERB_TYPE_LIST, verbList)
+        : getWordList(configStore.tempConfig.adj!, ADJ_TYPE_LIST, adjList);
     },
     word() {
       if (this._word === null) {
