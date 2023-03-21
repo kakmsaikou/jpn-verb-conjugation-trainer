@@ -1,33 +1,32 @@
+import { useConfigStore } from './../stores/useConfigStore';
 import { SOW_LIST, POLARITY_LIST, TENSE_LIST } from './../const/index';
-import { useConfigStore } from '../stores/useConfigStore';
-import { getKey, getKeyFuck } from './getKey';
+import { getKeyFuck } from './getKey';
 
 // 这坨代码是个屎山，要改需要把 config 的数据结构都改了
 const configStore = useConfigStore();
 
 export const getVoices = (pos: Pos, form: WordForm, voices: Voices, type: WordType) => {
   if (pos === 'verb') {
-    getVerbVoices(form, voices);
+    getVerbVoices(form, voices, configStore.tempConfig.verb!);
   } else if (pos === 'adj') {
     avoidPurePlainAdj(voices, configStore.tempConfig.adj!, type);
   }
 };
 
-const getVerbVoices = (form: WordForm, voices: Voices) => {
+const getVerbVoices = (form: WordForm, voices: Voices, verbConfig: VerbConfig) => {
   switch (form) {
     case 'plain':
       {
-        const { polarity, tense } = configStore.tempConfig.verb!;
         form === 'plain' ? (voices.polite = false) : (voices.polite = true);
-        avoidPurePlainVerb(voices, polarity, tense);
+        avoidPurePlainVerb(voices, verbConfig);
       }
       break;
     case 'masu':
       {
-        const { polarity, tense } = configStore.tempConfig.verb!;
+        // const { polarity, tense } = configStore.tempConfig.verb!;
         voices.polite = true;
-        voices.negative = getKey(polarity) === 'negative';
-        voices.present = getKey(tense) === 'present';
+        voices.negative = getKeyFuck(verbConfig, POLARITY_LIST) === 'negative';
+        voices.present = getKeyFuck(verbConfig, TENSE_LIST) === 'present';
       }
       break;
     case 'te':
@@ -38,20 +37,19 @@ const getVerbVoices = (form: WordForm, voices: Voices) => {
 };
 
 // 用于动词
-const avoidPurePlainVerb = (voices: Voices, polarity: Record<Polarity, boolean>, tense: Record<Tense, boolean>) => {
-  voices.negative = getKey(polarity) === 'negative';
-  voices.present = getKey(tense) === 'present';
+const avoidPurePlainVerb = (voices: Voices, verbConfig: VerbConfig) => {
+  voices.negative = getKeyFuck(verbConfig, POLARITY_LIST) === 'negative';
+  voices.present = getKeyFuck(verbConfig, TENSE_LIST) === 'present';
   if (!voices.negative && voices.present) {
-    avoidPurePlainVerb(voices, polarity, tense);
+    avoidPurePlainVerb(voices, verbConfig);
   }
 };
 
 // 用于形容词
-const avoidPurePlainAdj = (voices: Voices, adjConfig: adjConfig, type: WordType) => {
+const avoidPurePlainAdj = (voices: Voices, adjConfig: AdjConfig, type: WordType) => {
   voices.polite = getKeyFuck(adjConfig, SOW_LIST) === 'polite';
   voices.negative = getKeyFuck(adjConfig, POLARITY_LIST) === 'negative';
   voices.present = getKeyFuck(adjConfig, TENSE_LIST) === 'present';
-
   // 防止出现「イ形 + 简体 + 肯定 + 现在」的结果
   if (type === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
     avoidPurePlainAdj(voices, adjConfig, type);

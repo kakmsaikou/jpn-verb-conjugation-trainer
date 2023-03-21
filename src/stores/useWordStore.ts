@@ -1,9 +1,9 @@
-import { ADJ_TYPE_LIST } from './../const/index';
+import { getKeyFuck } from './../utils/getKey';
+import { ADJ_TYPE_LIST, POS_LIST, VERB_TYPE_LIST } from './../const/index';
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
 import { BILINGUAL_LIST, MAX_RANDOM_WORDS_COUNT, VERB_FORM_LIST } from '../const';
 import { getVoices } from '../utils/getVoices';
-import { getKey } from '../utils/getKey';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
@@ -51,7 +51,7 @@ const configStore = useConfigStore();
  */
 export const useWordStore = defineStore<string, State, Getters, Actions>('Word', {
   state: () => ({
-    pos: configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb',
+    pos: configStore.tempConfig.pos ? getKeyFuck(configStore.tempConfig.pos, POS_LIST) : 'verb',
     _form: null,
     _word: null,
     _voices: {
@@ -65,20 +65,21 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        return this.pos === 'verb' ? getKey(configStore.tempConfig.verb!) : 'adj';
+        return this.pos === 'verb' ? getKeyFuck(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
       }
       return this._form;
     },
     selectedWordList() {
       if (VERB_FORM_LIST.includes(this.form as VerbForm)) {
-        const selectedTypes = Object.keys(configStore.tempConfig.verb!.type_list);
+        const selectedTypes = Object.keys(configStore.tempConfig.verb!).filter(key =>
+          VERB_TYPE_LIST.includes(key as VerbType)
+        );
         return verbList.filter(verb => selectedTypes.includes(verb.type));
       } else {
-        const usedAdjTypeList = Object.keys(configStore.tempConfig.adj!).filter(key =>
+        const selectedTypes = Object.keys(configStore.tempConfig.adj!).filter(key =>
           ADJ_TYPE_LIST.includes(key as AdjType)
         );
-        console.log(usedAdjTypeList);
-        return adjList.filter(adj => usedAdjTypeList.includes(adj.type));
+        return adjList.filter(adj => selectedTypes.includes(adj.type));
       }
     },
     word() {
@@ -152,10 +153,10 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
   },
   actions: {
     refreshPos() {
-      this.pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos) : 'verb';
+      this.pos = configStore.tempConfig.pos ? getKeyFuck(configStore.tempConfig.pos, POS_LIST) : 'verb';
     },
     refreshForm() {
-      this.pos === 'verb' ? getKey(configStore.tempConfig.verb!) : 'adj';
+      this.pos === 'verb' ? getKeyFuck(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
     },
     refreshWordData() {
       const index = getArrayRandomIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);

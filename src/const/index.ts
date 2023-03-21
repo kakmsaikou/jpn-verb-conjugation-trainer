@@ -4,6 +4,7 @@ export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 
+export const POS_LIST: Pos[] = ['verb', 'adj'];
 export const SOW_LIST: Sow[] = ['plain', 'polite'];
 export const POLARITY_LIST: Polarity[] = ['affirmative', 'negative'];
 export const TENSE_LIST: Tense[] = ['present', 'past'];
@@ -36,23 +37,17 @@ export const INIT_CONFIG: Config = {
     adj: true,
   },
   verb: {
-    type_list: {
-      v1: true,
-      v5: true,
-      suru: true,
-      kuru: true,
-    },
+    v1: true,
+    v5: true,
+    suru: true,
+    kuru: true,
     plain: true,
     masu: true,
     te: true,
-    polarity: {
-      affirmative: true,
-      negative: true,
-    },
-    tense: {
-      present: true,
-      past: true,
-    },
+    affirmative: true,
+    negative: true,
+    present: true,
+    past: true,
   },
   adj: {
     adj_i: true,

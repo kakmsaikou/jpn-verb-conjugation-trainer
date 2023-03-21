@@ -13,24 +13,17 @@ export const VerbOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
-    const { polarity, tense, type_list } = verb;
     const verbVoiceList = [
-      {
-        options: tense,
-        key: ['present', 'past'],
-      },
-      {
-        options: polarity,
-        key: ['affirmative', 'negative'],
-      },
+      ['present', 'past'],
+      ['affirmative', 'negative'],
     ];
 
     const typeValid = computed(() => {
-      return type_list.v5 || type_list.v1 || type_list.suru || type_list.kuru;
+      return verb.v5 || verb.v1 || verb.suru || verb.kuru;
     });
     const plainValid = computed(() => {
       // 不能出现简体+肯定+现在的语态
-      return !(verb.plain && !verb.masu && polarity.affirmative && !polarity.negative && tense.present && !tense.past);
+      return !(verb.plain && !verb.masu && verb.affirmative && !verb.negative && verb.present && !verb.past);
     });
     const plainOrMasuSelected = computed(() => {
       return verb.plain || verb.masu;
@@ -58,7 +51,7 @@ export const VerbOptions = defineComponent({
               <ul>
                 {VERB_TYPE_LIST.map(type => (
                   <li>
-                    <input type='checkbox' v-model={type_list[type]} />
+                    <input type='checkbox' v-model={verb[type]} />
                     <span>{BILINGUAL_LIST[type]}</span>
                   </li>
                 ))}
@@ -77,22 +70,26 @@ export const VerbOptions = defineComponent({
               </ul>
             </div>
             <div v-show={plainOrMasuSelected.value}>
-              {verbVoiceList.map(({ options, key }) => (
-                <ul>
-                  {key.map(k => (
-                    <li>
-                      <input
-                        type='checkbox'
-                        v-model={options[k as keyof typeof options]}
-                        onChange={() => {
-                          handleCheckbox(options, k as keyof typeof options);
-                        }}
-                      />
-                      <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
-                    </li>
-                  ))}
-                </ul>
-              ))}
+              {
+                verbVoiceList.map(item=>{
+                  return (
+                    <ul>
+                      {item.map(k => (
+                        <li>
+                          <input
+                            type='checkbox'
+                            v-model={verb[k as keyof typeof verb]}
+                            onChange={() => {
+                              handleCheckbox(verb, k as keyof typeof verb);
+                            }}
+                          />
+                          <span>{BILINGUAL_LIST[k as keyof typeof BILINGUAL_LIST]}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                })
+              }
             </div>
             <div class={s.tips}>
               <p>「た形」= 简体 + 过去</p>
