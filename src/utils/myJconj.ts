@@ -15,18 +15,16 @@ type MyJconj = (
 export const myJconj: MyJconj = (wordData, present = true, negative = false, polite = false, form) => {
   // formal 和 negative 都是可以直接拼接的，只有 present 需要特殊处理
   let transwrdList;
-  let pos;
+  const pos = getPosNum(wordData);
   if (wordData.type === 'adj_na') {
-    pos = 15;
     const tempWordData: WordData = {
       kanji: wordData.kanji + 'だ',
       kana: wordData.kana + 'だ',
       meaning: wordData.meaning,
-      type: 'adj_i',
+      type: 'adj_na',
     };
     transwrdList = jconj(tempWordData, pos)[0];
   } else {
-    pos = getPosNum(wordData);
     transwrdList = jconj(wordData, pos)[0];
   }
 
