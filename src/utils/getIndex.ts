@@ -1,6 +1,6 @@
 const usedIndexes: number[] = [];
 
-export const getArrayRandomIndex = (arr: WordData[], uniqueCount: number): number => {
+export const getIndex = (arr: WordData[], uniqueCount: number): number => {
   const max = arr.length;
   let randomIndex = Math.floor(Math.random() * max);
   if (usedIndexes.length >= uniqueCount) {

@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { getVoices } from '../utils/getVoices';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
-import { getArrayRandomIndex } from '../utils/getRandomIndex';
+import { getIndex } from '../utils/getIndex';
 import { myJconj } from '../utils/myJconj';
 import {
   POS_LIST,
@@ -83,7 +83,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     word() {
       if (this._word === null) {
-        const randomIndex = getArrayRandomIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
+        const randomIndex = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
         this._word = this.selectedWordList[randomIndex];
       }
       return this._word;
@@ -158,7 +158,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
     },
     refreshWordData() {
-      const index = getArrayRandomIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
+      const index = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
       this._word = this.selectedWordList[index];
     },
     refreshVoices() {
