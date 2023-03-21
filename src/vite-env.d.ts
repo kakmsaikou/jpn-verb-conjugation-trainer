@@ -44,6 +44,5 @@ type VerbConfig = Record<VerbType | VerbForm | Polarity | Tense, boolean>;
 type Config = {
   pos: Record<Pos, boolean>;
   verb: VerbConfig;
-  // adj: VoicesConfig & { type_list: Record<AdjType, boolean> };
   adj: AdjConfig;
 };

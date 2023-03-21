@@ -1,13 +1,19 @@
 import { getKey } from './../utils/getKey';
-import { ADJ_TYPE_LIST, POS_LIST, VERB_TYPE_LIST } from './../const/index';
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
-import { BILINGUAL_LIST, MAX_RANDOM_WORDS_COUNT, VERB_FORM_LIST } from '../const';
 import { getVoices } from '../utils/getVoices';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getArrayRandomIndex } from '../utils/getRandomIndex';
 import { myJconj } from '../utils/myJconj';
+import {
+  POS_LIST,
+  VERB_FORM_LIST,
+  VERB_TYPE_LIST,
+  ADJ_TYPE_LIST,
+  MAX_RANDOM_WORDS_COUNT,
+  BILINGUAL_LIST,
+} from '../const';
 
 type State = {
   pos: Pos;

@@ -23,7 +23,6 @@ const getVerbVoices = (form: WordForm, voices: Voices, verbConfig: VerbConfig) =
       break;
     case 'masu':
       {
-        // const { polarity, tense } = configStore.tempConfig.verb!;
         voices.polite = true;
         voices.negative = getKey(verbConfig, POLARITY_LIST) === 'negative';
         voices.present = getKey(verbConfig, TENSE_LIST) === 'present';
