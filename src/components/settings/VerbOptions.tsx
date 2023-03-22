@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType, watch } from 'vue';
-import { BILINGUAL_LIST, POLARITY_LIST, TENSE_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../const';
-import { handleCheckbox } from '../utils/handleCheckbox';
+import { BILINGUAL_LIST, POLARITY_LIST, TENSE_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../../const';
+import { handleCheckbox } from '../../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
 export const VerbOptions = defineComponent({
