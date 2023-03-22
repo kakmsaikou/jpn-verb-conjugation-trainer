@@ -14,6 +14,7 @@ export const PracticePage = defineComponent({
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
+    const refTooltip: Ref<HTMLParagraphElement | undefined> = ref();
     const isAnswerSubmitted = ref(false);
 
     onMounted(() => {
@@ -35,13 +36,18 @@ export const PracticePage = defineComponent({
         answer: 0,
       });
     }
-    
+
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
       if (refCorrectAnswer.value === undefined || refAnswer.value === undefined) return;
-
-      // console.log(isJapanese(refAnswer.value.value));
+      if (isJapanese(refAnswer.value.value) === false) {
+        refTooltip.value?.classList.add(s.visible);
+        setTimeout(() => {
+          refTooltip.value?.classList.remove(s.visible);
+        }, 4000);
+        return;
+      }
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
@@ -103,18 +109,24 @@ export const PracticePage = defineComponent({
             <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
             <p ref={refCorrectAnswer} class={s.correctAnswer} />
           </div>
-          <input
-            type='text'
-            class={s.answer}
-            ref={refAnswer}
-            {...withEventModifiers(
-              {
-                onKeyup: handleSubmitAnswer,
-              },
-              ['enter']
-            )}
-            disabled={isAnswerSubmitted.value}
-          />
+          <div class={s.inputWrapper}>
+            <p class={s.tooltip} ref={refTooltip}>
+              只能输入汉字或者对应的平假名。
+            </p>
+            <input
+              type='text'
+              class={s.answer}
+              ref={refAnswer}
+              {...withEventModifiers(
+                {
+                  onKeyup: handleSubmitAnswer,
+                },
+                ['enter']
+              )}
+              disabled={isAnswerSubmitted.value}
+            />
+          </div>
+
           <div class={s.settingWrapper}>
             <Button style='visibility: hidden'>設定 ⚙️</Button>
             <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>

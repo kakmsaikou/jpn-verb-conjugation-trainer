@@ -62,6 +62,40 @@
       }
     }
 
+    .inputWrapper {
+      width: 100%;
+      position: relative;
+
+      .tooltip {
+        position: absolute;
+        font-size: 0.66rem;
+        color: white;
+        background: red;
+        border-radius: 0.3rem;
+        padding: 0 0.4rem;
+        bottom: 100%;
+        left: 7%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 14%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: red transparent transparent transparent;
+        }
+
+        &.visible {
+          opacity: 100%;
+          transition: opacity 0.3s ease-in-out;
+        }
+      }
+    }
+
     .settingWrapper {
       padding-top: 0.5em;
       display: flex;
