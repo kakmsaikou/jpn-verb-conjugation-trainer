@@ -42,7 +42,7 @@ export const verbList: VerbData[] = [
   { kanji: '飲む', kana: 'のむ', type: 'v5', meaning: '喝' },
   { kanji: '泳ぐ', kana: 'およぐ', type: 'v5', meaning: '游泳' },
   { kanji: '止める', kana: 'とめる', type: 'v1', meaning: '停止' },
-  { kanji: '走る', kana: 'ある', type: 'v5', meaning: '步行' },
+  { kanji: '走る', kana: 'はしる', type: 'v5', meaning: '步行' },
   { kanji: '作る', kana: 'つくる', type: 'v5', meaning: '做' },
   { kanji: 'やる', kana: 'やる', type: 'v5', meaning: '做（口语）' },
 ];
