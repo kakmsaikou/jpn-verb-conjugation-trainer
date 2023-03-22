@@ -3,7 +3,7 @@ import { useConfigStore } from './../stores/useConfigStore';
 import { SOW_LIST, POLARITY_LIST, TENSE_LIST, VERB_FORM_LIST } from './../const/index';
 import { getKey } from './getKey';
 
-const config = useConfigStore().tempConfig;
+const configStore = useConfigStore();
 
 export const getVoices = () => {
   const wordStore = useWordStore();
@@ -13,9 +13,9 @@ export const getVoices = () => {
     polite: false,
   };
   if (wordStore.pos === 'verb') {
-    getVerbVoices(tempVoices, config.verb!, wordStore.form);
+    getVerbVoices(tempVoices, configStore.tempConfig.verb!, wordStore.form);
   } else if (wordStore.pos === 'adj') {
-    avoidOverflow(tempVoices, config.adj!, wordStore.type as AdjType);
+    avoidOverflow(tempVoices, configStore.tempConfig.adj!, wordStore.type as AdjType);
   }
   return tempVoices;
 };
@@ -45,6 +45,7 @@ function avoidOverflow(voices: any, config: any, typeOrForm: any) {
     }
   } else {
     voices.polite = getKey(config, SOW_LIST) === 'polite';
+
     if (typeOrForm === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
       avoidOverflow(voices, config, typeOrForm);
     }
