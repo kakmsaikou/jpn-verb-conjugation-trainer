@@ -44,7 +44,7 @@ export const SettingsPage = defineComponent({
       router.push('/');
     };
     return () => (
-      <div class={s.wrapper}>
+      <div>
         <h2>设置</h2>
         <form class={s.optionsForm}>
           <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>

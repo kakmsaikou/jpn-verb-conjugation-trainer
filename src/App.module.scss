@@ -2,9 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 1.6em;
 
   h1 {
     padding: 0.5em 0;
     font-size: 32px;
+  }
+
+  .childWrapper{
+    width: 31em;
+    background-color: var(--primary-bg-color);
+    padding: 1em 1.5em;
+    border-radius: 3%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

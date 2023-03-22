@@ -98,7 +98,7 @@ export const PracticePage = defineComponent({
       }
     };
     return () => (
-      <div class={s.wrapper}>
+      <div>
         <DailyRecord dailyCorrectCount={dailyRecord.correct} dailyAnswerCount={dailyRecord.answer} />
         <div class={s.questionWrapper}>
           <div class={s.wordWrapper}>
