@@ -45,7 +45,6 @@ function avoidOverflow(voices: any, config: any, typeOrForm: any) {
     }
   } else {
     voices.polite = getKey(config, SOW_LIST) === 'polite';
-    console.log(11);
     if (typeOrForm === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
       avoidOverflow(voices, config, typeOrForm);
     }
