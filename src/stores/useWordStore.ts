@@ -30,6 +30,7 @@ type Getters = {
   selectedWordList: () => WordData[];
   answerArr: () => [string, string];
   answer: () => string;
+  answerKana: () => string;
   isAnswerCorrect: () => (answer: string) => boolean;
   kana: () => string;
   kanji: () => string;
@@ -110,6 +111,9 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     answer() {
       return this.answerArr[0] === this.answerArr[1] ? this.answerArr[0] : this.answerArr[1] + '\n' + this.answerArr[0];
+    },
+    answerKana() {
+      return this.answerArr[0];
     },
     isAnswerCorrect() {
       return (answer: string) => this.answerArr.includes(answer);

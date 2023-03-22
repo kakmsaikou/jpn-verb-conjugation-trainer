@@ -17,6 +17,13 @@ export const PracticePage = defineComponent({
     const refTooltip: Ref<HTMLParagraphElement | undefined> = ref();
     const isAnswerSubmitted = ref(false);
 
+    const utterance = new SpeechSynthesisUtterance();
+    const voices = speechSynthesis.getVoices();
+    console.log(voices)
+    utterance.voice = voices.find((voice) => voice.name === 'Google 日本語') || voices[0];
+    utterance.lang = 'ja-JP';
+    utterance.rate = 1;
+
     onMounted(() => {
       bind(refAnswer.value as HTMLInputElement);
       if (refAnswer.value) {
@@ -48,6 +55,9 @@ export const PracticePage = defineComponent({
         }, 4000);
         return;
       }
+
+      utterance.text = wordStore.answerKana;
+      speechSynthesis.speak(utterance);
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
