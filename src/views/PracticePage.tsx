@@ -18,11 +18,12 @@ export const PracticePage = defineComponent({
     const isAnswerSubmitted = ref(false);
 
     const utterance = new SpeechSynthesisUtterance();
-    const voices = speechSynthesis.getVoices();
-    console.log(voices)
-    utterance.voice = voices.find((voice) => voice.name === 'Google 日本語') || voices[0];
-    utterance.lang = 'ja-JP';
-    utterance.rate = 1;
+    window.speechSynthesis.onvoiceschanged = function () {
+      const voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google 日本語');
+      if(voice){
+        utterance.voice = voice;
+      }
+    };
 
     onMounted(() => {
       bind(refAnswer.value as HTMLInputElement);
