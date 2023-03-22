@@ -1,19 +1,20 @@
 import { computed, defineComponent, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { AdjOptions } from '../components/AdjOptions';
+import { Button } from '../components/Button';
+import { VerbOptions } from '../components/VerbOptions';
 import { useConfigStore } from '../stores/useConfigStore';
-import { deepClone } from '../utils/deepClone';
-import { Button } from './Button';
-import s from './Options.module.scss';
-import { AdjOptions } from './AdjOptions';
-import { VerbOptions } from './VerbOptions';
 import { useWordStore } from '../stores/useWordStore';
+import { deepClone } from '../utils/deepClone';
+import s from './SettingsPage.module.scss';
 
-export const Options = defineComponent({
-  emits: ['close'],
+export const SettingsPage = defineComponent({
   setup: (props, context) => {
     const configStore = useConfigStore();
     const wordStore = useWordStore();
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { pos } = tempConfig;
+    const router = useRouter();
 
     const posValid = computed(() => {
       return pos.verb || pos.adj;
@@ -40,7 +41,7 @@ export const Options = defineComponent({
       e.preventDefault();
       configStore.setConfig(tempConfig);
       wordStore.refreshWord();
-      context.emit('close', false);
+      router.push('/');
     };
     return () => (
       <div class={s.wrapper}>
@@ -57,3 +58,5 @@ export const Options = defineComponent({
     );
   },
 });
+
+export default SettingsPage;

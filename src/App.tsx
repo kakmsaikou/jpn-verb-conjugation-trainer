@@ -5,7 +5,12 @@ import './App.scss';
 
 export const App = defineComponent({
   setup: (props, context) => {
-    return () => <RouterView />;
+    return () => (
+      <div class={s.wrapper}>
+        <h1>日语词汇变形练习</h1>
+          <RouterView />
+      </div>
+    );
   },
 });
 

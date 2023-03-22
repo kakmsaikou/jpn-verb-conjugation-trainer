@@ -2,11 +2,11 @@ import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue';
 import s from './PracticePage.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/DailyRecord';
-import { Options } from '../components/Options';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
 import dayjs from 'dayjs';
 import { bind, isJapanese } from 'wanakana';
+import { RouterLink } from 'vue-router';
 
 export const PracticePage = defineComponent({
   setup: () => {
@@ -20,7 +20,7 @@ export const PracticePage = defineComponent({
     const utterance = new SpeechSynthesisUtterance();
     window.speechSynthesis.onvoiceschanged = function () {
       const voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google 日本語');
-      if(voice){
+      if (voice) {
         utterance.voice = voice;
       }
     };
@@ -97,54 +97,44 @@ export const PracticePage = defineComponent({
         }, 400);
       }
     };
-
-    const isOptionsVisible = ref(false);
-    const turnOptions = (status: boolean) => {
-      isOptionsVisible.value = status;
-    };
-    const onClick = (e: MouseEvent) => {
-      turnOptions(true);
-    };
     return () => (
       <div class={s.wrapper}>
-        <h1>日语词汇变形练习</h1>
-        <div class={s.practiceWrapper} v-show={!isOptionsVisible.value}>
-          <DailyRecord dailyCorrectCount={dailyRecord.correct} dailyAnswerCount={dailyRecord.answer} />
-          <div class={s.questionWrapper}>
-            <div class={s.wordWrapper}>
-              <p class={s.kana}>{wordStore.kanji === wordStore.kana ? '　' : wordStore.kana}</p>
-              <h2 class={s.wordText}>{wordStore.kanji}</h2>
-              <p class={s.meaning}>{wordStore.meaning}</p>
-              <p class={s.type}>{isAnswerSubmitted.value ? wordStore.type : '　'}</p>
-            </div>
-            <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
-            <p ref={refCorrectAnswer} class={s.correctAnswer} />
+        <DailyRecord dailyCorrectCount={dailyRecord.correct} dailyAnswerCount={dailyRecord.answer} />
+        <div class={s.questionWrapper}>
+          <div class={s.wordWrapper}>
+            <p class={s.kana}>{wordStore.kanji === wordStore.kana ? '　' : wordStore.kana}</p>
+            <h2 class={s.wordText}>{wordStore.kanji}</h2>
+            <p class={s.meaning}>{wordStore.meaning}</p>
+            <p class={s.type}>{isAnswerSubmitted.value ? wordStore.type : '　'}</p>
           </div>
-          <div class={s.inputWrapper}>
-            <p class={s.tooltip} ref={refTooltip}>
-              只能输入汉字或者对应的平假名。
-            </p>
-            <input
-              type='text'
-              class={s.answer}
-              ref={refAnswer}
-              {...withEventModifiers(
-                {
-                  onKeyup: handleSubmitAnswer,
-                },
-                ['enter']
-              )}
-              disabled={isAnswerSubmitted.value}
-            />
-          </div>
-
-          <div class={s.settingWrapper}>
-            <Button style='visibility: hidden'>設定 ⚙️</Button>
-            <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
-            <Button onClick={onClick}>設定 ⚙️</Button>
-          </div>
+          <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
+          <p ref={refCorrectAnswer} class={s.correctAnswer} />
         </div>
-        <Options v-show={isOptionsVisible.value} onClose={turnOptions} />
+        <div class={s.inputWrapper}>
+          <p class={s.tooltip} ref={refTooltip}>
+            只能输入汉字或者对应的平假名。
+          </p>
+          <input
+            type='text'
+            class={s.answer}
+            ref={refAnswer}
+            {...withEventModifiers(
+              {
+                onKeyup: handleSubmitAnswer,
+              },
+              ['enter']
+            )}
+            disabled={isAnswerSubmitted.value}
+          />
+        </div>
+
+        <div class={s.settingWrapper}>
+          <Button style='visibility: hidden'>設定 ⚙️</Button>
+          <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
+          <RouterLink to={'/settings'}>
+            <Button>設定 ⚙️</Button>
+          </RouterLink>
+        </div>
       </div>
     );
   },
