@@ -59,9 +59,12 @@ export const SettingPage = defineComponent({
             是否要注音？
             <Slider options={pronOptions} onOption={handleFuck} />
           </p>
-          <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
-          <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
-          <AdjOptions tempConfig={tempConfig} onUpdateAdj={updateAdjValid} />
+          <div class={s.relativeBox}>
+            <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
+            <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
+            <AdjOptions tempConfig={tempConfig} onUpdateAdj={updateAdjValid} />
+          </div>
+
           <Button onClick={onClick} disabled={formValid.value}>
             戻る ↩
           </Button>
