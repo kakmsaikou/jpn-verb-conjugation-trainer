@@ -41,7 +41,7 @@ export const SettingPage = defineComponent({
       e.preventDefault();
       configStore.setConfig(tempConfig);
       wordStore.refreshWord();
-      router.push('/');
+      router.replace('/');
     };
     return () => (
       <div>
