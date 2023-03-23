@@ -1,7 +1,7 @@
 import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue';
 import s from './PracticePage.module.scss';
 import { withEventModifiers } from '../plugins/withEventmodifiers';
-import { DailyRecord } from '../components/DailyRecord';
+import { DailyRecord } from '../components/practice/DailyRecord';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
 import dayjs from 'dayjs';
