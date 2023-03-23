@@ -45,14 +45,17 @@ export const SettingPage = defineComponent({
       router.replace('/');
     };
 
+    const handleFuck = (selected: string) => {
+      console.log(selected);
+    };
     return () => (
       <div>
         <h2>设置</h2>
-        <p>
-          是否要注音？
-          <Slider />
-        </p>
         <form class={s.optionsForm}>
+          <p class={s.pron}>
+            是否要注音？
+            <Slider onOption={handleFuck} />
+          </p>
           <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
           <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
           <AdjOptions tempConfig={tempConfig} onUpdateAdj={updateAdjValid} />
