@@ -4,10 +4,10 @@ import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/practice/DailyRecord';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
-import dayjs from 'dayjs';
 import { bind, isJapanese } from 'wanakana';
 import { RouterLink } from 'vue-router';
 import Flashcard from '../components/practice/Flashcard';
+import { useDailyRecord } from '../utils/useDailyRecord';
 
 export const PracticePage = defineComponent({
   setup: () => {
@@ -34,19 +34,8 @@ export const PracticePage = defineComponent({
       }
     });
 
-    const dailyRecord = JSON.parse(localStorage.getItem('daily_record') || 'null') || {
-      day: dayjs().format('DD/MM/YYYY'),
-      correct: 0,
-      answer: 0,
-    };
-    if (dayjs().format('DD/MM/YYYY') !== dailyRecord.day) {
-      Object.assign(dailyRecord, {
-        day: dayjs().format('DD/MM/YYYY'),
-        correct: 0,
-        answer: 0,
-      });
-    }
-
+    const dailyRecord = useDailyRecord();
+    
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
@@ -64,8 +53,7 @@ export const PracticePage = defineComponent({
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
-      dailyRecord.answer++;
-      localStorage.setItem('daily_record', JSON.stringify(dailyRecord));
+      dailyRecord.addAnswer();
 
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
@@ -85,8 +73,7 @@ export const PracticePage = defineComponent({
         }
       };
       if (isAnswerCorrect) {
-        dailyRecord.correct++;
-        localStorage.setItem('daily_record', JSON.stringify(dailyRecord));
+        dailyRecord.addCorrect();
         classList.add('correct');
         refCorrectAnswer.value.innerText = refAnswer.value.value;
         document.addEventListener('keyup', handleGlobalEnter);
@@ -101,7 +88,7 @@ export const PracticePage = defineComponent({
     };
     return () => (
       <div>
-        <DailyRecord dailyCorrectCount={dailyRecord.correct} dailyAnswerCount={dailyRecord.answer} />
+        <DailyRecord dailyCorrectCount={dailyRecord.record.correct} dailyAnswerCount={dailyRecord.record.answer} />
         <Flashcard isTypeShown={isAnswerSubmitted.value} />
         <p ref={refCorrectAnswer} class={s.correctAnswer} />
         <div class={s.inputWrapper}>
