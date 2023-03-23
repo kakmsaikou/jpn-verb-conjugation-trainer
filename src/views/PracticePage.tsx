@@ -109,8 +109,8 @@ export const PracticePage = defineComponent({
             <p class={s.type}>{isAnswerSubmitted.value ? wordStore.type : '　'}</p>
           </div>
           <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
-          <p ref={refCorrectAnswer} class={s.correctAnswer} />
         </div>
+        <p ref={refCorrectAnswer} class={s.correctAnswer} />
         <div class={s.inputWrapper}>
           <p class={s.tooltip} ref={refTooltip}>
             只能输入汉字或者对应的平假名。

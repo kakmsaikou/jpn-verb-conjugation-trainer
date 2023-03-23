@@ -1,6 +1,4 @@
 .questionWrapper {
-  padding-bottom: 1.5em;
-
   * {
     text-align: center;
   }
@@ -25,7 +23,6 @@
 
   .questionContent {
     font-size: 32px;
-    padding-bottom: 0.8em;
   }
 }
 
@@ -34,7 +31,8 @@
   height: 2em;
   width: 100%;
   border-radius: 1em;
-  padding: 0 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   &:not([disabled]):hover {
     background: var(--hover-color);
   }
@@ -99,4 +97,7 @@
   flex-direction: column;
   justify-content: center;
   white-space: pre-line;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
 }
