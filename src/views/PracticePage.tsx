@@ -8,26 +8,16 @@ import { bind, isJapanese } from 'wanakana';
 import { RouterLink } from 'vue-router';
 import Flashcard from '../components/practice/Flashcard';
 import { useDailyRecord } from '../utils/useDailyRecord';
-import { useConfigStore } from '../stores/useConfigStore';
+import { useVoice } from '../utils/useVoice';
 
 export const PracticePage = defineComponent({
   setup: () => {
-    const configStore = useConfigStore();
     const wordStore = useWordStore();
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
     const refTooltip: Ref<HTMLParagraphElement | undefined> = ref();
     const isAnswerSubmitted = ref(false);
-
-    const utterance = new SpeechSynthesisUtterance();
-    utterance.lang = 'ja-JP';
-    window.speechSynthesis.onvoiceschanged = function () {
-      const voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google 日本語');
-      if (voice) {
-        utterance.voice = voice;
-      }
-    };
 
     onMounted(() => {
       bind(refAnswer.value as HTMLInputElement);
@@ -37,6 +27,7 @@ export const PracticePage = defineComponent({
     });
 
     const dailyRecord = useDailyRecord();
+    const voices = useVoice();
 
     const handleSubmitAnswer = (e: KeyboardEvent) => {
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
@@ -50,10 +41,7 @@ export const PracticePage = defineComponent({
         return;
       }
 
-      if (configStore.config.voice) {
-        utterance.text = wordStore.answerKana;
-        speechSynthesis.speak(utterance);
-      }
+      voices.speak(wordStore.answerKana);
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
