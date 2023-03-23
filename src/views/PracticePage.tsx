@@ -18,6 +18,7 @@ export const PracticePage = defineComponent({
     const isAnswerSubmitted = ref(false);
 
     const utterance = new SpeechSynthesisUtterance();
+    utterance.lang = 'ja-JP';
     window.speechSynthesis.onvoiceschanged = function () {
       const voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google 日本語');
       if (voice) {
