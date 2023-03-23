@@ -8,9 +8,13 @@ export const Slider = defineComponent({
       type: Array as () => string[],
       required: true,
     },
+    init: {
+      type: String,
+      required: true,
+    },
   },
   setup: (props, context) => {
-    const refSelected = ref('罗马音');
+    const refSelected = ref(props.init);
     const refSelectedOption = ref<HTMLLabelElement>();
     const refSliderBar = ref<HTMLDivElement>();
     const refSlider = ref<HTMLDivElement>();

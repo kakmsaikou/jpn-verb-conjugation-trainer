@@ -49,7 +49,7 @@ export const SettingPage = defineComponent({
       tempConfig.pron = selected;
     };
 
-    const pronOptions: Pron[] = ['罗马音', '平假名', '无注音'];
+    const pronOptions: Pron[] = ['平假名', '罗马音', '无注音'];
 
     return () => (
       <div>
@@ -57,7 +57,7 @@ export const SettingPage = defineComponent({
         <form class={s.optionsForm}>
           <p class={s.pron}>
             是否要注音？
-            <Slider options={pronOptions} onOption={handleFuck} />
+            <Slider options={pronOptions} init={tempConfig.pron} onOption={handleFuck} />
           </p>
           <div class={s.relativeBox}>
             <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
