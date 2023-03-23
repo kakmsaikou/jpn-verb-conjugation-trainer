@@ -132,7 +132,7 @@ export const PracticePage = defineComponent({
         <div class={s.settingWrapper}>
           <Button style='visibility: hidden'>設定 ⚙️</Button>
           <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
-          <RouterLink to={'/settings'}>
+          <RouterLink to={'/setting'}>
             <Button>設定 ⚙️</Button>
           </RouterLink>
         </div>

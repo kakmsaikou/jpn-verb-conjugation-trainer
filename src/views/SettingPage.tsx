@@ -6,9 +6,9 @@ import { VerbOptions } from '../components/settings/VerbOptions';
 import { useConfigStore } from '../stores/useConfigStore';
 import { useWordStore } from '../stores/useWordStore';
 import { deepClone } from '../utils/deepClone';
-import s from './SettingsPage.module.scss';
+import s from './SettingPage.module.scss';
 
-export const SettingsPage = defineComponent({
+export const SettingPage = defineComponent({
   setup: (props, context) => {
     const configStore = useConfigStore();
     const wordStore = useWordStore();
@@ -59,4 +59,4 @@ export const SettingsPage = defineComponent({
   },
 });
 
-export default SettingsPage;
+export default SettingPage;
