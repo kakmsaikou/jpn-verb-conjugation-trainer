@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, ref } from 'vue';
+import { computed, defineComponent, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { AdjOptions } from '../components/setting/AdjOptions';
 import { Button } from '../components/Button';
@@ -7,6 +7,7 @@ import { useConfigStore } from '../stores/useConfigStore';
 import { useWordStore } from '../stores/useWordStore';
 import { deepClone } from '../utils/deepClone';
 import s from './SettingPage.module.scss';
+import Slider from '../components/setting/Slider';
 
 export const SettingPage = defineComponent({
   setup: (props, context) => {
@@ -43,9 +44,14 @@ export const SettingPage = defineComponent({
       wordStore.refreshWord();
       router.replace('/');
     };
+
     return () => (
       <div>
         <h2>设置</h2>
+        <p>
+          是否要注音？
+          <Slider />
+        </p>
         <form class={s.optionsForm}>
           <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
           <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
