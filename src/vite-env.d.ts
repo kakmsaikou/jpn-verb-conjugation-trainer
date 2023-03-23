@@ -41,8 +41,9 @@ type Voices = Record<Voice, boolean>;
 // userConfig 参数相关
 type AdjConfig = Record<AdjType | Sow | Polarity | Tense, boolean>;
 type VerbConfig = Record<VerbType | VerbForm | Polarity | Tense, boolean>;
+type Pron = '平假名' | '罗马音' | '无注音';
 type Config = {
-  pron: '平假名' | '罗马音' | '无注音';
+  pron: Pron;
   pos: Record<Pos, boolean>;
   verb: VerbConfig;
   adj: AdjConfig;

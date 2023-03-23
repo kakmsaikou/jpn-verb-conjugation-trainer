@@ -45,11 +45,11 @@ export const SettingPage = defineComponent({
       router.replace('/');
     };
 
-    const handleFuck = (selected: string) => {
-      console.log(selected);
+    const handleFuck = (selected: Pron) => {
+      tempConfig.pron = selected;
     };
 
-    const pronOptions = ['罗马音', '平假名', '无注音'];
+    const pronOptions: Pron[] = ['罗马音', '平假名', '无注音'];
 
     return () => (
       <div>
