@@ -7,6 +7,7 @@ import { useWordStore } from '../stores/useWordStore';
 import dayjs from 'dayjs';
 import { bind, isJapanese } from 'wanakana';
 import { RouterLink } from 'vue-router';
+import Flashcard from '../components/practice/Flashcard';
 
 export const PracticePage = defineComponent({
   setup: () => {
@@ -101,15 +102,7 @@ export const PracticePage = defineComponent({
     return () => (
       <div>
         <DailyRecord dailyCorrectCount={dailyRecord.correct} dailyAnswerCount={dailyRecord.answer} />
-        <div class={s.questionWrapper}>
-          <div class={s.wordWrapper}>
-            <p class={s.kana}>{wordStore.kanji === wordStore.kana ? '　' : wordStore.kana}</p>
-            <h2 class={s.wordText}>{wordStore.kanji}</h2>
-            <p class={s.meaning}>{wordStore.meaning}</p>
-            <p class={s.type}>{isAnswerSubmitted.value ? wordStore.type : '　'}</p>
-          </div>
-          <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
-        </div>
+        <Flashcard isTypeShown={isAnswerSubmitted.value} />
         <p ref={refCorrectAnswer} class={s.correctAnswer} />
         <div class={s.inputWrapper}>
           <p class={s.tooltip} ref={refTooltip}>

@@ -1,0 +1,27 @@
+.questionWrapper {
+  * {
+    text-align: center;
+  }
+
+  .wordWrapper {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3em;
+
+    .kana {
+      letter-spacing: 0.5em;
+    }
+
+    .wordText {
+      font-size: 46px;
+    }
+
+    .type {
+      padding-top: 1em;
+    }
+  }
+
+  .questionContent {
+    font-size: 32px;
+  }
+}
