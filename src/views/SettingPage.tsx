@@ -1,8 +1,8 @@
 import { computed, defineComponent, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { AdjOptions } from '../components/settings/AdjOptions';
+import { AdjOptions } from '../components/setting/AdjOptions';
 import { Button } from '../components/Button';
-import { VerbOptions } from '../components/settings/VerbOptions';
+import { VerbOptions } from '../components/setting/VerbOptions';
 import { useConfigStore } from '../stores/useConfigStore';
 import { useWordStore } from '../stores/useWordStore';
 import { deepClone } from '../utils/deepClone';
