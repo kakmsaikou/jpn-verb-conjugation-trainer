@@ -3,6 +3,12 @@ import s from './Slider.module.scss';
 
 export const Slider = defineComponent({
   emits: ['option'],
+  props: {
+    options: {
+      type: Array as () => string[],
+      required: true,
+    },
+  },
   setup: (props, context) => {
     const refSelected = ref('罗马音');
     const refSelectedOption = ref<HTMLLabelElement>();
@@ -23,10 +29,9 @@ export const Slider = defineComponent({
       context.emit('option', refSelected.value);
     });
 
-    const options = ['罗马音', '平假名', '无注音'];
     return () => (
       <div class={s.slider} ref={refSlider}>
-        {options.map(option => (
+        {props.options.map(option => (
           <label
             class={s.option}
             onClick={() => {

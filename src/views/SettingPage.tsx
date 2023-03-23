@@ -48,13 +48,16 @@ export const SettingPage = defineComponent({
     const handleFuck = (selected: string) => {
       console.log(selected);
     };
+
+    const pronOptions = ['罗马音', '平假名', '无注音'];
+
     return () => (
       <div>
         <h2>设置</h2>
         <form class={s.optionsForm}>
           <p class={s.pron}>
             是否要注音？
-            <Slider onOption={handleFuck} />
+            <Slider options={pronOptions} onOption={handleFuck} />
           </p>
           <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
           <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
