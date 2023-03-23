@@ -32,7 +32,8 @@ export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | Ve
 export const MAX_RANDOM_WORDS_COUNT = 0 as const;
 
 export const INIT_CONFIG: Config = {
-  pron: '罗马音',
+  pron: '平假名',
+  voice: true,
   pos: {
     verb: true,
     adj: true,
