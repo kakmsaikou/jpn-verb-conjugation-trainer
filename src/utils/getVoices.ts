@@ -15,7 +15,7 @@ export const getVoices = () => {
   if (wordStore.pos === 'verb') {
     getVerbVoices(tempVoices, configStore.tempConfig.verb!, wordStore.form);
   } else if (wordStore.pos === 'adj') {
-    avoidOverflow(tempVoices, configStore.tempConfig.adj!, wordStore.type as AdjType);
+    avoidOverflow(tempVoices, configStore.tempConfig.adj!, wordStore.word.type as AdjType);
   }
   return tempVoices;
 };
@@ -45,7 +45,7 @@ function avoidOverflow(voices: any, config: any, typeOrForm: any) {
     }
   } else {
     voices.polite = getKey(config, SOW_LIST) === 'polite';
-
+    console.log(typeOrForm);
     if (typeOrForm === 'adj_i' && !voices.polite && !voices.negative && voices.present) {
       avoidOverflow(voices, config, typeOrForm);
     }

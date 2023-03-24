@@ -69,7 +69,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        const tempForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
+        const tempForm: WordForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
         // 保证在没有选择"过去式 || 否定式"的情况下，不会出现 plain 的 form
         if (tempForm === 'plain' && !configStore.tempConfig.verb?.negative && !configStore.tempConfig.verb?.past) {
           return (this._form = 'masu');
