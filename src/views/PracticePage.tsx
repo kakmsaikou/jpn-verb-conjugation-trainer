@@ -100,7 +100,6 @@ export const PracticePage = defineComponent({
             disabled={isAnswerSubmitted.value}
           />
         </div>
-
         <div class={s.settingWrapper}>
           <Button style='visibility: hidden'>設定 ⚙️</Button>
           <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
