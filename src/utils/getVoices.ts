@@ -31,6 +31,30 @@ const getVerbVoices = (voices: Voices, verbConfig: VerbConfig, form: WordForm) =
       voices.polite = false;
       voices.negative = false;
       break;
+    case 'imperative':
+      voices.polite = false;
+      voices.negative = false;
+      break;
+    case 'volitional':
+      voices.polite = false;
+      voices.negative = false;
+      break;
+    case 'potential':
+      voices.polite = false;
+      voices.negative = false;
+      break;
+    case 'causative':
+      voices.polite = false;
+      voices.negative = false;
+      break;
+    case 'causative_passive':
+      voices.polite = false;
+      voices.negative = false;
+      break;
+    case 'prohibitive':
+      voices.polite = false;
+      voices.negative = true;
+      break;
   }
 };
 

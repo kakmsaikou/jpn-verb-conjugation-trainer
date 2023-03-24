@@ -26,7 +26,11 @@ export const VerbOptions = defineComponent({
       return verb.plain || verb.masu;
     });
     const formValid = computed(() => {
-      return verb.plain || verb.masu || verb.te;
+      let n = 0;
+      VERB_FORM_LIST.forEach(form => {
+        if (verb[form] === true) n++;
+      });
+      return n > 0 ? true : false;
     });
     const verbValid = computed(() => {
       return plainValid.value && formValid.value && typeValid.value;

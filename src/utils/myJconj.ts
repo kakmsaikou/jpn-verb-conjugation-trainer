@@ -43,6 +43,24 @@ export const myJconj: MyJconj = (wordData, present = true, negative = false, pol
       case 'te':
         conj = 3;
         break;
+      case 'potential':
+        conj = 5;
+        break;
+      case 'causative':
+        conj = 7;
+        break;
+      case 'causative_passive':
+        conj = 8;
+        break;
+      case 'volitional':
+        conj = 9;
+        break;
+      case 'imperative':
+        conj = 10;
+        break;
+      case 'prohibitive':
+        conj = 10;
+        break;
     }
   } else if (ADJ_TYPE_LIST.includes(type as AdjType)) {
     conj = present ? 1 : 2;

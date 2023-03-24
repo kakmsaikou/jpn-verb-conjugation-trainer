@@ -2,7 +2,16 @@
 
 // 动词配置相关
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
-type VerbForm = 'plain' | 'masu' | 'te';
+type VerbForm =
+  | 'plain'
+  | 'masu'
+  | 'te'
+  | 'imperative'
+  | 'volitional'
+  | 'potential'
+  | 'causative'
+  | 'causative_passive'
+  | 'prohibitive';
 interface VerbData extends BaseWordData {
   type: VerbType;
 }

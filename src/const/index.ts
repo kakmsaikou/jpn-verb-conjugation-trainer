@@ -1,4 +1,14 @@
-export const VERB_FORM_LIST: VerbForm[] = ['plain', 'masu', 'te'];
+export const VERB_FORM_LIST: VerbForm[] = [
+  'plain',
+  'masu',
+  'te',
+  'imperative',
+  'volitional',
+  'potential',
+  'causative',
+  'causative_passive',
+  'prohibitive',
+];
 export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
@@ -20,6 +30,12 @@ export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | Ve
   past: '过去',
   masu: 'ます形',
   te: 'て形',
+  imperative: '命令形',
+  volitional: '意志形',
+  potential: '可能形',
+  causative: '使役形',
+  causative_passive: '使役被动形',
+  prohibitive: '禁止形',
   v1: '一段动词',
   v5: '五段动词',
   suru: 'サ变动词',
@@ -36,7 +52,7 @@ export const INIT_CONFIG: Config = {
   voice: true,
   pos: {
     verb: true,
-    adj: true,
+    adj: false,
   },
   verb: {
     v1: true,
@@ -46,6 +62,12 @@ export const INIT_CONFIG: Config = {
     plain: true,
     masu: true,
     te: true,
+    imperative: false,
+    volitional: false,
+    potential: false,
+    causative: false,
+    causative_passive: false,
+    prohibitive: false,
     affirmative: true,
     negative: true,
     present: true,
