@@ -49,7 +49,7 @@ export const MAX_RANDOM_WORDS_COUNT = 0 as const;
 
 export const INIT_CONFIG: Config = {
   pron: '平假名',
-  voice: true,
+  voice: false,
   pos: {
     verb: true,
     adj: false,
