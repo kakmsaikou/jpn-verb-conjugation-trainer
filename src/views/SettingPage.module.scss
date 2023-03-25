@@ -15,11 +15,29 @@ h4 {
   }
 }
 
-.pron{
+.pron {
   display: flex;
   justify-content: space-between;
 }
 
 .relativeBox {
   position: relative;
+}
+
+.target {
+  display: flex;
+  justify-content: space-between;
+
+  .targetNum {
+    width: 4em;
+    border-radius: 0.4em;
+    text-align: center;
+    box-shadow: var(--button-box-shadow);
+    border: none;
+
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }

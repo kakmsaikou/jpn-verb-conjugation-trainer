@@ -59,9 +59,14 @@ export const SettingPage = defineComponent({
             是否要注音？
             <Slider options={pronOptions} init={tempConfig.pron} onOption={handleFuck} />
           </p>
+          
           <p>
             <input type="checkbox" v-model={tempConfig.voice}/>
             是否发音？
+          </p>
+          <p class={s.target}>
+            每日目标（达到目标后会提醒）
+            <input type='number' class={s.targetNum} value={0} min={0}/>
           </p>
           <div class={s.relativeBox}>
             <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
