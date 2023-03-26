@@ -1,3 +1,4 @@
+import { getTransword } from './../utils/getTransword';
 import { getKey } from './../utils/getKey';
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
@@ -104,8 +105,12 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     answerArr() {
       if (this._answerArr === null) {
-        const { present, negative, polite } = this.voices;
-        this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+        if (this.pos === 'adj') {
+          const { present, negative, polite } = this.voices;
+          this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+        } else {
+          this._answerArr = getTransword(this.word, this.form);
+        }
       }
       return this._answerArr;
     },
@@ -185,8 +190,12 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       }
     },
     refreshAnswer() {
-      const { present, negative, polite } = this.voices;
-      this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+      if (this.pos === 'adj') {
+        const { present, negative, polite } = this.voices;
+        this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+      } else {
+        this._answerArr = getTransword(this.word, this.form);
+      }
     },
     refreshWord() {
       this.refreshPos();

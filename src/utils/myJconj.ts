@@ -66,6 +66,7 @@ export const myJconj: MyJconj = (wordData, present = true, negative = false, pol
     conj = present ? 1 : 2;
   }
   const key = [pos, conj, negative, polite].join(',');
+  console.log(key)
   const transwrd = transwrdList[key];
   const match = transwrd.match(/(?<=【).+?(?=】)/);
   return match
