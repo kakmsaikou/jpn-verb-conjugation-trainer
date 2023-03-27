@@ -27,7 +27,7 @@ const getPosNum = (wordData: WordData): number => {
   return 0;
 };
 
-export const getTransword = (wordData: WordData, form: WordForm): [string, string] => {
+export const getTransword = (wordData: WordData, form: WordForm, voices: Voices): [string, string] => {
   const pos = getPosNum(wordData);
   const transwords = jconj(wordData, pos)[0];
 
@@ -71,7 +71,28 @@ export const getTransword = (wordData: WordData, form: WordForm): [string, strin
   const key = [pos, conj, neg, fml].join(',');
   const transword = transwords[key];
   const match = transword.match(/(?<=【).+?(?=】)/);
-  return match
+
+  const transwordArr: [string, string] = match
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
+
+  if (form === 'masu') {
+    const { present, negative } = voices;
+    if (!present && negative) {
+      for (let i = 1; i < transwordArr.length; i++) {
+        transwordArr[i] = transwordArr[i].slice(0, -2) + 'ませんでした';
+      }
+    } else if (!present) {
+      for (let i = 1; i < transwordArr.length; i++) {
+        transwordArr[i] = transwordArr[i].slice(0, -2) + 'ました';
+      }
+    } else if (negative) {
+      for (let i = 1; i < transwordArr.length; i++) {
+        transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
+      }
+    }
+    return transwordArr;
+  } else {
+    return transwordArr;
+  }
 };

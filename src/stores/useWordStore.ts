@@ -71,7 +71,6 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     form() {
       if (this._form === null) {
         const tempForm: WordForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
-        // 保证在没有选择"过去式 || 否定式"的情况下，不会出现 plain 的 form
         if (tempForm === 'plain' && !configStore.tempConfig.verb?.negative && !configStore.tempConfig.verb?.past) {
           return (this._form = 'masu');
         }
@@ -109,7 +108,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
           const { present, negative, polite } = this.voices;
           this._answerArr = myJconj(this.word, present, negative, polite, this.form);
         } else {
-          this._answerArr = getTransword(this.word, this.form);
+          this._answerArr = getTransword(this.word, this.form, this.voices);
         }
       }
       return this._answerArr;
@@ -194,7 +193,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
         const { present, negative, polite } = this.voices;
         this._answerArr = myJconj(this.word, present, negative, polite, this.form);
       } else {
-        this._answerArr = getTransword(this.word, this.form);
+        this._answerArr = getTransword(this.word, this.form, this.voices);
       }
     },
     refreshWord() {
