@@ -1,6 +1,5 @@
 import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue';
 import s from './PracticePage.module.scss';
-import { withEventModifiers } from '../plugins/withEventmodifiers';
 import { DailyRecord } from '../components/practice/DailyRecord';
 import Button from '../components/Button';
 import { useWordStore } from '../stores/useWordStore';
@@ -29,7 +28,8 @@ export const PracticePage = defineComponent({
     const dailyRecord = useDailyRecord();
     const voices = useVoice();
 
-    const handleSubmitAnswer = (e: KeyboardEvent) => {
+    const handleOnKeyup = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter') return;
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
       if (refCorrectAnswer.value === undefined || refAnswer.value === undefined) return;
@@ -91,12 +91,7 @@ export const PracticePage = defineComponent({
             type='text'
             class={s.answer}
             ref={refAnswer}
-            {...withEventModifiers(
-              {
-                onKeyup: handleSubmitAnswer,
-              },
-              ['enter']
-            )}
+            onKeyup={handleOnKeyup}
             disabled={isAnswerSubmitted.value}
           />
         </div>
