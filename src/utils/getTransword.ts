@@ -78,21 +78,18 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
 
   if (form === 'masu') {
     const { present, negative } = voices;
-    if (!present && negative) {
-      for (let i = 1; i < transwordArr.length; i++) {
-        transwordArr[i] = transwordArr[i].slice(0, -2) + 'ませんでした';
-      }
-    } else if (!present) {
-      for (let i = 1; i < transwordArr.length; i++) {
-        transwordArr[i] = transwordArr[i].slice(0, -2) + 'ました';
-      }
+    let suffix = '';
+    if (!present) {
+      suffix = negative ? 'ませんでした' : 'ました';
     } else if (negative) {
-      for (let i = 1; i < transwordArr.length; i++) {
-        transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
-      }
+      suffix = 'ません';
     }
-    return transwordArr;
-  } else {
-    return transwordArr;
+    for (let i = 0; i < transwordArr.length; i++) {
+      if(suffix === '') break
+      transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
+      console.log(transwordArr[i])
+    }
   }
+  
+  return transwordArr;
 };
