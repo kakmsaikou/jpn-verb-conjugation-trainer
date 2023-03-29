@@ -47,6 +47,10 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
     case 'te':
       conj = 3;
       break;
+    case 'negative_form':
+      conj = 1;
+      neg = true;
+      break;
     case 'potential':
       conj = 5;
       break;
@@ -85,11 +89,11 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
       suffix = 'ません';
     }
     for (let i = 0; i < transwordArr.length; i++) {
-      if(suffix === '') break
+      if (suffix === '') break;
       transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
-      console.log(transwordArr[i])
+      console.log(transwordArr[i]);
     }
   }
-  
+
   return transwordArr;
 };

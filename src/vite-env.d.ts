@@ -6,6 +6,7 @@ type VerbForm =
   | 'plain'
   | 'masu'
   | 'te'
+  | 'negative_form'
   | 'imperative'
   | 'volitional'
   | 'potential'
