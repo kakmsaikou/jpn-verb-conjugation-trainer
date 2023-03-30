@@ -1,5 +1,4 @@
 export const VERB_FORM_LIST: VerbForm[] = [
-  'plain',
   'masu',
   'te',
   'simple_past_form',
@@ -63,7 +62,6 @@ export const INIT_CONFIG: Config = {
     v5: true,
     suru: true,
     kuru: true,
-    plain: true,
     masu: true,
     te: true,
     simple_past_form: false,

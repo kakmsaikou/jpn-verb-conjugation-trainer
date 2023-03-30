@@ -3,7 +3,6 @@
 // 动词配置相关
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
 type VerbForm =
-  | 'plain'
   | 'masu'
   | 'te'
   | 'simple_past_form'
