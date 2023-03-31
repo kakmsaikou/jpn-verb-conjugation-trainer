@@ -4,17 +4,17 @@
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
 type VerbForm =
   | 'masu'
-  | 'polite_past_form'
-  | 'polite_negative_form'
-  | 'polite_past_negative_form'
+  | 'politePastForm'
+  | 'politeNegativeForm'
+  | 'politePastNegativeForm'
   | 'te'
-  | 'simple_past_form'
-  | 'negative_form'
+  | 'simplePastForm'
+  | 'negativeForm'
   | 'imperative'
   | 'volitional'
   | 'potential'
   | 'causative'
-  | 'causative_passive'
+  | 'causativePassive'
   | 'prohibitive';
 interface VerbData extends BaseWordData {
   type: VerbType;
