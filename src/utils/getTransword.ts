@@ -41,6 +41,9 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
       conj = 1;
       break;
     case 'masu':
+    case 'polite_past_form':
+    case 'polite_negative_form':
+    case 'polite_past_negative_form':
       conj = 1;
       fml = true;
       break;
@@ -94,7 +97,21 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
     for (let i = 0; i < transwordArr.length; i++) {
       if (suffix === '') break;
       transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
-      console.log(transwordArr[i]);
+    }
+  }
+  if (form === 'polite_past_form') {
+    for (let i = 0; i < transwordArr.length; i++) {
+      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ました';
+    }
+  }
+  if (form === 'polite_negative_form') {
+    for (let i = 0; i < transwordArr.length; i++) {
+      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
+    }
+  }
+  if (form === 'polite_past_negative_form') {
+    for (let i = 0; i < transwordArr.length; i++) {
+      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ませんでした';
     }
   }
 

@@ -4,6 +4,9 @@
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
 type VerbForm =
   | 'masu'
+  | 'polite_past_form'
+  | 'polite_negative_form'
+  | 'polite_past_negative_form'
   | 'te'
   | 'simple_past_form'
   | 'negative_form'
