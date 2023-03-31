@@ -70,26 +70,6 @@ export const VerbOptions = defineComponent({
                 ))}
               </ul>
             </div>
-            <div v-show={plainOrMasuSelected.value}>
-              {verbVoiceList.map(item => {
-                return (
-                  <ul>
-                    {item.map(key => (
-                      <li>
-                        <input
-                          type='checkbox'
-                          v-model={verb[key]}
-                          onChange={() => {
-                            handleCheckbox(verb, key);
-                          }}
-                        />
-                        <span>{BILINGUAL_LIST[key]}</span>
-                      </li>
-                    ))}
-                  </ul>
-                );
-              })}
-            </div>
             <div class={s.tips}>
               <p>「た形」= 简体 + 过去</p>
               <br />
