@@ -37,10 +37,7 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
   let fml: boolean = false;
 
   switch (form) {
-    case 'plain':
-      conj = 1;
-      break;
-    case 'masu':
+    case 'politeForm':
     case 'politePastForm':
     case 'politeNegativeForm':
     case 'politePastNegativeForm':
@@ -89,20 +86,6 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
   const transwordArr: [string, string] = match
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
-
-  if (form === 'masu') {
-    const { present, negative } = voices;
-    let suffix = '';
-    if (!present) {
-      suffix = negative ? 'ませんでした' : 'ました';
-    } else if (negative) {
-      suffix = 'ません';
-    }
-    for (let i = 0; i < transwordArr.length; i++) {
-      if (suffix === '') break;
-      transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
-    }
-  }
 
   if(['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].includes(form)) {
     let suffix = ''
