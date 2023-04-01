@@ -14,7 +14,16 @@ export const VERB_FORM_LIST: VerbForm[] = [
   'causativePassive',
   'prohibitive',
 ];
+
 export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
+export const ADJ_TENSE_LIST: AdjTense[] = [
+  'simpleNegativeTense',
+  'simplePastTense',
+  'simplePastNegativeTense',
+  'politeNegativeTense',
+  'politePastTense',
+  'politePastNegativeTense',
+];
 
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
@@ -24,7 +33,7 @@ export const SOW_LIST: Sow[] = ['plain', 'polite'];
 export const POLARITY_LIST: Polarity[] = ['affirmative', 'negative'];
 export const TENSE_LIST: Tense[] = ['present', 'past'];
 
-export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | VerbType | AdjType, string> = {
+export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | VerbType | AdjType | AdjTense, string> = {
   verb: '动词',
   adj: '形容词',
   plain: '基本形 / 简体',
@@ -47,6 +56,12 @@ export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | Ve
   causative: '使役形',
   causativePassive: '使役被动形',
   prohibitive: '禁止形',
+  simpleNegativeTense: '否定形',
+  simplePastTense: '过去形',
+  simplePastNegativeTense: '过去否定形',
+  politeNegativeTense: '敬语否定形',
+  politePastTense: '敬语过去形',
+  politePastNegativeTense: '敬语过去否定形',
   v1: '一段动词',
   v5: '五段动词',
   suru: 'サ变动词',
@@ -98,5 +113,11 @@ export const INIT_CONFIG: Config = {
     negative: true,
     present: true,
     past: true,
+    simpleNegativeTense: true,
+    simplePastTense: true,
+    simplePastNegativeTense: true,
+    politeNegativeTense: true,
+    politePastTense: true,
+    politePastNegativeTense: true,
   },
 };

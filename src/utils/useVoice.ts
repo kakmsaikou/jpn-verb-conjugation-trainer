@@ -7,6 +7,7 @@ export const useVoice = () => {
 
   window.speechSynthesis.onvoiceschanged = function () {
     const voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google 日本語');
+    console.log(voice);
     if (voice) {
       utterance.voice = voice;
     }

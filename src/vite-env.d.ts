@@ -24,6 +24,14 @@ interface VerbData extends BaseWordData {
 // 形容词配置相关
 type AdjType = 'adj_i' | 'adj_na';
 type AdjForm = 'adj';
+type AdjTense =
+  | 'simpleNegativeTense'
+  | 'simplePastTense'
+  | 'simplePastNegativeTense'
+  | 'politeNegativeTense'
+  | 'politePastTense'
+  | 'politePastNegativeTense';
+
 interface AdjData extends BaseWordData {
   type: AdjType;
 }
@@ -53,8 +61,9 @@ type VoicesConfig = {
 type Voice = 'present' | 'negative' | 'polite';
 type Voices = Record<Voice, boolean>;
 // userConfig 参数相关
-type AdjConfig = Record<AdjType | Sow | Polarity | Tense, boolean>;
+
 type VerbConfig = Record<VerbType | VerbForm | Polarity | Tense, boolean>;
+type AdjConfig = Record<AdjType | Sow | Polarity | Tense | AdjTense, boolean>;
 type Pron = '平假名' | '罗马音' | '无注音';
 type Config = {
   pron: Pron;

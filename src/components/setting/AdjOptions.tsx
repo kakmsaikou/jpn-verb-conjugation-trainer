@@ -1,5 +1,5 @@
 import { computed, defineComponent, PropType, Ref, watch } from 'vue';
-import { ADJ_TYPE_LIST, BILINGUAL_LIST, POLARITY_LIST, SOW_LIST, TENSE_LIST } from '../../const';
+import { ADJ_TENSE_LIST, ADJ_TYPE_LIST, BILINGUAL_LIST, POLARITY_LIST, SOW_LIST, TENSE_LIST } from '../../const';
 import { handleCheckbox } from '../../utils/handleCheckbox';
 import s from './WordOptions.module.scss';
 
@@ -55,6 +55,18 @@ export const AdjOptions = defineComponent({
                     <span>{BILINGUAL_LIST[type]}</span>
                   </li>
                 ))}
+              </ul>
+            </div>
+            <div>
+              <ul>
+                {ADJ_TENSE_LIST.map(tense => {
+                  return (
+                    <li>
+                      <input type='checkbox' v-model={adj[tense]} />
+                      <span>{BILINGUAL_LIST[tense]}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div class={s.relativeBox}>
