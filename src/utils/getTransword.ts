@@ -37,9 +37,10 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
   let fml: boolean = false;
 
   switch (form) {
+    // 一段动词的否定形的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
     case 'politeForm':
-    case 'politePastForm':
     case 'politeNegativeForm':
+    case 'politePastForm':
     case 'politePastNegativeForm':
       conj = 1;
       fml = true;
@@ -87,20 +88,20 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 
-  if(['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].includes(form)) {
-    let suffix = ''
-    switch(form) {
-      case 'politePastForm':
-        suffix = 'ました';
-        break;
+  if (['politeNegativeForm', 'politePastForm', 'politePastNegativeForm'].includes(form)) {
+    let suffix = '';
+    switch (form) {
       case 'politeNegativeForm':
         suffix = 'ません';
+        break;
+      case 'politePastForm':
+        suffix = 'ました';
         break;
       case 'politePastNegativeForm':
         suffix = 'ませんでした';
         break;
     }
-    for(let i = 0; i < transwordArr.length; i++) {
+    for (let i = 0; i < transwordArr.length; i++) {
       transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
     }
   }
