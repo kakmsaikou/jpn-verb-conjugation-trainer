@@ -12,7 +12,6 @@ const v5Endings: Record<string, number> = {
   う: 41,
 };
 
-// 根据平假名获得对应的 pos 值，pos 值是 jconj 转换动词参数
 const getPosNum = (wordData: WordData): number => {
   const { kana, type } = wordData;
   if (type === 'adj_i') return 1;
@@ -31,18 +30,21 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
   const pos = getPosNum(wordData);
   const transwords = jconj(wordData, pos)[0];
 
-  // 根据 formal、past、negative 构造查询参数
   let conj: number = 0;
   let neg: boolean = false;
   let fml: boolean = false;
 
   switch (form) {
-    // 一段动词的否定形的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
+    // 一段动词的否定形 'politeNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
     case 'politeForm':
     case 'politeNegativeForm':
-    case 'politePastForm':
-    case 'politePastNegativeForm':
       conj = 1;
+      fml = true;
+      break;
+    case 'politePastNegativeForm':
+      neg = true;
+    case 'politePastForm':
+      conj = 2;
       fml = true;
       break;
     case 'gerundForm':
@@ -88,21 +90,9 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 
-  if (['politeNegativeForm', 'politePastForm', 'politePastNegativeForm'].includes(form)) {
-    let suffix = '';
-    switch (form) {
-      case 'politeNegativeForm':
-        suffix = 'ません';
-        break;
-      case 'politePastForm':
-        suffix = 'ました';
-        break;
-      case 'politePastNegativeForm':
-        suffix = 'ませんでした';
-        break;
-    }
+  if (['politeNegativeForm'].includes(form)) {
     for (let i = 0; i < transwordArr.length; i++) {
-      transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
+      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
     }
   }
 
