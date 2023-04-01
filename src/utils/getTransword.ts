@@ -44,7 +44,7 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
       conj = 1;
       fml = true;
       break;
-    case 'te':
+    case 'gerundForm':
       conj = 3;
       break;
     case 'simplePastForm':

@@ -7,7 +7,7 @@ type VerbForm =
   | 'politePastForm'
   | 'politeNegativeForm'
   | 'politePastNegativeForm'
-  | 'te'
+  | 'gerundForm'
   | 'simplePastForm'
   | 'simpleNegativeForm'
   | 'simplePastNegativeForm'
