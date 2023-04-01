@@ -57,6 +57,10 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
       conj = 1;
       neg = true;
       break;
+    case 'simplePastNegativeForm':
+      conj = 2;
+      neg = true;
+      break;
     case 'potential':
       conj = 5;
       break;
@@ -99,19 +103,22 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
       transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
     }
   }
-  if (form === 'politePastForm') {
-    for (let i = 0; i < transwordArr.length; i++) {
-      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ました';
+
+  if(['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].includes(form)) {
+    let suffix = ''
+    switch(form) {
+      case 'politePastForm':
+        suffix = 'ました';
+        break;
+      case 'politeNegativeForm':
+        suffix = 'ません';
+        break;
+      case 'politePastNegativeForm':
+        suffix = 'ませんでした';
+        break;
     }
-  }
-  if (form === 'politeNegativeForm') {
-    for (let i = 0; i < transwordArr.length; i++) {
-      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
-    }
-  }
-  if (form === 'politePastNegativeForm') {
-    for (let i = 0; i < transwordArr.length; i++) {
-      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ませんでした';
+    for(let i = 0; i < transwordArr.length; i++) {
+      transwordArr[i] = transwordArr[i].slice(0, -2) + suffix;
     }
   }
 

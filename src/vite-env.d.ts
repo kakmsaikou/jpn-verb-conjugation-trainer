@@ -10,6 +10,7 @@ type VerbForm =
   | 'te'
   | 'simplePastForm'
   | 'simpleNegativeForm'
+  | 'simplePastNegativeForm'
   | 'imperative'
   | 'volitional'
   | 'potential'
