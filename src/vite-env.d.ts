@@ -9,7 +9,7 @@ type VerbForm =
   | 'politePastNegativeForm'
   | 'te'
   | 'simplePastForm'
-  | 'negativeForm'
+  | 'simpleNegativeForm'
   | 'imperative'
   | 'volitional'
   | 'potential'

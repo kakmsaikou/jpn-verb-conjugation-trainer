@@ -53,7 +53,7 @@ export const getTransword = (wordData: WordData, form: WordForm, voices: Voices)
     case 'simplePastForm':
       conj = 2;
       break;
-    case 'negativeForm':
+    case 'simpleNegativeForm':
       conj = 1;
       neg = true;
       break;
