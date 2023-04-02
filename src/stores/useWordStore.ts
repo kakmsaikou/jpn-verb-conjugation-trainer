@@ -2,7 +2,6 @@ import { getTransword } from './../utils/getTransword';
 import { getKey } from './../utils/getKey';
 import { useConfigStore } from './useConfigStore';
 import { defineStore } from 'pinia';
-import { getVoices } from '../utils/getVoices';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getIndex } from '../utils/getIndex';
@@ -21,7 +20,6 @@ type State = {
   pos: Pos;
   _form: WordForm | null | AdjTense;
   _word: WordData | null;
-  _voices: Voices | null;
   _answerArr: [string, string] | null;
 };
 type Getters = {
@@ -42,7 +40,6 @@ type Actions = {
   refreshPos: () => void;
   refreshForm: () => void;
   refreshWordData: () => void;
-  refreshVoices: () => void;
   refreshAnswer: () => void;
   refreshWord: () => void;
 };
@@ -138,11 +135,6 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       const index = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
       this._word = this.selectedWordList[index];
     },
-    refreshVoices() {
-      if (this._voices !== null) {
-        Object.assign(this._voices, getVoices());
-      }
-    },
     refreshAnswer() {
       if (this.pos === 'adj') {
         this._answerArr = getTransword(this.word, this.form);
@@ -154,7 +146,6 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       this.refreshPos();
       this.refreshForm();
       this.refreshWordData();
-      this.refreshVoices();
       this.refreshAnswer();
     },
   },
