@@ -28,7 +28,6 @@ type State = {
 type Getters = {
   form: () => WordForm | AdjTense;
   word: () => WordData;
-  voices: () => Record<Voice, boolean>;
   selectedWordList: () => WordData[];
   answerArr: () => [string, string];
   answer: () => string;
@@ -90,18 +89,6 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
         this._word = this.selectedWordList[randomIndex];
       }
       return this._word;
-    },
-    // 获得语态
-    voices() {
-      if (this._voices === null) {
-        this._voices = {
-          present: true,
-          negative: false,
-          polite: false,
-        };
-        Object.assign(this._voices, getVoices());
-      }
-      return this._voices;
     },
     answerArr() {
       if (this._answerArr === null) {
