@@ -16,7 +16,6 @@ export const AdjOptions = defineComponent({
     const typeValid = computed(() => {
       return adj.adj_i || adj.adj_na;
     });
-
     const tenseValid = computed(() => {
       let n = 0;
       ADJ_TENSE_LIST.forEach(tense => {
@@ -24,9 +23,8 @@ export const AdjOptions = defineComponent({
       });
       return n > 0 ? true : false;
     });
-
     const adjValid = computed(() => {
-      return tenseValid.value && typeValid.value;
+      return typeValid.value && tenseValid.value;
     });
 
     watch(adjValid, newVal => {

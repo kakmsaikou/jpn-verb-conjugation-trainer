@@ -1,6 +1,5 @@
 import { computed, defineComponent, PropType, watch } from 'vue';
-import { BILINGUAL_LIST, POLARITY_LIST, TENSE_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../../const';
-import { handleCheckbox } from '../../utils/handleCheckbox';
+import { BILINGUAL_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../../const';
 import s from './WordOptions.module.scss';
 
 export const VerbOptions = defineComponent({
@@ -13,17 +12,9 @@ export const VerbOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
-    const verbVoiceList = [TENSE_LIST, POLARITY_LIST];
 
     const typeValid = computed(() => {
       return verb.v5 || verb.v1 || verb.suru || verb.kuru;
-    });
-    const plainValid = computed(() => {
-      // 不能出现简体+肯定+现在的语态
-      return !(verb.plain && !verb.masu && verb.affirmative && !verb.negative && verb.present && !verb.past);
-    });
-    const plainOrMasuSelected = computed(() => {
-      return verb.plain || verb.masu;
     });
     const formValid = computed(() => {
       let n = 0;
@@ -33,7 +24,7 @@ export const VerbOptions = defineComponent({
       return n > 0 ? true : false;
     });
     const verbValid = computed(() => {
-      return plainValid.value && formValid.value && typeValid.value;
+      return typeValid.value && formValid.value;
     });
 
     watch(verbValid, newVal => {
@@ -59,7 +50,6 @@ export const VerbOptions = defineComponent({
               </ul>
             </div>
             <div class={s.relativeBox}>
-              <h4 v-show={!plainValid.value}>*你不能同时只选择“基本形 / 简体”、“现在”、“肯定”</h4>
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
               <ul>
                 {VERB_FORM_LIST.map(form => (
@@ -69,11 +59,6 @@ export const VerbOptions = defineComponent({
                   </li>
                 ))}
               </ul>
-            </div>
-            <div class={s.tips}>
-              <p>「た形」= 简体 + 过去</p>
-              <br />
-              <p>「ない形」= 简体 + 否定</p>
             </div>
           </div>
         ) : null}
