@@ -26,7 +26,7 @@ const getPosNum = (wordData: WordData): number => {
   return 0;
 };
 
-export const getTransword = (wordData: WordData, form: WordForm, voices: Voices): [string, string] => {
+export const getTransword = (wordData: WordData, form: WordForm): [string, string] => {
   const pos = getPosNum(wordData);
   const transwords = jconj(wordData, pos)[0];
 

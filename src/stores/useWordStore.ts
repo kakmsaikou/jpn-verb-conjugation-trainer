@@ -6,7 +6,6 @@ import { getVoices } from '../utils/getVoices';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getIndex } from '../utils/getIndex';
-import { myJconj } from '../utils/myJconj';
 import {
   POS_LIST,
   VERB_FORM_LIST,
@@ -109,7 +108,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
         if (this.pos === 'adj') {
           this._answerArr = getTransAdj(this.word, this.form);
         } else {
-          this._answerArr = getTransword(this.word, this.form, this.voices);
+          this._answerArr = getTransword(this.word, this.form);
         }
       }
       return this._answerArr;
@@ -162,7 +161,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       if (this.pos === 'adj') {
         this._answerArr = getTransAdj(this.word, this.form);
       } else {
-        this._answerArr = getTransword(this.word, this.form, this.voices);
+        this._answerArr = getTransword(this.word, this.form);
       }
     },
     refreshWord() {
