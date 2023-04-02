@@ -18,7 +18,7 @@ import { getWordList } from '../utils/getWordList';
 
 type State = {
   pos: Pos;
-  _form: WordAttribute | null ;
+  _form: WordAttribute | null;
   _word: WordData | null;
   _answerArr: [string, string] | null;
 };
@@ -49,10 +49,9 @@ const configStore = useConfigStore();
 /*
  * 顺序：
  *   1. 获取词性 pos，包括动词、形容词，比如 verb、adj
- *   2. 获取形态 form，包括ます形、て形，比如 plain、masu、te、ta、nai 和 adj（形容词只有 adj）
+ *   2. 获取形态 form，包括ます形、て形等等
  *   3. 获取单词 wordData
- *   4. 获取语态 voices，包括敬体、时态、否定形，是 myJconj 的查询参数，比如 {present: true, negative: false, polite: false}
- *   5. 获取 correctAnswer
+ *   4. 获取 correctAnswer
  */
 export const useWordStore = defineStore<string, State, Getters, Actions>('Word', {
   state: () => ({
@@ -66,11 +65,10 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        const tempForm: WordAttribute =
+        this._form =
           this.pos === 'verb'
             ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)
             : getKey(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
-        return (this._form = tempForm);
       }
       return this._form;
     },
