@@ -41,7 +41,7 @@ export const PracticePage = defineComponent({
         return;
       }
 
-      voices.speak(wordStore.answerKana);
+      voices.speak(wordStore.transwordArray[0]);
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
@@ -72,7 +72,7 @@ export const PracticePage = defineComponent({
         refAnswer.value.value = '';
       } else {
         classList.add('wrong');
-        refCorrectAnswer.value.innerText = wordStore.answer;
+        refCorrectAnswer.value.innerText = wordStore.formattedAnswer;
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
         }, 400);

@@ -114,16 +114,16 @@ export const getTransword = (wordData: WordData, attribute: WordAttribute): [str
   const transword = transwords[key];
   const match = transword.match(/(?<=【).+?(?=】)/);
 
-  const transwordArr: [string, string] = match
+  const transwordArray: [string, string] = match
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 
   // 一段动词的否定形 'politeNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
   if (['politeNegativeForm'].includes(attribute)) {
-    for (let i = 0; i < transwordArr.length; i++) {
-      transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
+    for (let i = 0; i < transwordArray.length; i++) {
+      transwordArray[i] = transwordArray[i].slice(0, -2) + 'ません';
     }
   }
 
-  return transwordArr;
+  return transwordArray;
 };

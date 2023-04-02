@@ -19,16 +19,15 @@ import { getWordList } from '../utils/getWordList';
 type State = {
   pos: Pos;
   _form: WordAttribute | null;
-  _word: WordData | null;
+  _selectedWordData: WordData | null;
   _answerArr: [string, string] | null;
 };
 type Getters = {
-  form: () => WordAttribute;
-  word: () => WordData;
+  attribute: () => WordAttribute;
+  selectWordData: () => WordData;
   selectedWordList: () => WordData[];
-  answerArr: () => [string, string];
-  answer: () => string;
-  answerKana: () => string;
+  transwordArray: () => [string, string];
+  formattedAnswer: () => string;
   isAnswerCorrect: () => (answer: string) => boolean;
   kana: () => string;
   kanji: () => string;
@@ -38,7 +37,7 @@ type Getters = {
 };
 type Actions = {
   refreshPos: () => void;
-  refreshForm: () => void;
+  refreshAttribute: () => void;
   refreshWordData: () => void;
   refreshAnswer: () => void;
   refreshWord: () => void;
@@ -49,7 +48,7 @@ const configStore = useConfigStore();
 /*
  * 顺序：
  *   1. 获取词性 pos，包括动词、形容词，比如 verb、adj
- *   2. 获取形态 form，包括ます形、て形等等
+ *   2. 获取形态 attribute，包括ます形、て形等等
  *   3. 获取单词 wordData
  *   4. 获取 correctAnswer
  */
@@ -57,13 +56,13 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
   state: () => ({
     pos: configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb',
     _form: null,
-    _word: null,
+    _selectedWordData: null,
     _voices: null,
     _answerArr: null,
   }),
   getters: {
     // 获得形态 masu、te、ta、nai 和 adj
-    form() {
+    attribute() {
       if (this._form === null) {
         this._form =
           this.pos === 'verb'
@@ -73,57 +72,54 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       return this._form;
     },
     selectedWordList() {
-      return VERB_FORM_LIST.includes(this.form as VerbForm)
+      return VERB_FORM_LIST.includes(this.attribute as VerbForm)
         ? getWordList(configStore.tempConfig.verb!, VERB_TYPE_LIST, verbList)
         : getWordList(configStore.tempConfig.adj!, ADJ_TYPE_LIST, adjList);
     },
-    word() {
-      if (this._word === null) {
+    selectWordData() {
+      if (this._selectedWordData === null) {
         const randomIndex = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
-        this._word = this.selectedWordList[randomIndex];
+        this._selectedWordData = this.selectedWordList[randomIndex];
       }
-      return this._word;
+      return this._selectedWordData;
     },
-    answerArr() {
+    transwordArray() {
       if (this._answerArr === null) {
         if (this.pos === 'adj') {
-          this._answerArr = getTransword(this.word, this.form);
+          this._answerArr = getTransword(this.selectWordData, this.attribute);
         } else {
-          this._answerArr = getTransword(this.word, this.form);
+          this._answerArr = getTransword(this.selectWordData, this.attribute);
         }
       }
       return this._answerArr;
     },
-    answer() {
-      return this.answerArr[0] === this.answerArr[1] ? this.answerArr[0] : this.answerArr[1] + '\n' + this.answerArr[0];
-    },
-    answerKana() {
-      return this.answerArr[0];
+    formattedAnswer() {
+      return this.transwordArray[0] === this.transwordArray[1] ? this.transwordArray[0] : this.transwordArray[1] + '\n' + this.transwordArray[0];
     },
     isAnswerCorrect() {
-      return (answer: string) => this.answerArr.includes(answer);
+      return (answer: string) => this.transwordArray.includes(answer);
     },
     kanji() {
-      return this.word.kanji;
+      return this.selectWordData.kanji;
     },
     kana() {
-      return this.word.kana;
+      return this.selectWordData.kana;
     },
     meaning() {
-      return this.word.meaning;
+      return this.selectWordData.meaning;
     },
     type() {
-      return BILINGUAL_LIST[this.word.type] as WordType;
+      return BILINGUAL_LIST[this.selectWordData.type] as WordType;
     },
     formKanji() {
-      return BILINGUAL_LIST[this.form] ? BILINGUAL_LIST[this.form] : this.form;
+      return BILINGUAL_LIST[this.attribute] ? BILINGUAL_LIST[this.attribute] : this.attribute;
     },
   },
   actions: {
     refreshPos() {
       this.pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb';
     },
-    refreshForm() {
+    refreshAttribute() {
       this._form =
         this.pos === 'verb'
           ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)
@@ -131,18 +127,18 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     refreshWordData() {
       const index = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
-      this._word = this.selectedWordList[index];
+      this._selectedWordData = this.selectedWordList[index];
     },
     refreshAnswer() {
       if (this.pos === 'adj') {
-        this._answerArr = getTransword(this.word, this.form);
+        this._answerArr = getTransword(this.selectWordData, this.attribute);
       } else {
-        this._answerArr = getTransword(this.word, this.form);
+        this._answerArr = getTransword(this.selectWordData, this.attribute);
       }
     },
     refreshWord() {
       this.refreshPos();
-      this.refreshForm();
+      this.refreshAttribute();
       this.refreshWordData();
       this.refreshAnswer();
     },
