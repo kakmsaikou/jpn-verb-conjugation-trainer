@@ -15,7 +15,6 @@ export const VERB_FORM_LIST: VerbForm[] = [
   'prohibitive',
 ];
 
-export const ADJ_FORM_LIST: AdjForm[] = ['adj'];
 export const ADJ_TENSE_LIST: AdjTense[] = [
   'simpleNegativeTense',
   'simplePastTense',
@@ -29,22 +28,13 @@ export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
 export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 
 export const POS_LIST: Pos[] = ['verb', 'adj'];
-export const SOW_LIST: Sow[] = ['plain', 'polite'];
-export const POLARITY_LIST: Polarity[] = ['affirmative', 'negative'];
-export const TENSE_LIST: Tense[] = ['present', 'past'];
 
 export const BILINGUAL_LIST: Record<
-  Pos | Sow | Polarity | Tense | WordAttribute | VerbType | AdjType | AdjTense,
+  Pos  | WordAttribute | VerbType | AdjType | AdjTense,
   string
 > = {
   verb: '动词',
   adj: '形容词',
-  plain: '基本形 / 简体',
-  polite: '敬体',
-  affirmative: '肯定',
-  negative: '否定',
-  present: '现在',
-  past: '过去',
   politeForm: 'ます形',
   politeNegativeForm: '敬语否定形',
   politePastForm: '敬语过去形',
@@ -102,20 +92,10 @@ export const INIT_CONFIG: Config = {
     causative: false,
     causativePassive: false,
     prohibitive: false,
-    affirmative: true,
-    negative: true,
-    present: true,
-    past: true,
   },
   adj: {
     adj_i: true,
     adj_na: true,
-    plain: true,
-    polite: true,
-    affirmative: true,
-    negative: true,
-    present: true,
-    past: true,
     simpleNegativeTense: true,
     simplePastTense: true,
     simplePastNegativeTense: true,
