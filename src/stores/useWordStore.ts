@@ -18,12 +18,12 @@ import { getWordList } from '../utils/getWordList';
 
 type State = {
   pos: Pos;
-  _form: WordForm | null | AdjTense;
+  _form: WordAttribute | null ;
   _word: WordData | null;
   _answerArr: [string, string] | null;
 };
 type Getters = {
-  form: () => WordForm | AdjTense;
+  form: () => WordAttribute;
   word: () => WordData;
   selectedWordList: () => WordData[];
   answerArr: () => [string, string];
@@ -66,7 +66,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        const tempForm: WordForm =
+        const tempForm: WordAttribute =
           this.pos === 'verb'
             ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)
             : getKey(configStore.tempConfig.adj!, ADJ_TENSE_LIST);

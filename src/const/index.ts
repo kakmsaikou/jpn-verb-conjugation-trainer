@@ -33,7 +33,10 @@ export const SOW_LIST: Sow[] = ['plain', 'polite'];
 export const POLARITY_LIST: Polarity[] = ['affirmative', 'negative'];
 export const TENSE_LIST: Tense[] = ['present', 'past'];
 
-export const BILINGUAL_LIST: Record<Pos | Sow | Polarity | Tense | WordForm | VerbType | AdjType | AdjTense, string> = {
+export const BILINGUAL_LIST: Record<
+  Pos | Sow | Polarity | Tense | WordAttribute | VerbType | AdjType | AdjTense,
+  string
+> = {
   verb: '动词',
   adj: '形容词',
   plain: '基本形 / 简体',

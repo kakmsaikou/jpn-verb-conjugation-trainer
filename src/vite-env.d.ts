@@ -47,7 +47,7 @@ interface WordData extends BaseWordData {
   type: VerbType | AdjType;
 }
 type WordType = VerbType | AdjType;
-type WordForm = VerbForm | AdjForm;
+type WordAttribute = VerbForm | AdjTense;
 // 语态相关
 type Sow = 'plain' | 'polite'; // Style of Writing 文体
 type Polarity = 'affirmative' | 'negative';

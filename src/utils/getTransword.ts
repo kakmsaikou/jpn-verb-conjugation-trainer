@@ -26,7 +26,7 @@ const getPosNum = (wordData: WordData): number => {
   return 0;
 };
 
-export const getTransword = (wordData: WordData, attribute: WordForm | AdjTense): [string, string] => {
+export const getTransword = (wordData: WordData, attribute: WordAttribute): [string, string] => {
   const pos = getPosNum(wordData);
   const tempWordData =
     wordData.type !== 'adj_na' ? wordData : { ...wordData, kanji: wordData.kanji + 'だ', kana: wordData.kana + 'だ' };
