@@ -20,17 +20,17 @@ export const Flashcard = defineComponent({
           <p class={s.kana}>
             {configStore.config.pron === '无注音'
               ? '　'
-              : wordStore.kanji === wordStore.kana
+              : wordStore.selectWordData.kanji === wordStore.selectWordData.kana
               ? '　'
               : configStore.config.pron === '平假名'
-              ? wordStore.kana
-              : toRomaji(wordStore.kana)}
+              ? wordStore.selectWordData.kana
+              : toRomaji(wordStore.selectWordData.kana)}
           </p>
-          <h2 class={s.wordText}>{wordStore.kanji}</h2>
-          <p class={s.meaning}>{wordStore.meaning}</p>
-          <p class={s.type}>{props.isTypeShown ? wordStore.type : '　'}</p>
+          <h2 class={s.wordText}>{wordStore.selectWordData.kanji}</h2>
+          <p class={s.meaning}>{wordStore.selectWordData.meaning}</p>
+          <p class={s.type}>{props.isTypeShown ? wordStore.formattedType : '　'}</p>
         </div>
-        <h3 class={s.questionContent}>{wordStore.formKanji}</h3>
+        <h3 class={s.questionContent}>{wordStore.formattedKanji}</h3>
       </div>
     );
   },

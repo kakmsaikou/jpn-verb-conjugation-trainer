@@ -29,11 +29,8 @@ type Getters = {
   transwordArray: () => [string, string];
   formattedAnswer: () => string;
   isAnswerCorrect: () => (answer: string) => boolean;
-  kana: () => string;
-  kanji: () => string;
-  meaning: () => string;
-  type: () => WordType;
-  formKanji: () => string;
+  formattedType: () => WordType;
+  formattedKanji: () => string;
 };
 type Actions = {
   refreshPos: () => void;
@@ -94,24 +91,17 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       return this._answerArr;
     },
     formattedAnswer() {
-      return this.transwordArray[0] === this.transwordArray[1] ? this.transwordArray[0] : this.transwordArray[1] + '\n' + this.transwordArray[0];
+      return this.transwordArray[0] === this.transwordArray[1]
+        ? this.transwordArray[0]
+        : this.transwordArray[1] + '\n' + this.transwordArray[0];
     },
     isAnswerCorrect() {
       return (answer: string) => this.transwordArray.includes(answer);
     },
-    kanji() {
-      return this.selectWordData.kanji;
-    },
-    kana() {
-      return this.selectWordData.kana;
-    },
-    meaning() {
-      return this.selectWordData.meaning;
-    },
-    type() {
+    formattedType() {
       return BILINGUAL_LIST[this.selectWordData.type] as WordType;
     },
-    formKanji() {
+    formattedKanji() {
       return BILINGUAL_LIST[this.attribute] ? BILINGUAL_LIST[this.attribute] : this.attribute;
     },
   },
