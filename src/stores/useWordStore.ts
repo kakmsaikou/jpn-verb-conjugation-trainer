@@ -14,18 +14,20 @@ import {
   ADJ_TYPE_LIST,
   MAX_RANDOM_WORDS_COUNT,
   BILINGUAL_LIST,
+  ADJ_TENSE_LIST,
 } from '../const';
 import { getWordList } from '../utils/getWordList';
+import { getTransAdj } from '../utils/getTransAdj';
 
 type State = {
   pos: Pos;
-  _form: WordForm | null;
+  _form: WordForm | null | AdjTense;
   _word: WordData | null;
   _voices: Voices | null;
   _answerArr: [string, string] | null;
 };
 type Getters = {
-  form: () => WordForm;
+  form: () => WordForm | AdjTense;
   word: () => WordData;
   voices: () => Record<Voice, boolean>;
   selectedWordList: () => WordData[];
@@ -70,10 +72,10 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     // 获得形态 masu、te、ta、nai 和 adj
     form() {
       if (this._form === null) {
-        const tempForm: WordForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
-        if (tempForm === 'plain' && !configStore.tempConfig.verb?.negative && !configStore.tempConfig.verb?.past) {
-          return (this._form = 'masu');
-        }
+        const tempForm: WordForm =
+          this.pos === 'verb'
+            ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)
+            : getKey(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
         return (this._form = tempForm);
       }
       return this._form;
@@ -105,8 +107,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     answerArr() {
       if (this._answerArr === null) {
         if (this.pos === 'adj') {
-          const { present, negative, polite } = this.voices;
-          this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+          this._answerArr = getTransAdj(this.word, this.form);
         } else {
           this._answerArr = getTransword(this.word, this.form, this.voices);
         }
@@ -135,35 +136,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       return BILINGUAL_LIST[this.word.type] as WordType;
     },
     formKanji() {
-      if (this.pos === 'verb') {
-        if (this.form === 'plain') {
-          const polite = '基本形';
-          const negative = this.voices.negative ? '，否定' : '';
-          const present = this.voices.present ? '' : '，过去';
-          const formKanji = polite + negative + present;
-          switch (formKanji) {
-            case '基本形，否定':
-              return 'ない形';
-            case '基本形，过去':
-              return 'た形';
-            case '基本形，否定，过去':
-              return 'なか形，过去';
-          }
-          return polite + negative + present;
-        } else if (this.form === 'masu') {
-          const polite = 'ます形';
-          const negative = this.voices.negative ? '，否定' : '';
-          const present = this.voices.present ? '' : '，过去';
-          return polite + negative + present;
-        } else {
-          return BILINGUAL_LIST[this.form] ? BILINGUAL_LIST[this.form] : this.form;
-        }
-      } else {
-        const polite = this.voices.polite ? '敬体' : '简体';
-        const negative = this.voices.negative ? '，否定' : '';
-        const present = this.voices.present ? '' : '，过去';
-        return polite + negative + present;
-      }
+      return BILINGUAL_LIST[this.form] ? BILINGUAL_LIST[this.form] : this.form;
     },
   },
   actions: {
@@ -171,13 +144,10 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
       this.pos = configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb';
     },
     refreshForm() {
-      const tempForm = this.pos === 'verb' ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST) : 'adj';
-      // 保证在没有选择"过去式 || 否定式"的情况下，不会出现 plain 的 form
-      if (tempForm === 'plain' && !configStore.tempConfig.verb?.negative && !configStore.tempConfig.verb?.past) {
-        this._form = 'masu';
-      } else {
-        this._form = tempForm;
-      }
+      this._form =
+        this.pos === 'verb'
+          ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)
+          : getKey(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
     },
     refreshWordData() {
       const index = getIndex(this.selectedWordList, MAX_RANDOM_WORDS_COUNT);
@@ -190,8 +160,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     refreshAnswer() {
       if (this.pos === 'adj') {
-        const { present, negative, polite } = this.voices;
-        this._answerArr = myJconj(this.word, present, negative, polite, this.form);
+        this._answerArr = getTransAdj(this.word, this.form);
       } else {
         this._answerArr = getTransword(this.word, this.form, this.voices);
       }
