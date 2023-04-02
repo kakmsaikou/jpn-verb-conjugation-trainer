@@ -6,15 +6,7 @@ import { defineStore } from 'pinia';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getIndex } from '../utils/getIndex';
-import {
-  POS_LIST,
-  VERB_FORM_LIST,
-  VERB_TYPE_LIST,
-  ADJ_TYPE_LIST,
-  MAX_RANDOM_WORDS_COUNT,
-  BILINGUAL_LIST,
-  ADJ_TENSE_LIST,
-} from '../const';
+import { POS_LIST, VERB_FORM_LIST, VERB_TYPE_LIST, ADJ_TYPE_LIST, BILINGUAL_LIST, ADJ_TENSE_LIST } from '../const';
 
 type State = {
   pos: Pos;
@@ -128,6 +120,6 @@ const getAttribute = (pos: Pos) => {
     : getKey(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
 };
 const getSelectWordData = (wordList: WordData[]) => {
-  const randomIndex = getIndex(wordList, MAX_RANDOM_WORDS_COUNT);
+  const randomIndex = getIndex(wordList, wordList.length < 3 ? 0 : 3);
   return wordList[randomIndex];
 };

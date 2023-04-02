@@ -63,9 +63,6 @@ export const BILINGUAL_LIST: Record<
   adj_na: 'ナ形容词',
 };
 
-// 最大几次内单词不会重复
-export const MAX_RANDOM_WORDS_COUNT = 0 as const;
-
 export const INIT_CONFIG: Config = {
   pron: '平假名',
   voice: false,
