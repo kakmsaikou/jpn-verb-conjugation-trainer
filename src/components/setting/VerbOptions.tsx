@@ -17,11 +17,8 @@ export const VerbOptions = defineComponent({
       return verb.v5 || verb.v1 || verb.suru || verb.kuru;
     });
     const formValid = computed(() => {
-      let n = 0;
-      VERB_FORM_LIST.forEach(form => {
-        if (verb[form] === true) n++;
-      });
-      return n > 0 ? true : false;
+      const validFormList = VERB_FORM_LIST.filter(form => verb[form] === true);
+      return validFormList.length > 0;
     });
     const verbValid = computed(() => {
       return typeValid.value && formValid.value;

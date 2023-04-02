@@ -17,11 +17,8 @@ export const AdjOptions = defineComponent({
       return adj.adj_i || adj.adj_na;
     });
     const tenseValid = computed(() => {
-      let n = 0;
-      ADJ_TENSE_LIST.forEach(tense => {
-        if (adj[tense] === true) n++;
-      });
-      return n > 0 ? true : false;
+      const validTenseList = ADJ_TENSE_LIST.filter(tense => adj[tense] === true);
+      return validTenseList.length > 0;
     });
     const adjValid = computed(() => {
       return typeValid.value && tenseValid.value;
