@@ -99,8 +99,8 @@ export const INIT_CONFIG: Config = {
     simpleNegativeTense: true,
     simplePastTense: true,
     simplePastNegativeTense: true,
-    politeNegativeTense: true,
-    politePastTense: true,
-    politePastNegativeTense: true,
+    politeNegativeTense: false,
+    politePastTense: false,
+    politePastNegativeTense: false,
   },
 };
