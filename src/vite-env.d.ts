@@ -41,9 +41,7 @@ interface BaseWordData {
   kana: string;
   meaning: string;
 }
-interface WordData extends BaseWordData {
-  type: VerbType | AdjType;
-}
+type WordData = VerbData | AdjData;
 type WordType = VerbType | AdjType;
 type WordAttribute = VerbForm | AdjTense;
 // userConfig 参数相关
