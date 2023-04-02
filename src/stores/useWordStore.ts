@@ -16,7 +16,6 @@ import {
   ADJ_TENSE_LIST,
 } from '../const';
 import { getWordList } from '../utils/getWordList';
-import { getTransAdj } from '../utils/getTransAdj';
 
 type State = {
   pos: Pos;
@@ -93,7 +92,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     answerArr() {
       if (this._answerArr === null) {
         if (this.pos === 'adj') {
-          this._answerArr = getTransAdj(this.word, this.form);
+          this._answerArr = getTransword(this.word, this.form);
         } else {
           this._answerArr = getTransword(this.word, this.form);
         }
@@ -146,7 +145,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>('Word',
     },
     refreshAnswer() {
       if (this.pos === 'adj') {
-        this._answerArr = getTransAdj(this.word, this.form);
+        this._answerArr = getTransword(this.word, this.form);
       } else {
         this._answerArr = getTransword(this.word, this.form);
       }

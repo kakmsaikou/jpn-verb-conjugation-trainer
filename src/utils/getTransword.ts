@@ -26,16 +26,18 @@ const getPosNum = (wordData: WordData): number => {
   return 0;
 };
 
-export const getTransword = (wordData: WordData, form: WordForm): [string, string] => {
+export const getTransword = (wordData: WordData, attribute: WordForm | AdjTense): [string, string] => {
   const pos = getPosNum(wordData);
-  const transwords = jconj(wordData, pos)[0];
+  const tempWordData =
+    wordData.type !== 'adj_na' ? wordData : { ...wordData, kanji: wordData.kanji + 'だ', kana: wordData.kana + 'だ' };
+  const transwords = jconj(tempWordData, pos)[0];
 
   let conj: number = 0;
   let neg: boolean = false;
   let fml: boolean = false;
 
-  switch (form) {
-    // 一段动词的否定形 'politeNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
+  switch (attribute) {
+    // 动词
     case 'politeForm':
     case 'politeNegativeForm':
       conj = 1;
@@ -80,6 +82,32 @@ export const getTransword = (wordData: WordData, form: WordForm): [string, strin
       conj = 10;
       neg = true;
       break;
+    // 形容词
+    case 'simpleNegativeTense':
+      conj = 1;
+      neg = true;
+      break;
+    case 'simplePastTense':
+      conj = 2;
+      break;
+    case 'simplePastNegativeTense':
+      conj = 2;
+      neg = true;
+      break;
+    case 'politeNegativeTense':
+      conj = 1;
+      neg = true;
+      fml = true;
+      break;
+    case 'politePastTense':
+      conj = 2;
+      fml = true;
+      break;
+    case 'politePastNegativeTense':
+      conj = 2;
+      neg = true;
+      fml = true;
+      break;
   }
 
   const key = [pos, conj, neg, fml].join(',');
@@ -90,7 +118,8 @@ export const getTransword = (wordData: WordData, form: WordForm): [string, strin
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 
-  if (['politeNegativeForm'].includes(form)) {
+  // 一段动词的否定形 'politeNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
+  if (['politeNegativeForm'].includes(attribute)) {
     for (let i = 0; i < transwordArr.length; i++) {
       transwordArr[i] = transwordArr[i].slice(0, -2) + 'ません';
     }
