@@ -67,7 +67,7 @@ export const SettingPage = defineComponent({
           
           <p class={s.target}>
             每日答题目标（达到目标后会提醒）
-            <input type='number' class={s.targetNum} value={0} min={0}/>
+            <input type='number' v-model={tempConfig.target} class={s.targetNum} min={0}/>
           </p>
 
           <div class={s.relativeBox}>

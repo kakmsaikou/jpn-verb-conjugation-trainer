@@ -50,6 +50,7 @@ type AdjConfig = Record<AdjType | AdjTense, boolean>;
 type Pron = '平假名' | '罗马音' | '无注音';
 type Config = {
   pron: Pron;
+  target: number;
   voice: boolean;
   pos: Record<Pos, boolean>;
   verb: VerbConfig;

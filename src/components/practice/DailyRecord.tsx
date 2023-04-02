@@ -1,6 +1,7 @@
 import { defineComponent, watch } from 'vue';
 import s from './DailyRecord.module.scss';
 import { ElMessageBox } from 'element-plus';
+import { useConfigStore } from '../../stores/useConfigStore';
 
 export const DailyRecord = defineComponent({
   props: {
@@ -14,9 +15,10 @@ export const DailyRecord = defineComponent({
     },
   },
   setup: (props, context) => {
+    const configStore = useConfigStore();
     watch(props, (newVal, oldVal) => {
-      const percentage = Math.round((props.dailyCorrectCount / props.dailyAnswerCount) * 10000) / 100 + '%';
-      if (props.dailyAnswerCount > 429) {
+      if (configStore.config.target > 0 && props.dailyAnswerCount === configStore.config.target) {
+        const percentage = Math.round((props.dailyCorrectCount / props.dailyAnswerCount) * 10000) / 100 + '%';
         ElMessageBox.alert(
           `
         已完成今日的答题目标，

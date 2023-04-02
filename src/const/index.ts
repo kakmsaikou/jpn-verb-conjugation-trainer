@@ -65,6 +65,7 @@ export const BILINGUAL_LIST: Record<
 
 export const INIT_CONFIG: Config = {
   pron: '平假名',
+  target: 0,
   voice: false,
   pos: {
     verb: true,
