@@ -11,12 +11,12 @@ type VerbForm =
   | 'simpleNegativeForm'
   | 'simplePastForm'
   | 'simplePastNegativeForm'
-  | 'imperative'
-  | 'volitional'
-  | 'potential'
-  | 'causative'
-  | 'causativePassive'
-  | 'prohibitive';
+  | 'imperativeForm'
+  | 'volitionalForm'
+  | 'potentialForm'
+  | 'causativeForm'
+  | 'causativePassiveForm'
+  | 'prohibitiveForm';
 interface VerbData extends BaseWordData {
   type: VerbType;
 }

@@ -63,22 +63,22 @@ export const getTransword = (wordData: WordData, attribute: WordAttribute): [str
       conj = 2;
       neg = true;
       break;
-    case 'potential':
+    case 'potentialForm':
       conj = 5;
       break;
-    case 'causative':
+    case 'causativeForm':
       conj = 7;
       break;
-    case 'causativePassive':
+    case 'causativePassiveForm':
       conj = 8;
       break;
-    case 'volitional':
+    case 'volitionalForm':
       conj = 9;
       break;
-    case 'imperative':
+    case 'imperativeForm':
       conj = 10;
       break;
-    case 'prohibitive':
+    case 'prohibitiveForm':
       conj = 10;
       neg = true;
       break;
