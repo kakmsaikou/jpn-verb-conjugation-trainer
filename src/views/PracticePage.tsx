@@ -8,10 +8,12 @@ import { RouterLink } from 'vue-router';
 import Flashcard from '../components/practice/Flashcard';
 import { useDailyRecord } from '../utils/useDailyRecord';
 import { useVoice } from '../utils/useVoice';
+import { useAttributeWeightsStore } from '../stores/useAttributeWeightStore';
 
 export const PracticePage = defineComponent({
   setup: () => {
     const wordStore = useWordStore();
+    const attributeWeightStore = useAttributeWeightsStore();
 
     const refCorrectAnswer: Ref<HTMLParagraphElement | undefined> = ref();
     const refAnswer: Ref<HTMLInputElement | undefined> = ref();
@@ -47,8 +49,11 @@ export const PracticePage = defineComponent({
       isAnswerSubmitted.value = true;
       dailyRecord.addAnswer();
 
+
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
+      attributeWeightStore.updateAttributeWeights(wordStore.attribute, isAnswerCorrect);
+
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           classList.remove('correct', 'wrong');
