@@ -116,7 +116,11 @@ const getPos = () => {
   return configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb';
 };
 const getAttribute = (pos: Pos) => {
-  getAttributeByWeight(configStore.tempConfig.verb!, VERB_FORM_LIST)
+  if (configStore.tempConfig.getAttributeByWeight) {
+    return pos === 'verb'
+      ? getAttributeByWeight(configStore.tempConfig.verb!, VERB_FORM_LIST)
+      : getAttributeByWeight(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
+  }
   return pos === 'verb'
     ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)
     : getKey(configStore.tempConfig.adj!, ADJ_TENSE_LIST);

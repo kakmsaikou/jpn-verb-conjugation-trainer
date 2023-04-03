@@ -52,6 +52,7 @@ type Config = {
   pron: Pron;
   target: number;
   voice: boolean;
+  getAttributeByWeight: boolean;
   pos: Record<Pos, boolean>;
   verb: VerbConfig;
   adj: AdjConfig;

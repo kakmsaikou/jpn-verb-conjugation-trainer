@@ -2,7 +2,7 @@ import { useAttributeWeightsStore } from '../stores/useAttributeWeightStore';
 
 const attributeWeightStore = useAttributeWeightsStore();
 
-export const getAttributeByWeight = (config: Record<any, boolean>, attributeList: WordAttribute[]) => {
+export const getAttributeByWeight = (config: Record<any, boolean>, attributeList: WordAttribute[]): WordAttribute => {
   // 获取被选中的形式的数组
   const usedAttributeList = Object.keys(config).filter(
     key => config[key] === true && attributeList.includes(key as WordAttribute)
@@ -30,11 +30,13 @@ export const getAttributeByWeight = (config: Record<any, boolean>, attributeList
   // 生成随机数并选择题型
   const random = Math.random();
   let cumulativeProbability = 0;
+  let selectedAttribute;
   for (let item of usedAttributeList) {
     cumulativeProbability += probabilityList[item];
     if (random <= cumulativeProbability) {
-      console.log(item);
-      return;
+      selectedAttribute = item;
     }
   }
+  if (!selectedAttribute) selectedAttribute = usedAttributeList[usedAttributeList.length - 1];
+  return selectedAttribute;
 };
