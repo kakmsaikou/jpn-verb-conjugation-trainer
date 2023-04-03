@@ -47,12 +47,11 @@ export const PracticePage = defineComponent({
 
       const { classList } = refCorrectAnswer.value;
       isAnswerSubmitted.value = true;
-      dailyRecord.addAnswer();
-
 
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
       attributeWeightStore.updateAttributeWeights(wordStore.selectedAttribute, isAnswerCorrect);
+      dailyRecord.updateRecord(isAnswerCorrect);
 
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
@@ -70,7 +69,6 @@ export const PracticePage = defineComponent({
         }
       };
       if (isAnswerCorrect) {
-        dailyRecord.addCorrect();
         classList.add('correct');
         refCorrectAnswer.value.innerText = refAnswer.value.value;
         document.addEventListener('keyup', handleGlobalEnter);

@@ -13,17 +13,15 @@ export const useDailyRecord = () => {
       answer: 0,
     });
   }
-  const addCorrect = () => {
-    record.correct++;
-    localStorage.setItem('daily_record', JSON.stringify(record));
-  };
-  const addAnswer = () => {
+  const updateRecord = (isCorrect: boolean) => {
     record.answer++;
+    if (isCorrect) {
+      record.correct++;
+    }
     localStorage.setItem('daily_record', JSON.stringify(record));
   };
   return {
     record,
-    addCorrect,
-    addAnswer,
+    updateRecord
   };
 };
