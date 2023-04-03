@@ -8,6 +8,7 @@ type Getters = {
 };
 type Actions = {
   updateAttributeWeights: (attribute: WordAttribute, isCorrect: boolean) => void;
+  cleanAttributeWeights: () => void;
 };
 
 export const useAttributeWeightsStore = defineStore<string, State, Getters, Actions>('attributeStore', {
@@ -33,6 +34,10 @@ export const useAttributeWeightsStore = defineStore<string, State, Getters, Acti
         Math.round(
           (isCorrect ? this.attributeWeights[attribute] * 0.9 : this.attributeWeights[attribute] * 1.1) * 100
         ) / 100;
+      localStorage.setItem('attributeWeights', JSON.stringify(this.attributeWeights));
+    },
+    cleanAttributeWeights() {
+      this.attributeWeights = {} as Record<WordAttribute, number>;
       localStorage.setItem('attributeWeights', JSON.stringify(this.attributeWeights));
     },
   },

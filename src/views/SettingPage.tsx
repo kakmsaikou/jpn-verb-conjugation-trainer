@@ -8,11 +8,14 @@ import { useWordStore } from '../stores/useWordStore';
 import { deepClone } from '../utils/deepClone';
 import s from './SettingPage.module.scss';
 import Slider from '../components/setting/Slider';
+import { useAttributeWeightsStore } from '../stores/useAttributeWeightStore';
 
 export const SettingPage = defineComponent({
   setup: (props, context) => {
     const configStore = useConfigStore();
     const wordStore = useWordStore();
+    const attributeWeightsStore = useAttributeWeightsStore();
+
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { pos } = tempConfig;
     const router = useRouter();
@@ -59,20 +62,21 @@ export const SettingPage = defineComponent({
             是否要注音？
             <Slider options={pronOptions} init={tempConfig.pron} onOption={handleFuck} />
           </p>
-          
+
           <p>
-            <input type="checkbox" v-model={tempConfig.voice}/>
+            <input type='checkbox' v-model={tempConfig.voice} />
             是否发音？
           </p>
-          
+
           <p class={s.target}>
             每日答题目标（达到目标后会提醒）
-            <input type='number' v-model={tempConfig.target} class={s.targetNum} min={0}/>
+            <input type='number' v-model={tempConfig.target} class={s.targetNum} min={0} />
           </p>
 
           <p>
-            <input type="checkbox" v-model={tempConfig.getAttributeByWeight}/>
+            <input type='checkbox' v-model={tempConfig.getAttributeByWeight} />
             是否根据错误权重出题？
+            <Button onClick={attributeWeightsStore.cleanAttributeWeights}>重置错题权重</Button>
           </p>
 
           <div class={s.relativeBox}>
