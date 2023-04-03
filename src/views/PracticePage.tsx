@@ -52,7 +52,7 @@ export const PracticePage = defineComponent({
 
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
-      attributeWeightStore.updateAttributeWeights(wordStore.attribute, isAnswerCorrect);
+      attributeWeightStore.updateAttributeWeights(wordStore.selectedAttribute, isAnswerCorrect);
 
       const handleGlobalEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
