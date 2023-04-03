@@ -35,6 +35,7 @@ export const getAttributeByWeight = (config: Record<any, boolean>, attributeList
     cumulativeProbability += probabilityList[item];
     if (random <= cumulativeProbability) {
       selectedAttribute = item;
+      break;
     }
   }
   if (!selectedAttribute) selectedAttribute = usedAttributeList[usedAttributeList.length - 1];
