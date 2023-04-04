@@ -13,8 +13,11 @@ export const VerbOptions = defineComponent({
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
 
-    const refX = ref() as Ref<HTMLParagraphElement>;
-    const refXVisible = ref(false);
+    const refPoliteUlButton = ref() as Ref<HTMLParagraphElement>;
+    const refPoliteUlVisible = ref(false);
+
+    const refNegativeUlButton = ref() as Ref<HTMLParagraphElement>;
+    const refNegativeUlVisible = ref(false);
 
     const typeValid = computed(() => {
       return verb.v5 || verb.v1 || verb.suru || verb.kuru;
@@ -31,14 +34,14 @@ export const VerbOptions = defineComponent({
       context.emit('updateVerb', newVal);
     });
 
-    const handlePoliteForm = (e: MouseEvent) => {
+    const handlePoliteForm = (e: MouseEvent, refUl: Ref<HTMLParagraphElement>, refUlVisible: Ref<Boolean>) => {
       e.preventDefault();
-      if (refX.value.classList.contains('display')) {
-        refX.value.classList.remove('display');
-        refXVisible.value = false;
+      if (refUl.value.classList.contains('display')) {
+        refUl.value.classList.remove('display');
+        refUlVisible.value = false;
       } else {
-        refX.value.classList.add('display');
-        refXVisible.value = true;
+        refUl.value.classList.add('display');
+        refUlVisible.value = true;
       }
     };
     return () => (
@@ -63,25 +66,60 @@ export const VerbOptions = defineComponent({
             <div class={s.relativeBox}>
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
               <ul>
-                <li>
-                  <input type='checkbox' v-model={verb['politeForm']} />
-                  <span>{BILINGUAL_LIST['politeForm']}</span>
-                  <button class={s.displayButton} onClick={handlePoliteForm} ref={refX}>
-                    {'<'}
-                  </button>
-                  <ul v-show={refXVisible.value}>
-                    {['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].map(form => (
-                      <li>
-                        <input type='checkbox' v-model={verb[form as VerbForm]} />
-                        <span>{BILINGUAL_LIST[form as VerbForm]}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
                 {VERB_FORM_LIST.map(form => {
-                  return ['politeForm', 'politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].includes(
-                    form
-                  ) ? null : (
+                  if (form === 'politeForm') {
+                    return (
+                      <li>
+                        <input type='checkbox' v-model={verb[form]} />
+                        <span>{BILINGUAL_LIST[form]}</span>
+                        <button
+                          class={s.displayButton}
+                          onClick={e => {
+                            handlePoliteForm(e, refPoliteUlButton, refPoliteUlVisible);
+                          }}
+                          ref={refPoliteUlButton}
+                        >
+                          {'<'}
+                        </button>
+                        <ul v-show={refPoliteUlVisible.value}>
+                          {['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].map(form => (
+                            <li>
+                              <input type='checkbox' v-model={verb[form as VerbForm]} />
+                              <span>{BILINGUAL_LIST[form as VerbForm]}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    );
+                  } else if (form === 'simpleNegativeForm') {
+                    return (
+                      <li>
+                        <input type='checkbox' v-model={verb[form]} />
+                        <span>{BILINGUAL_LIST[form]}</span>
+                        <button
+                          class={s.displayButton}
+                          onClick={e => {
+                            handlePoliteForm(e, refNegativeUlButton, refNegativeUlVisible);
+                          }}
+                          ref={refNegativeUlButton}
+                        >
+                          {'<'}
+                        </button>
+                        <ul v-show={refNegativeUlVisible.value}>
+                          <li>
+                            <input type='checkbox' v-model={verb['simplePastNegativeForm']} />
+                            <span>{BILINGUAL_LIST['simplePastNegativeForm']}</span>
+                          </li>
+                        </ul>
+                      </li>
+                    );
+                  }
+                  return [
+                    'politePastForm',
+                    'politeNegativeForm',
+                    'politePastNegativeForm',
+                    'simplePastNegativeForm',
+                  ].includes(form) ? null : (
                     <li>
                       <input type='checkbox' v-model={verb[form]} />
                       <span>{BILINGUAL_LIST[form]}</span>
