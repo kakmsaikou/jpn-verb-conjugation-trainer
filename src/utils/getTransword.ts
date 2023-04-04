@@ -27,7 +27,7 @@ const getPosNum = (wordData: WordData): number => {
 };
 
 export const getTransword = (wordData: WordData, attribute: WordAttribute): [string, string] => {
-  const pos = getPosNum(wordData);
+  const pos = wordData.kana === 'いく' ? 34 : getPosNum(wordData);
   const tempWordData =
     wordData.type !== 'adj_na' ? wordData : { ...wordData, kanji: wordData.kanji + 'だ', kana: wordData.kana + 'だ' };
   const transwords = jconj(tempWordData, pos)[0];
