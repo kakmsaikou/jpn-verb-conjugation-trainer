@@ -19,3 +19,7 @@ p.wrong {
   opacity: 100%;
   background-color: var(--wrong-color);
 }
+
+button.display {
+  transform: rotate(-0.25turn);
+}

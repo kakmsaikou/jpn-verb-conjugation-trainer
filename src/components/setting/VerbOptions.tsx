@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType, watch } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref, watch } from 'vue';
 import { BILINGUAL_LIST, VERB_FORM_LIST, VERB_TYPE_LIST } from '../../const';
 import s from './WordOptions.module.scss';
 
@@ -12,6 +12,9 @@ export const VerbOptions = defineComponent({
   },
   setup: (props, context) => {
     const { pos, verb } = props.tempConfig;
+
+    const refX = ref() as Ref<HTMLParagraphElement>;
+    const refXVisible = ref(false);
 
     const typeValid = computed(() => {
       return verb.v5 || verb.v1 || verb.suru || verb.kuru;
@@ -27,6 +30,17 @@ export const VerbOptions = defineComponent({
     watch(verbValid, newVal => {
       context.emit('updateVerb', newVal);
     });
+
+    const handlePoliteForm = (e: MouseEvent) => {
+      e.preventDefault();
+      if (refX.value.classList.contains('display')) {
+        refX.value.classList.remove('display');
+        refXVisible.value = false;
+      } else {
+        refX.value.classList.add('display');
+        refXVisible.value = true;
+      }
+    };
     return () => (
       <div class={s.wrapper}>
         <h3>
@@ -49,12 +63,31 @@ export const VerbOptions = defineComponent({
             <div class={s.relativeBox}>
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
               <ul>
-                {VERB_FORM_LIST.map(form => (
-                  <li>
-                    <input type='checkbox' v-model={verb[form]} />
-                    <span>{BILINGUAL_LIST[form]}</span>
-                  </li>
-                ))}
+                <li>
+                  <input type='checkbox' v-model={verb['politeForm']} />
+                  <span>{BILINGUAL_LIST['politeForm']}</span>
+                  <button class={s.displayButton} onClick={handlePoliteForm} ref={refX}>
+                    {'<'}
+                  </button>
+                  <ul v-show={refXVisible.value}>
+                    {['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].map(form => (
+                      <li>
+                        <input type='checkbox' v-model={verb[form as VerbForm]} />
+                        <span>{BILINGUAL_LIST[form as VerbForm]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+                {VERB_FORM_LIST.map(form => {
+                  return ['politeForm', 'politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].includes(
+                    form
+                  ) ? null : (
+                    <li>
+                      <input type='checkbox' v-model={verb[form]} />
+                      <span>{BILINGUAL_LIST[form]}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
