@@ -26,10 +26,19 @@ const getPosNum = (wordData: WordData): number => {
   return 0;
 };
 
-export const getTransword = (wordData: WordData, attribute: WordAttribute): [string, string] => {
+export const getTransword = (
+  wordData: WordData,
+  attribute: WordAttribute
+): [string, string] => {
   const pos = wordData.kana === 'いく' ? 34 : getPosNum(wordData);
   const tempWordData =
-    wordData.type !== 'adj_na' ? wordData : { ...wordData, kanji: wordData.kanji + 'だ', kana: wordData.kana + 'だ' };
+    wordData.type !== 'adj_na'
+      ? wordData
+      : {
+          ...wordData,
+          kanji: wordData.kanji + 'だ',
+          kana: wordData.kana + 'だ',
+        };
   const transwords = jconj(tempWordData, pos)[0];
 
   let conj: number = 0;

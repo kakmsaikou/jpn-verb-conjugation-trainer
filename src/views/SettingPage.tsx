@@ -60,7 +60,11 @@ export const SettingPage = defineComponent({
         <form class={s.optionsForm}>
           <p class={s.pron}>
             是否要注音？
-            <Slider options={pronOptions} init={tempConfig.pron} onOption={handleFuck} />
+            <Slider
+              options={pronOptions}
+              init={tempConfig.pron}
+              onOption={handleFuck}
+            />
           </p>
 
           <p>
@@ -70,18 +74,28 @@ export const SettingPage = defineComponent({
 
           <p class={s.target}>
             每日答题目标（达到目标后会提醒）
-            <input type='number' v-model={tempConfig.target} class={s.targetNum} min={0} />
+            <input
+              type='number'
+              v-model={tempConfig.target}
+              class={s.targetNum}
+              min={0}
+            />
           </p>
 
           <p>
             <input type='checkbox' v-model={tempConfig.getAttributeByWeight} />
             是否根据错误权重出题？
-            <Button onClick={attributeWeightsStore.cleanAttributeWeights}>重置错题权重</Button>
+            <Button onClick={attributeWeightsStore.cleanAttributeWeights}>
+              重置错题权重
+            </Button>
           </p>
 
           <div class={s.relativeBox}>
             <h4 v-show={!posValid.value}>*你至少需要选择一个类别</h4>
-            <VerbOptions tempConfig={tempConfig} onUpdateVerb={updateVerbValid} />
+            <VerbOptions
+              tempConfig={tempConfig}
+              onUpdateVerb={updateVerbValid}
+            />
             <AdjOptions tempConfig={tempConfig} onUpdateAdj={updateAdjValid} />
           </div>
 

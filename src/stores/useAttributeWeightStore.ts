@@ -7,18 +7,30 @@ type Getters = {
   getWeight: (state: State) => (attribute: WordAttribute) => number;
 };
 type Actions = {
-  updateAttributeWeights: (attribute: WordAttribute, isCorrect: boolean) => void;
+  updateAttributeWeights: (
+    attribute: WordAttribute,
+    isCorrect: boolean
+  ) => void;
   cleanAttributeWeights: () => void;
 };
 
-export const useAttributeWeightsStore = defineStore<string, State, Getters, Actions>('attributeStore', {
+export const useAttributeWeightsStore = defineStore<
+  string,
+  State,
+  Getters,
+  Actions
+>('attributeStore', {
   state: () => ({
-    attributeWeights: JSON.parse(localStorage.getItem('attributeWeights') || 'null') || {},
+    attributeWeights:
+      JSON.parse(localStorage.getItem('attributeWeights') || 'null') || {},
   }),
   getters: {
     getWeight: state => {
       return (attribute: WordAttribute) => {
-        if (!state.attributeWeights[attribute] || typeof state.attributeWeights[attribute] !== 'number') {
+        if (
+          !state.attributeWeights[attribute] ||
+          typeof state.attributeWeights[attribute] !== 'number'
+        ) {
           state.attributeWeights[attribute] = 1;
         }
         return state.attributeWeights[attribute];
@@ -27,20 +39,33 @@ export const useAttributeWeightsStore = defineStore<string, State, Getters, Acti
   },
   actions: {
     updateAttributeWeights(attribute, isCorrect) {
-      if (!this.attributeWeights[attribute] || typeof this.attributeWeights[attribute] !== 'number') {
+      if (
+        !this.attributeWeights[attribute] ||
+        typeof this.attributeWeights[attribute] !== 'number'
+      ) {
         this.attributeWeights[attribute] = 1;
       }
       this.attributeWeights[attribute] =
         Math.round(
-          (isCorrect ? this.attributeWeights[attribute] * 0.95 : this.attributeWeights[attribute] * 1.5) * 100
+          (isCorrect
+            ? this.attributeWeights[attribute] * 0.95
+            : this.attributeWeights[attribute] * 1.5) * 100
         ) / 100;
-      this.attributeWeights[attribute] < 0.5 && (this.attributeWeights[attribute] = 0.5);
-      this.attributeWeights[attribute] > 5 && (this.attributeWeights[attribute] = 5);
-      localStorage.setItem('attributeWeights', JSON.stringify(this.attributeWeights));
+      this.attributeWeights[attribute] < 0.5 &&
+        (this.attributeWeights[attribute] = 0.5);
+      this.attributeWeights[attribute] > 5 &&
+        (this.attributeWeights[attribute] = 5);
+      localStorage.setItem(
+        'attributeWeights',
+        JSON.stringify(this.attributeWeights)
+      );
     },
     cleanAttributeWeights() {
       this.attributeWeights = {} as Record<WordAttribute, number>;
-      localStorage.setItem('attributeWeights', JSON.stringify(this.attributeWeights));
+      localStorage.setItem(
+        'attributeWeights',
+        JSON.stringify(this.attributeWeights)
+      );
     },
   },
 });

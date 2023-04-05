@@ -17,7 +17,12 @@ export const Button = defineComponent({
       context.emit('click', e);
     };
     return () => (
-      <button type='button' class={s.wrapper} onClick={onClick} disabled={!props.disabled}>
+      <button
+        type='button'
+        class={s.wrapper}
+        onClick={onClick}
+        disabled={!props.disabled}
+      >
         {context.slots.default?.()}
       </button>
     );

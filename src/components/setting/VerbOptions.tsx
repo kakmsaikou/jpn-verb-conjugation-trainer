@@ -34,7 +34,11 @@ export const VerbOptions = defineComponent({
       context.emit('updateVerb', newVal);
     });
 
-    const handlePoliteForm = (e: MouseEvent, refUl: Ref<HTMLParagraphElement>, refUlVisible: Ref<Boolean>) => {
+    const handlePoliteForm = (
+      e: MouseEvent,
+      refUl: Ref<HTMLParagraphElement>,
+      refUlVisible: Ref<Boolean>
+    ) => {
       e.preventDefault();
       if (refUl.value.classList.contains('display')) {
         refUl.value.classList.remove('display');
@@ -75,16 +79,27 @@ export const VerbOptions = defineComponent({
                         <button
                           class={s.displayButton}
                           onClick={e => {
-                            handlePoliteForm(e, refPoliteUlButton, refPoliteUlVisible);
+                            handlePoliteForm(
+                              e,
+                              refPoliteUlButton,
+                              refPoliteUlVisible
+                            );
                           }}
                           ref={refPoliteUlButton}
                         >
                           {'<'}
                         </button>
                         <ul v-show={refPoliteUlVisible.value}>
-                          {['politePastForm', 'politeNegativeForm', 'politePastNegativeForm'].map(form => (
+                          {[
+                            'politePastForm',
+                            'politeNegativeForm',
+                            'politePastNegativeForm',
+                          ].map(form => (
                             <li>
-                              <input type='checkbox' v-model={verb[form as VerbForm]} />
+                              <input
+                                type='checkbox'
+                                v-model={verb[form as VerbForm]}
+                              />
                               <span>{BILINGUAL_LIST[form as VerbForm]}</span>
                             </li>
                           ))}
@@ -99,7 +114,11 @@ export const VerbOptions = defineComponent({
                         <button
                           class={s.displayButton}
                           onClick={e => {
-                            handlePoliteForm(e, refNegativeUlButton, refNegativeUlVisible);
+                            handlePoliteForm(
+                              e,
+                              refNegativeUlButton,
+                              refNegativeUlVisible
+                            );
                           }}
                           ref={refNegativeUlButton}
                         >
@@ -107,8 +126,13 @@ export const VerbOptions = defineComponent({
                         </button>
                         <ul v-show={refNegativeUlVisible.value}>
                           <li>
-                            <input type='checkbox' v-model={verb['simplePastNegativeForm']} />
-                            <span>{BILINGUAL_LIST['simplePastNegativeForm']}</span>
+                            <input
+                              type='checkbox'
+                              v-model={verb['simplePastNegativeForm']}
+                            />
+                            <span>
+                              {BILINGUAL_LIST['simplePastNegativeForm']}
+                            </span>
                           </li>
                         </ul>
                       </li>

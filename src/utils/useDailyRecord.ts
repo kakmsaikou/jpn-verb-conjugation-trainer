@@ -22,6 +22,6 @@ export const useDailyRecord = () => {
   };
   return {
     record,
-    updateRecord
+    updateRecord,
   };
 };

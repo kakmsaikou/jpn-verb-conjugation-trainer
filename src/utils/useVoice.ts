@@ -7,11 +7,13 @@ export const useVoice = () => {
   let count = 0;
 
   const speak = (text: string) => {
-    if(count === 0){
-      const voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google 日本語');
+    if (count === 0) {
+      const voice = speechSynthesis
+        .getVoices()
+        .find(voice => voice.name === 'Google 日本語');
       if (voice) {
         utterance.voice = voice;
-        count++
+        count++;
       }
     }
     if (configStore.config.voice === true) {

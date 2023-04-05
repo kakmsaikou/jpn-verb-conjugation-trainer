@@ -2,7 +2,10 @@ import { useAttributeWeightsStore } from '../stores/useAttributeWeightStore';
 
 const attributeWeightStore = useAttributeWeightsStore();
 
-export const getAttributeByWeight = (config: Record<any, boolean>, attributeList: WordAttribute[]): WordAttribute => {
+export const getAttributeByWeight = (
+  config: Record<any, boolean>,
+  attributeList: WordAttribute[]
+): WordAttribute => {
   // 获取被选中的形式的数组
   const usedAttributeList = Object.keys(config).filter(
     key => config[key] === true && attributeList.includes(key as WordAttribute)
@@ -38,6 +41,7 @@ export const getAttributeByWeight = (config: Record<any, boolean>, attributeList
       break;
     }
   }
-  if (!selectedAttribute) selectedAttribute = usedAttributeList[usedAttributeList.length - 1];
+  if (!selectedAttribute)
+    selectedAttribute = usedAttributeList[usedAttributeList.length - 1];
   return selectedAttribute;
 };

@@ -24,7 +24,8 @@ export const Slider = defineComponent({
     };
 
     watch(refSelectedOption, val => {
-      if (!refSelectedOption.value || !refSliderBar.value || !refSlider.value) return;
+      if (!refSelectedOption.value || !refSliderBar.value || !refSlider.value)
+        return;
       const { width } = refSelectedOption.value.getBoundingClientRect();
       refSliderBar.value.style.width = `${width}px`;
       const { left: left1 } = refSlider.value.getBoundingClientRect();

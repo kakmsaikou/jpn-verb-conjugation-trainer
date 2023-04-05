@@ -6,7 +6,14 @@ import { defineStore } from 'pinia';
 import { verbList } from '../assets/wordData/verbList';
 import { adjList } from '../assets/wordData/adjList';
 import { getIndex } from '../utils/getIndex';
-import { POS_LIST, VERB_FORM_LIST, VERB_TYPE_LIST, ADJ_TYPE_LIST, BILINGUAL_LIST, ADJ_TENSE_LIST } from '../const';
+import {
+  POS_LIST,
+  VERB_FORM_LIST,
+  VERB_TYPE_LIST,
+  ADJ_TYPE_LIST,
+  BILINGUAL_LIST,
+  ADJ_TENSE_LIST,
+} from '../const';
 import { getAttributeByWeight } from '../utils/getAttributeByWeight';
 
 type State = {
@@ -42,78 +49,91 @@ const configStore = useConfigStore();
  *   3. 获取单词 selectWordData
  *   4. 获取 formattedAnswer
  */
-export const useWordStore = defineStore<string, State, Getters, Actions>('Word', {
-  state: () => ({
-    pos: getPos(),
-    _selectedAttribute: null,
-    _selectedWordData: null,
-    _voices: null,
-    _transwordArray: null,
-  }),
-  getters: {
-    // 获得形态 masu、te、ta、nai 和 adj
-    selectedAttribute() {
-      if (this._selectedAttribute === null) {
+export const useWordStore = defineStore<string, State, Getters, Actions>(
+  'Word',
+  {
+    state: () => ({
+      pos: getPos(),
+      _selectedAttribute: null,
+      _selectedWordData: null,
+      _voices: null,
+      _transwordArray: null,
+    }),
+    getters: {
+      // 获得形态 masu、te、ta、nai 和 adj
+      selectedAttribute() {
+        if (this._selectedAttribute === null) {
+          this._selectedAttribute = getAttribute(this.pos);
+        }
+        return this._selectedAttribute;
+      },
+      selectedWordDataList() {
+        return VERB_FORM_LIST.includes(this.selectedAttribute as VerbForm)
+          ? getWordList(configStore.tempConfig.verb!, VERB_TYPE_LIST, verbList)
+          : getWordList(configStore.tempConfig.adj!, ADJ_TYPE_LIST, adjList);
+      },
+      selectWordData() {
+        if (this._selectedWordData === null) {
+          this._selectedWordData = getSelectWordData(this.selectedWordDataList);
+        }
+        return this._selectedWordData;
+      },
+      transwordArray() {
+        if (this._transwordArray === null) {
+          this._transwordArray = getTransword(
+            this.selectWordData,
+            this.selectedAttribute
+          );
+        }
+        return this._transwordArray;
+      },
+      formattedAnswer() {
+        return this.transwordArray[0] === this.transwordArray[1]
+          ? this.transwordArray[0]
+          : this.transwordArray[1] + '\n' + this.transwordArray[0];
+      },
+      isAnswerCorrect() {
+        return (answer: string) => this.transwordArray.includes(answer);
+      },
+      formattedType() {
+        return BILINGUAL_LIST[this.selectWordData.type] as WordType;
+      },
+      formattedKanji() {
+        return BILINGUAL_LIST[this.selectedAttribute]
+          ? BILINGUAL_LIST[this.selectedAttribute]
+          : this.selectedAttribute;
+      },
+    },
+    actions: {
+      refreshPos() {
+        this.pos = getPos();
+      },
+      refreshAttribute() {
         this._selectedAttribute = getAttribute(this.pos);
-      }
-      return this._selectedAttribute;
-    },
-    selectedWordDataList() {
-      return VERB_FORM_LIST.includes(this.selectedAttribute as VerbForm)
-        ? getWordList(configStore.tempConfig.verb!, VERB_TYPE_LIST, verbList)
-        : getWordList(configStore.tempConfig.adj!, ADJ_TYPE_LIST, adjList);
-    },
-    selectWordData() {
-      if (this._selectedWordData === null) {
+      },
+      refreshSelectedWordData() {
         this._selectedWordData = getSelectWordData(this.selectedWordDataList);
-      }
-      return this._selectedWordData;
+      },
+      refreshTranswordArray() {
+        this._transwordArray = getTransword(
+          this.selectWordData,
+          this.selectedAttribute
+        );
+      },
+      refreshWord() {
+        this.refreshPos();
+        this.refreshAttribute();
+        this.refreshSelectedWordData();
+        this.refreshTranswordArray();
+      },
     },
-    transwordArray() {
-      if (this._transwordArray === null) {
-        this._transwordArray = getTransword(this.selectWordData, this.selectedAttribute);
-      }
-      return this._transwordArray;
-    },
-    formattedAnswer() {
-      return this.transwordArray[0] === this.transwordArray[1]
-        ? this.transwordArray[0]
-        : this.transwordArray[1] + '\n' + this.transwordArray[0];
-    },
-    isAnswerCorrect() {
-      return (answer: string) => this.transwordArray.includes(answer);
-    },
-    formattedType() {
-      return BILINGUAL_LIST[this.selectWordData.type] as WordType;
-    },
-    formattedKanji() {
-      return BILINGUAL_LIST[this.selectedAttribute] ? BILINGUAL_LIST[this.selectedAttribute] : this.selectedAttribute;
-    },
-  },
-  actions: {
-    refreshPos() {
-      this.pos = getPos();
-    },
-    refreshAttribute() {
-      this._selectedAttribute = getAttribute(this.pos);
-    },
-    refreshSelectedWordData() {
-      this._selectedWordData = getSelectWordData(this.selectedWordDataList);
-    },
-    refreshTranswordArray() {
-      this._transwordArray = getTransword(this.selectWordData, this.selectedAttribute);
-    },
-    refreshWord() {
-      this.refreshPos();
-      this.refreshAttribute();
-      this.refreshSelectedWordData();
-      this.refreshTranswordArray();
-    },
-  },
-});
+  }
+);
 
 const getPos = () => {
-  return configStore.tempConfig.pos ? getKey(configStore.tempConfig.pos, POS_LIST) : 'verb';
+  return configStore.tempConfig.pos
+    ? getKey(configStore.tempConfig.pos, POS_LIST)
+    : 'verb';
 };
 const getAttribute = (pos: Pos) => {
   if (configStore.tempConfig.getAttributeByWeight) {

@@ -34,7 +34,8 @@ export const PracticePage = defineComponent({
       if (e.key !== 'Enter') return;
       // 这里不禁止冒泡事件的话，下面的 keyup 事件会被触发两次
       e.stopPropagation();
-      if (refCorrectAnswer.value === undefined || refAnswer.value === undefined) return;
+      if (refCorrectAnswer.value === undefined || refAnswer.value === undefined)
+        return;
       if (isJapanese(refAnswer.value.value) === false) {
         refTooltip.value?.classList.add(s.visible);
         setTimeout(() => {
@@ -50,7 +51,10 @@ export const PracticePage = defineComponent({
 
       // 判断输入的答案是否是汉字或是对应的平假名
       const isAnswerCorrect = wordStore.isAnswerCorrect(refAnswer.value.value);
-      attributeWeightStore.updateAttributeWeights(wordStore.selectedAttribute, isAnswerCorrect);
+      attributeWeightStore.updateAttributeWeights(
+        wordStore.selectedAttribute,
+        isAnswerCorrect
+      );
       dailyRecord.updateRecord(isAnswerCorrect);
 
       const handleGlobalEnter = (e: KeyboardEvent) => {
@@ -83,7 +87,10 @@ export const PracticePage = defineComponent({
     };
     return () => (
       <div>
-        <DailyRecord dailyCorrectCount={dailyRecord.record.correct} dailyAnswerCount={dailyRecord.record.answer} />
+        <DailyRecord
+          dailyCorrectCount={dailyRecord.record.correct}
+          dailyAnswerCount={dailyRecord.record.answer}
+        />
         <Flashcard isTypeShown={isAnswerSubmitted.value} />
         <p ref={refCorrectAnswer} class={s.correctAnswer} />
         <div class={s.inputWrapper}>
@@ -100,7 +107,9 @@ export const PracticePage = defineComponent({
         </div>
         <div class={s.settingWrapper}>
           <Button style='visibility: hidden'>設定 ⚙️</Button>
-          <span class={s.continue}>{isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}</span>
+          <span class={s.continue}>
+            {isAnswerSubmitted.value ? '单击 Enter 下一题' : '单击 Enter 提交'}
+          </span>
           <RouterLink to={'/setting'} replace={true}>
             <Button>設定 ⚙️</Button>
           </RouterLink>

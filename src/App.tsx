@@ -8,7 +8,7 @@ export const App = defineComponent({
     return () => (
       <div class={s.wrapper}>
         <h1>日语词汇变形练习</h1>
-          <RouterView class={s.childWrapper}/>
+        <RouterView class={s.childWrapper} />
       </div>
     );
   },
