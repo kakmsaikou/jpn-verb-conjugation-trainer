@@ -35,6 +35,7 @@ export const useAttributeWeightsStore = defineStore<string, State, Getters, Acti
           (isCorrect ? this.attributeWeights[attribute] * 0.95 : this.attributeWeights[attribute] * 1.5) * 100
         ) / 100;
       this.attributeWeights[attribute] < 0.5 && (this.attributeWeights[attribute] = 0.5);
+      this.attributeWeights[attribute] > 5 && (this.attributeWeights[attribute] = 5);
       localStorage.setItem('attributeWeights', JSON.stringify(this.attributeWeights));
     },
     cleanAttributeWeights() {
