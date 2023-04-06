@@ -29,10 +29,7 @@ export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 
 export const POS_LIST: Pos[] = ['verb', 'adj'];
 
-export const BILINGUAL_LIST: Record<
-  Pos | WordForm | VerbType | AdjType | AdjForm,
-  string
-> = {
+export const BILINGUAL_LIST: Record<Pos | WordForm | WordType, string> = {
   verb: '动词',
   adj: '形容词',
   verbPoliteForm: 'ます形',
