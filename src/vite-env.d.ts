@@ -3,20 +3,20 @@
 // 动词配置相关
 type VerbType = 'v1' | 'v5' | 'suru' | 'kuru';
 type VerbForm =
-  | 'politeForm'
-  | 'politePastForm'
-  | 'politeNegativeForm'
-  | 'politePastNegativeForm'
-  | 'gerundForm'
-  | 'simpleNegativeForm'
-  | 'simplePastForm'
-  | 'simplePastNegativeForm'
-  | 'imperativeForm'
-  | 'volitionalForm'
-  | 'potentialForm'
-  | 'causativeForm'
-  | 'causativePassiveForm'
-  | 'prohibitiveForm';
+  | 'verbPoliteForm'
+  | 'verbPolitePastForm'
+  | 'verbPoliteNegativeForm'
+  | 'verbPolitePastNegativeForm'
+  | 'verbGerundForm'
+  | 'verbSimpleNegativeForm'
+  | 'verbSimplePastForm'
+  | 'verbSimplePastNegativeForm'
+  | 'verbImperativeForm'
+  | 'verbVolitionalForm'
+  | 'verbPotentialForm'
+  | 'verbCausativeForm'
+  | 'verbCausativePassiveForm'
+  | 'verbProhibitiveForm';
 interface VerbData extends BaseWordData {
   type: VerbType;
 }

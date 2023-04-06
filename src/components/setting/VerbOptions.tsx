@@ -71,7 +71,7 @@ export const VerbOptions = defineComponent({
               <h4 v-show={!formValid.value}>*你至少需要选择一个类别</h4>
               <ul>
                 {VERB_FORM_LIST.map(form => {
-                  if (form === 'politeForm') {
+                  if (form === 'verbPoliteForm') {
                     return (
                       <li>
                         <input type='checkbox' v-model={verb[form]} />
@@ -91,9 +91,9 @@ export const VerbOptions = defineComponent({
                         </button>
                         <ul v-show={refPoliteUlVisible.value}>
                           {[
-                            'politePastForm',
-                            'politeNegativeForm',
-                            'politePastNegativeForm',
+                            'verbPolitePastForm',
+                            'verbPoliteNegativeForm',
+                            'verbPolitePastNegativeForm',
                           ].map(form => (
                             <li>
                               <input
@@ -106,7 +106,7 @@ export const VerbOptions = defineComponent({
                         </ul>
                       </li>
                     );
-                  } else if (form === 'simpleNegativeForm') {
+                  } else if (form === 'verbSimpleNegativeForm') {
                     return (
                       <li>
                         <input type='checkbox' v-model={verb[form]} />
@@ -128,10 +128,10 @@ export const VerbOptions = defineComponent({
                           <li>
                             <input
                               type='checkbox'
-                              v-model={verb['simplePastNegativeForm']}
+                              v-model={verb['verbSimplePastNegativeForm']}
                             />
                             <span>
-                              {BILINGUAL_LIST['simplePastNegativeForm']}
+                              {BILINGUAL_LIST['verbSimplePastNegativeForm']}
                             </span>
                           </li>
                         </ul>
@@ -139,10 +139,10 @@ export const VerbOptions = defineComponent({
                     );
                   }
                   return [
-                    'politePastForm',
-                    'politeNegativeForm',
-                    'politePastNegativeForm',
-                    'simplePastNegativeForm',
+                    'verbPolitePastForm',
+                    'verbPoliteNegativeForm',
+                    'verbPolitePastNegativeForm',
+                    'verbSimplePastNegativeForm',
                   ].includes(form) ? null : (
                     <li>
                       <input type='checkbox' v-model={verb[form]} />

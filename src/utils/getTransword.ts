@@ -47,47 +47,47 @@ export const getTransword = (
 
   switch (attribute) {
     // 动词
-    case 'politeForm':
-    case 'politeNegativeForm':
+    case 'verbPoliteForm':
+    case 'verbPoliteNegativeForm':
       conj = 1;
       fml = true;
       break;
-    case 'politePastNegativeForm':
+    case 'verbPolitePastNegativeForm':
       neg = true;
-    case 'politePastForm':
+    case 'verbPolitePastForm':
       conj = 2;
       fml = true;
       break;
-    case 'gerundForm':
+    case 'verbGerundForm':
       conj = 3;
       break;
-    case 'simplePastForm':
+    case 'verbSimplePastForm':
       conj = 2;
       break;
-    case 'simpleNegativeForm':
+    case 'verbSimpleNegativeForm':
       conj = 1;
       neg = true;
       break;
-    case 'simplePastNegativeForm':
+    case 'verbSimplePastNegativeForm':
       conj = 2;
       neg = true;
       break;
-    case 'potentialForm':
+    case 'verbPotentialForm':
       conj = 5;
       break;
-    case 'causativeForm':
+    case 'verbCausativeForm':
       conj = 7;
       break;
-    case 'causativePassiveForm':
+    case 'verbCausativePassiveForm':
       conj = 8;
       break;
-    case 'volitionalForm':
+    case 'verbVolitionalForm':
       conj = 9;
       break;
-    case 'imperativeForm':
+    case 'verbImperativeForm':
       conj = 10;
       break;
-    case 'prohibitiveForm':
+    case 'verbProhibitiveForm':
       conj = 10;
       neg = true;
       break;
@@ -127,8 +127,8 @@ export const getTransword = (
     ? [transword.substring(0, match.index! - 1), match[0]]
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 
-  // 一段动词的否定形 'politeNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
-  if (['politeNegativeForm'].includes(attribute)) {
+  // 一段动词的否定形 'verbPoliteNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
+  if (['verbPoliteNegativeForm'].includes(attribute)) {
     for (let i = 0; i < transwordArray.length; i++) {
       transwordArray[i] = transwordArray[i].slice(0, -2) + 'ません';
     }
