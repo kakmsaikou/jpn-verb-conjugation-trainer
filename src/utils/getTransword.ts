@@ -14,8 +14,8 @@ const v5Endings: Record<string, number> = {
 
 const getPosNum = (wordData: WordData): number => {
   const { kana, type } = wordData;
-  if (type === 'adj_i') return 1;
-  if (type === 'adj_na') return 15;
+  if (type === 'i') return 1;
+  if (type === 'na') return 15;
   if (type === 'v1') return 28;
   if (type === 'v5') {
     const kanaEndsWith = kana.charAt(kana.length - 1);
@@ -32,7 +32,7 @@ export const getTransword = (
 ): [string, string] => {
   const pos = wordData.kana === 'いく' ? 34 : getPosNum(wordData);
   const tempWordData =
-    wordData.type !== 'adj_na'
+    wordData.type !== 'na'
       ? wordData
       : {
           ...wordData,

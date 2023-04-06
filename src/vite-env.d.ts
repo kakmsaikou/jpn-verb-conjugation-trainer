@@ -22,7 +22,7 @@ interface VerbData extends BaseWordData {
 }
 
 // 形容词配置相关
-type AdjType = 'adj_i' | 'adj_na';
+type AdjType = 'i' | 'na';
 type AdjForm =
   | 'adjSimpleNegativeForm'
   | 'adjSimplePastForm'

@@ -25,7 +25,7 @@ export const ADJ_TENSE_LIST: AdjForm[] = [
 ];
 
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
-export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
+export const ADJ_TYPE_LIST: AdjType[] = ['i', 'na'];
 
 export const POS_LIST: Pos[] = ['verb', 'adj'];
 
@@ -56,8 +56,8 @@ export const BILINGUAL_LIST: Record<Pos | WordForm | WordType, string> = {
   v5: '五段动词',
   suru: 'サ变动词',
   kuru: 'カ变动词',
-  adj_i: 'イ形容词',
-  adj_na: 'ナ形容词',
+  i: 'イ形容词',
+  na: 'ナ形容词',
 };
 
 export const INIT_CONFIG: Config = {
@@ -90,8 +90,8 @@ export const INIT_CONFIG: Config = {
     verbProhibitiveForm: false,
   },
   adj: {
-    adj_i: true,
-    adj_na: true,
+    i: true,
+    na: true,
     adjSimpleNegativeForm: true,
     adjSimplePastForm: true,
     adjSimplePastNegativeForm: true,

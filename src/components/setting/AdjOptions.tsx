@@ -14,7 +14,7 @@ export const AdjOptions = defineComponent({
     const { pos, adj } = props.tempConfig;
 
     const typeValid = computed(() => {
-      return adj.adj_i || adj.adj_na;
+      return adj.i || adj.na;
     });
     const tenseValid = computed(() => {
       const validTenseList = ADJ_TENSE_LIST.filter(tense => adj[tense] === true);
