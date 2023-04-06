@@ -15,7 +15,7 @@ export const VERB_FORM_LIST: VerbForm[] = [
   'verbProhibitiveForm',
 ];
 
-export const ADJ_TENSE_LIST: AdjTense[] = [
+export const ADJ_TENSE_LIST: AdjForm[] = [
   'adjSimpleNegativeForm',
   'adjSimplePastForm',
   'adjSimplePastNegativeForm',
@@ -30,7 +30,7 @@ export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 export const POS_LIST: Pos[] = ['verb', 'adj'];
 
 export const BILINGUAL_LIST: Record<
-  Pos | WordForm | VerbType | AdjType | AdjTense,
+  Pos | WordForm | VerbType | AdjType | AdjForm,
   string
 > = {
   verb: '动词',

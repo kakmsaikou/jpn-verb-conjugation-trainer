@@ -23,7 +23,7 @@ interface VerbData extends BaseWordData {
 
 // 形容词配置相关
 type AdjType = 'adj_i' | 'adj_na';
-type AdjTense =
+type AdjForm =
   | 'adjSimpleNegativeForm'
   | 'adjSimplePastForm'
   | 'adjSimplePastNegativeForm'
@@ -43,10 +43,10 @@ interface BaseWordData {
 }
 type WordData = VerbData | AdjData;
 type WordType = VerbType | AdjType;
-type WordForm = VerbForm | AdjTense;
+type WordForm = VerbForm | AdjForm;
 // userConfig 参数相关
 type VerbConfig = Record<VerbType | VerbForm, boolean>;
-type AdjConfig = Record<AdjType | AdjTense, boolean>;
+type AdjConfig = Record<AdjType | AdjForm, boolean>;
 type Pron = '平假名' | '罗马音' | '无注音';
 type Config = {
   pron: Pron;
