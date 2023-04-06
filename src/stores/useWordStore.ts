@@ -14,16 +14,16 @@ import {
   BILINGUAL_LIST,
   ADJ_TENSE_LIST,
 } from '../const';
-import { getAttributeByWeight } from '../utils/getAttributeByWeight';
+import { getFormByWeight } from '../utils/getFormByWeight';
 
 type State = {
   pos: Pos;
-  _selectedAttribute: WordAttribute | null;
+  _selectedForm: WordForm | null;
   _selectedWordData: WordData | null;
   _transwordArray: [string, string] | null;
 };
 type Getters = {
-  selectedAttribute: () => WordAttribute;
+  selectedForm: () => WordForm;
   selectedWordDataList: () => WordData[];
   selectWordData: () => WordData;
   transwordArray: () => [string, string];
@@ -34,7 +34,7 @@ type Getters = {
 };
 type Actions = {
   refreshPos: () => void;
-  refreshAttribute: () => void;
+  refreshForm: () => void;
   refreshSelectedWordData: () => void;
   refreshTranswordArray: () => void;
   refreshWord: () => void;
@@ -45,7 +45,7 @@ const configStore = useConfigStore();
 /*
  * 顺序：
  *   1. 获取词性 pos，包括动词、形容词，比如 verb、adj
- *   2. 获取形态 attribute，包括ます形、て形等等
+ *   2. 获取形态 form，包括ます形、て形等等
  *   3. 获取单词 selectWordData
  *   4. 获取 formattedAnswer
  */
@@ -54,21 +54,21 @@ export const useWordStore = defineStore<string, State, Getters, Actions>(
   {
     state: () => ({
       pos: getPos(),
-      _selectedAttribute: null,
+      _selectedForm: null,
       _selectedWordData: null,
       _voices: null,
       _transwordArray: null,
     }),
     getters: {
       // 获得形态 masu、te、ta、nai 和 adj
-      selectedAttribute() {
-        if (this._selectedAttribute === null) {
-          this._selectedAttribute = getAttribute(this.pos);
+      selectedForm() {
+        if (this._selectedForm === null) {
+          this._selectedForm = getForm(this.pos);
         }
-        return this._selectedAttribute;
+        return this._selectedForm;
       },
       selectedWordDataList() {
-        return VERB_FORM_LIST.includes(this.selectedAttribute as VerbForm)
+        return VERB_FORM_LIST.includes(this.selectedForm as VerbForm)
           ? getWordList(configStore.tempConfig.verb!, VERB_TYPE_LIST, verbList)
           : getWordList(configStore.tempConfig.adj!, ADJ_TYPE_LIST, adjList);
       },
@@ -82,7 +82,7 @@ export const useWordStore = defineStore<string, State, Getters, Actions>(
         if (this._transwordArray === null) {
           this._transwordArray = getTransword(
             this.selectWordData,
-            this.selectedAttribute
+            this.selectedForm
           );
         }
         return this._transwordArray;
@@ -99,17 +99,17 @@ export const useWordStore = defineStore<string, State, Getters, Actions>(
         return BILINGUAL_LIST[this.selectWordData.type] as WordType;
       },
       formattedKanji() {
-        return BILINGUAL_LIST[this.selectedAttribute]
-          ? BILINGUAL_LIST[this.selectedAttribute]
-          : this.selectedAttribute;
+        return BILINGUAL_LIST[this.selectedForm]
+          ? BILINGUAL_LIST[this.selectedForm]
+          : this.selectedForm;
       },
     },
     actions: {
       refreshPos() {
         this.pos = getPos();
       },
-      refreshAttribute() {
-        this._selectedAttribute = getAttribute(this.pos);
+      refreshForm() {
+        this._selectedForm = getForm(this.pos);
       },
       refreshSelectedWordData() {
         this._selectedWordData = getSelectWordData(this.selectedWordDataList);
@@ -117,12 +117,12 @@ export const useWordStore = defineStore<string, State, Getters, Actions>(
       refreshTranswordArray() {
         this._transwordArray = getTransword(
           this.selectWordData,
-          this.selectedAttribute
+          this.selectedForm
         );
       },
       refreshWord() {
         this.refreshPos();
-        this.refreshAttribute();
+        this.refreshForm();
         this.refreshSelectedWordData();
         this.refreshTranswordArray();
       },
@@ -135,11 +135,11 @@ const getPos = () => {
     ? getKey(configStore.tempConfig.pos, POS_LIST)
     : 'verb';
 };
-const getAttribute = (pos: Pos) => {
-  if (configStore.tempConfig.getAttributeByWeight) {
+const getForm = (pos: Pos) => {
+  if (configStore.tempConfig.getFormByWeight) {
     return pos === 'verb'
-      ? getAttributeByWeight(configStore.tempConfig.verb!, VERB_FORM_LIST)
-      : getAttributeByWeight(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
+      ? getFormByWeight(configStore.tempConfig.verb!, VERB_FORM_LIST)
+      : getFormByWeight(configStore.tempConfig.adj!, ADJ_TENSE_LIST);
   }
   return pos === 'verb'
     ? getKey(configStore.tempConfig.verb!, VERB_FORM_LIST)

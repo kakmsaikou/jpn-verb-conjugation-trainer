@@ -28,7 +28,7 @@ const getPosNum = (wordData: WordData): number => {
 
 export const getTransword = (
   wordData: WordData,
-  attribute: WordAttribute
+  form: WordForm
 ): [string, string] => {
   const pos = wordData.kana === 'いく' ? 34 : getPosNum(wordData);
   const tempWordData =
@@ -45,7 +45,7 @@ export const getTransword = (
   let neg: boolean = false;
   let fml: boolean = false;
 
-  switch (attribute) {
+  switch (form) {
     // 动词
     case 'verbPoliteForm':
     case 'verbPoliteNegativeForm':
@@ -128,7 +128,7 @@ export const getTransword = (
     : ['transwrdList[key] 错误', 'transwrdList[key] 错误'];
 
   // 一段动词的否定形 'verbPoliteNegativeForm' 的 conj 和其他样式不一样，否定形不能直接用 conj 来检索
-  if (['verbPoliteNegativeForm'].includes(attribute)) {
+  if (['verbPoliteNegativeForm'].includes(form)) {
     for (let i = 0; i < transwordArray.length; i++) {
       transwordArray[i] = transwordArray[i].slice(0, -2) + 'ません';
     }

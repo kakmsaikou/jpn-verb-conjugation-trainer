@@ -43,7 +43,7 @@ interface BaseWordData {
 }
 type WordData = VerbData | AdjData;
 type WordType = VerbType | AdjType;
-type WordAttribute = VerbForm | AdjTense;
+type WordForm = VerbForm | AdjTense;
 // userConfig 参数相关
 type VerbConfig = Record<VerbType | VerbForm, boolean>;
 type AdjConfig = Record<AdjType | AdjTense, boolean>;
@@ -52,7 +52,7 @@ type Config = {
   pron: Pron;
   target: number;
   voice: boolean;
-  getAttributeByWeight: boolean;
+  getFormByWeight: boolean;
   pos: Record<Pos, boolean>;
   verb: VerbConfig;
   adj: AdjConfig;

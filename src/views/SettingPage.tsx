@@ -8,13 +8,13 @@ import { useWordStore } from '../stores/useWordStore';
 import { deepClone } from '../utils/deepClone';
 import s from './SettingPage.module.scss';
 import Slider from '../components/setting/Slider';
-import { useAttributeWeightsStore } from '../stores/useAttributeWeightStore';
+import { useFormWeightsStore } from '../stores/useFormWeightStore';
 
 export const SettingPage = defineComponent({
   setup: (props, context) => {
     const configStore = useConfigStore();
     const wordStore = useWordStore();
-    const attributeWeightsStore = useAttributeWeightsStore();
+    const formWeightsStore = useFormWeightsStore();
 
     const tempConfig: Config = reactive(deepClone(configStore.config));
     const { pos } = tempConfig;
@@ -83,9 +83,9 @@ export const SettingPage = defineComponent({
           </p>
 
           <p>
-            <input type='checkbox' v-model={tempConfig.getAttributeByWeight} />
+            <input type='checkbox' v-model={tempConfig.getFormByWeight} />
             是否根据错误权重出题？
-            <Button onClick={attributeWeightsStore.cleanAttributeWeights}>
+            <Button onClick={formWeightsStore.cleanFormWeights}>
               重置错题权重
             </Button>
           </p>

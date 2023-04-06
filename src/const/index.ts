@@ -30,7 +30,7 @@ export const ADJ_TYPE_LIST: AdjType[] = ['adj_i', 'adj_na'];
 export const POS_LIST: Pos[] = ['verb', 'adj'];
 
 export const BILINGUAL_LIST: Record<
-  Pos | WordAttribute | VerbType | AdjType | AdjTense,
+  Pos | WordForm | VerbType | AdjType | AdjTense,
   string
 > = {
   verb: '动词',
@@ -67,7 +67,7 @@ export const INIT_CONFIG: Config = {
   pron: '平假名',
   target: 0,
   voice: false,
-  getAttributeByWeight: false,
+  getFormByWeight: false,
   pos: {
     verb: true,
     adj: false,
