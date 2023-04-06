@@ -92,27 +92,27 @@ export const getTransword = (
       neg = true;
       break;
     // 形容词
-    case 'simpleNegativeTense':
+    case 'adjSimpleNegativeForm':
       conj = 1;
       neg = true;
       break;
-    case 'simplePastTense':
+    case 'adjSimplePastForm':
       conj = 2;
       break;
-    case 'simplePastNegativeTense':
+    case 'adjSimplePastNegativeForm':
       conj = 2;
       neg = true;
       break;
-    case 'politeNegativeTense':
+    case 'adjPoliteNegativeForm':
       conj = 1;
       neg = true;
       fml = true;
       break;
-    case 'politePastTense':
+    case 'adjPolitePastForm':
       conj = 2;
       fml = true;
       break;
-    case 'politePastNegativeTense':
+    case 'adjPolitePastNegativeForm':
       conj = 2;
       neg = true;
       fml = true;

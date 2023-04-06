@@ -16,12 +16,12 @@ export const VERB_FORM_LIST: VerbForm[] = [
 ];
 
 export const ADJ_TENSE_LIST: AdjTense[] = [
-  'simpleNegativeTense',
-  'simplePastTense',
-  'simplePastNegativeTense',
-  'politeNegativeTense',
-  'politePastTense',
-  'politePastNegativeTense',
+  'adjSimpleNegativeForm',
+  'adjSimplePastForm',
+  'adjSimplePastNegativeForm',
+  'adjPoliteNegativeForm',
+  'adjPolitePastForm',
+  'adjPolitePastNegativeForm',
 ];
 
 export const VERB_TYPE_LIST: VerbType[] = ['v5', 'v1', 'suru', 'kuru'];
@@ -49,12 +49,12 @@ export const BILINGUAL_LIST: Record<
   verbCausativeForm: '使役形',
   verbCausativePassiveForm: '使役被动形',
   verbProhibitiveForm: '禁止形',
-  simpleNegativeTense: '否定形',
-  simplePastTense: '过去形',
-  simplePastNegativeTense: '过去否定形',
-  politeNegativeTense: '敬语否定形',
-  politePastTense: '敬语过去形',
-  politePastNegativeTense: '敬语过去否定形',
+  adjSimpleNegativeForm: '否定形',
+  adjSimplePastForm: '过去形',
+  adjSimplePastNegativeForm: '过去否定形',
+  adjPoliteNegativeForm: '敬语否定形',
+  adjPolitePastForm: '敬语过去形',
+  adjPolitePastNegativeForm: '敬语过去否定形',
   v1: '一段动词',
   v5: '五段动词',
   suru: 'サ变动词',
@@ -95,11 +95,11 @@ export const INIT_CONFIG: Config = {
   adj: {
     adj_i: true,
     adj_na: true,
-    simpleNegativeTense: true,
-    simplePastTense: true,
-    simplePastNegativeTense: true,
-    politeNegativeTense: false,
-    politePastTense: false,
-    politePastNegativeTense: false,
+    adjSimpleNegativeForm: true,
+    adjSimplePastForm: true,
+    adjSimplePastNegativeForm: true,
+    adjPoliteNegativeForm: false,
+    adjPolitePastForm: false,
+    adjPolitePastNegativeForm: false,
   },
 };
