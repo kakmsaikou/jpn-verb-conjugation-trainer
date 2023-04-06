@@ -12,6 +12,7 @@
     "dayjs": "1.11.7",
     "element-plus": "2.3.2",
     "pinia": "2.0.33",
+    "unplugin-element-plus": "0.7.0",
     "vue": "^3.2.45",
     "vue-router": "4.1.6",
     "wanakana": "5.1.0"
