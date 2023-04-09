@@ -103,6 +103,10 @@ export const getTransword = (
       conj = 2;
       neg = true;
       break;
+    case 'adjPoliteForm':
+      conj = 1;
+      fml = true;
+      break;
     case 'adjPoliteNegativeForm':
       conj = 1;
       neg = true;

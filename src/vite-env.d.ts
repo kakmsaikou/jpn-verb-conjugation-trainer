@@ -27,6 +27,7 @@ type AdjForm =
   | 'adjSimpleNegativeForm'
   | 'adjSimplePastForm'
   | 'adjSimplePastNegativeForm'
+  | 'adjPoliteForm'
   | 'adjPoliteNegativeForm'
   | 'adjPolitePastForm'
   | 'adjPolitePastNegativeForm';
