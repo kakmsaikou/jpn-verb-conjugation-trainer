@@ -82,7 +82,7 @@ export const PracticePage = defineComponent({
         refCorrectAnswer.value.innerText = wordStore.formattedAnswer;
         setTimeout(() => {
           document.addEventListener('keyup', handleGlobalEnter);
-        }, 400);
+        }, 600);
       }
     };
     return () => (
