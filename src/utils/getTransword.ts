@@ -72,6 +72,9 @@ export const getTransword = (
       conj = 2;
       neg = true;
       break;
+    case 'verbAssumedForm':
+      conj = 4;
+      break;
     case 'verbPotentialForm':
       conj = 5;
       break;

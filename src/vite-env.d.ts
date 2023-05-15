@@ -13,6 +13,7 @@ type VerbForm =
   | 'verbSimplePastNegativeForm'
   | 'verbImperativeForm'
   | 'verbVolitionalForm'
+  | 'verbAssumedForm'
   | 'verbPotentialForm'
   | 'verbCausativeForm'
   | 'verbCausativePassiveForm'
